@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:quiz/common/provider/router_provider.dart';
+import 'package:quiz/common/theme/theme_provider.dart';
+import 'package:quiz/quiz/model/quiz_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+void main() async {
+  await dotenv.load(fileName: ".env");
+  String SUPABASE_API_KEY = dotenv.env['SUPABASE_API_KEY'] ?? '';
+  String SUPABASE_URL = dotenv.env['SUPABASE_URL'] ?? '';
+
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
+  await Supabase.initialize(
+    url: SUPABASE_URL,
+    anonKey: SUPABASE_API_KEY,
+  );
+  await Hive.initFlutter();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, // 세로 모드만 허용
+  ]);
+  Hive.registerAdapter(QuizModelAdapter());
+  runApp(
+    ProviderScope(
+      child: const _App(),
+    ),
+  );
+}
+
+class _App extends ConsumerWidget {
+  const _App({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.watch(themeProvider);
+    final router = ref.watch(goRouterProvider);
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerConfig: router,
+      theme: theme,
+    );
+  }
+}

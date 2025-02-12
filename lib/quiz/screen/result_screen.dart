@@ -1,0 +1,217 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:quiz/common/component/primary_button.dart';
+import 'package:quiz/common/model/pagination_model.dart';
+import 'package:quiz/common/provider/selected_quiz_provider.dart';
+import 'package:quiz/common/screen/default_layout.dart';
+import 'package:quiz/common/theme/layout.dart';
+import 'package:quiz/home/screen/home_screen.dart';
+import 'package:quiz/quiz/model/quiz_item_model.dart';
+import 'package:quiz/quiz/provider/quiz_item_provider.dart';
+import 'package:quiz/quiz/screen/default_quiz_screen.dart';
+import 'package:quiz/quiz/screen/pass_quiz_screen.dart';
+
+class ResultScreen extends ConsumerWidget {
+  static String routeName = 'result';
+  const ResultScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentIndex = ref.watch(currentIndexProvider);
+    final correctWords = ref.watch(correctWordProvider);
+    final passedWords = ref.watch(passedWordProvider);
+
+    return DefaultLayout(
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: context.layout(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: kToolbarHeight),
+                        _Top(
+                            passedWord: passedWords,
+                            currentIndex: currentIndex),
+                        Divider(),
+                        _WordBox(words: passedWords, label: 'PASSED WORD'),
+                        Divider(),
+                        _WordBox(words: correctWords, label: 'CORRECT WORD'),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // Spacer(),
+                PrimaryButton(
+                  label: 'Home',
+                  onPressed: () {
+                    ref.read(passedWordProvider.notifier).state = [];
+                    context.goNamed(HomeScreen.routeName);
+                    ref.read(currentIndexProvider.notifier).state = 0;
+                  },
+                )
+              ],
+            ),
+            desktop: Row(
+              children: [
+                Expanded(
+                  child: _Top(
+                    passedWord: passedWords,
+                    currentIndex: currentIndex,
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                _WordBox(
+                                    words: passedWords, label: 'PASSED WORD'),
+                                Divider(),
+                                _WordBox(
+                                    words: correctWords, label: 'CORRECT WORD'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Spacer(),
+                      PrimaryButton(
+                        label: 'Home',
+                        onPressed: () {
+                          ref.read(passedWordProvider.notifier).state = [];
+                          context.goNamed(HomeScreen.routeName);
+                          ref.read(currentIndexProvider.notifier).state = 0;
+                        },
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Top extends StatelessWidget {
+  final List<String> passedWord;
+  final int currentIndex;
+
+  const _Top({
+    super.key,
+    required this.passedWord,
+    required this.currentIndex,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle ts = TextStyle(
+      color: Colors.white,
+      fontSize: 28,
+      fontWeight: FontWeight.w700,
+      fontFamily: 'Roboto',
+    );
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          'assets/img/wow.png',
+          height: 100,
+          fit: BoxFit.cover,
+        ),
+        const SizedBox(height: 16),
+        Image.asset(
+          'assets/img/eyes.png',
+          height: 100,
+          fit: BoxFit.cover,
+        ),
+        const SizedBox(height: 16),
+        Text(
+          'YOUR SCORE IS',
+          textAlign: TextAlign.center,
+          style: ts.copyWith(fontWeight: FontWeight.w300),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          '${currentIndex - passedWord.length}/30',
+          textAlign: TextAlign.center,
+          style: ts.copyWith(
+            fontSize: 48,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _WordBox extends StatelessWidget {
+  final String label;
+  final List<String> words;
+  const _WordBox({
+    super.key,
+    required this.words,
+    required this.label,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        renderLabel(label),
+        Wrap(
+          alignment: WrapAlignment.spaceEvenly,
+          children: List.generate(
+            words.length,
+            (index) => Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8,
+              ),
+              child: Text(
+                words[index],
+                style: TextStyle(
+                  fontSize: context.layout(32, mobile: 20),
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget renderLabel(String label) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Text(
+        label,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.w700,
+          fontFamily: 'Roboto',
+        ),
+      ),
+    );
+  }
+}
