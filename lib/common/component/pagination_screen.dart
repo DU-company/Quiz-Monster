@@ -18,6 +18,7 @@ class PaginationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
+      needWillPopScope: true,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

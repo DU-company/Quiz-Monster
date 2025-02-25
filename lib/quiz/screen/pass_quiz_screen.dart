@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:quiz/ad/provider/rewarded_ad_provider.dart';
 import 'package:quiz/common/theme/layout.dart';
 import 'package:quiz/quiz/screen/default_quiz_screen.dart';
 import 'package:quiz/quiz/screen/result_screen.dart';
@@ -31,11 +33,24 @@ class PassQuizScreen extends ConsumerWidget {
     final data = ref.watch(quizItemProvider('${selectedQuiz!.id}'));
     final currentIndex = ref.watch(currentIndexProvider);
     final isGameOver = remainingSeconds == 0 || currentIndex == 30;
+    final rewardedAd = ref.watch(rewardedAdProvider);
 
     data as QuizPagination<QuizItemModel>;
     return Expanded(
       child: Column(
         children: [
+          const SizedBox(height: 8),
+          if (rewardedAd != null)
+            PrimaryButton(
+              label: '광고 보고 패스 추가(15초)',
+              onPressed: () {
+                ref.read(rewardedAdProvider.notifier).showAd(
+                      () => ref
+                          .read(passProvider.notifier)
+                          .update((pass) => pass + 1),
+                    );
+              },
+            ),
           Expanded(
             child: PageView.builder(
               controller: pageController,
@@ -49,6 +64,7 @@ class PassQuizScreen extends ConsumerWidget {
                 return Center(
                   child: Text(
                     '- ${model.answer} -',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: context.layout(52, mobile: 36),

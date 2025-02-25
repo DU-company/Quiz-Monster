@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:quiz/ad/provider/ad_count_provider.dart';
+import 'package:quiz/ad/provider/interstitial_ad_provider.dart';
 import 'package:quiz/common/provider/selected_quiz_provider.dart';
+import 'package:quiz/common/screen/default_layout.dart';
+import 'package:quiz/etc/screen/reaction_rate_screen.dart';
 import 'package:quiz/quiz/screen/default_quiz_screen.dart';
 
 import '../../quiz/provider/quiz_item_provider.dart';
@@ -64,17 +69,24 @@ class _TimeCountScreenState extends ConsumerState<TimeCountScreen>
   }
 
   void _goToQuizScreen() {
-    context.goNamed(DefaultQuizScreen.routeName);
+    final selectedModel = ref.read(selectedQuizProvider);
+    if (selectedModel!.title == '반응속도 테스트') {
+      context.goNamed(ReactionRateScreen.routeName);
+    } else {
+      context.goNamed(DefaultQuizScreen.routeName);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final selectedQuiz = ref.watch(selectedQuizProvider);
+
     ref.watch(quizItemProvider('${selectedQuiz!.id}'));
 
-    return Scaffold(
+    return DefaultLayout(
+      needWillPopScope: true,
       backgroundColor: Colors.black,
-      body: Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(

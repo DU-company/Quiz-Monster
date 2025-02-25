@@ -1,8 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quiz/common/screen/splash_screen.dart';
+import 'package:quiz/etc/screen/default_etc_screen.dart';
+import 'package:quiz/etc/screen/player_screen.dart';
+import 'package:quiz/etc/screen/reaction_rate_screen.dart';
 import 'package:quiz/home/screen/home_screen.dart';
 import 'package:quiz/like/screen/like_screen.dart';
 import 'package:quiz/setting/screen/level_screen.dart';
@@ -10,8 +11,6 @@ import 'package:quiz/quiz/screen/default_quiz_screen.dart';
 import 'package:quiz/quiz/screen/result_screen.dart';
 import 'package:quiz/time/screen/time_count_screen.dart';
 import 'package:quiz/time/screen/time_screen.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../setting/screen/pass_screen.dart';
 import '../../test/test_screen.dart';
 
@@ -69,6 +68,21 @@ final goRouterProvider = Provider(
           path: '/test',
           builder: (context, state) => TestScreen(),
           name: TestScreen.routeName,
+        ),
+        GoRoute(
+          path: '/player',
+          builder: (context, state) => PlayerScreen(),
+          name: PlayerScreen.routeName,
+        ),
+        GoRoute(
+          path: '/etc',
+          builder: (context, state) => DefaultEtcScreen(),
+          name: DefaultEtcScreen.routeName,
+        ),
+        GoRoute(
+          path: '/reaction',
+          builder: (context, state) => ReactionRateScreen(),
+          name: ReactionRateScreen.routeName,
         ),
       ],
     );

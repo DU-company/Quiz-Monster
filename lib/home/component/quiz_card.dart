@@ -2,12 +2,18 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiz/common/data/colors.dart';
 import '../../quiz/model/quiz_model.dart';
 
+final randomNumberProvider = StateProvider.family<int, int>(
+  (ref, id) {
+    final Random random = Random();
+    return random.nextInt(5);
+  },
+);
 
-
-class QuizCard extends StatelessWidget {
+class QuizCard extends ConsumerWidget {
   final int id;
   final String title;
   final String subtitle;
@@ -43,10 +49,8 @@ class QuizCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final random = Random();
-    final randomNumber = random.nextInt(5);
-
+  Widget build(BuildContext context, WidgetRef ref) {
+    final randomNumber = ref.watch(randomNumberProvider(id));
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
       child: Container(

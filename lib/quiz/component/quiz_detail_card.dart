@@ -145,7 +145,7 @@ class _QuestionBox extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
-            fontSize: context.layout(48, mobile: 32),
+            fontSize: context.layout(36, mobile: 24),
             fontWeight: FontWeight.w700,
           ),
         ),

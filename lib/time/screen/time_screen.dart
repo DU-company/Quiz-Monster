@@ -1,16 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:quiz/ad/provider/ad_count_provider.dart';
+import 'package:quiz/ad/provider/interstitial_ad_provider.dart';
 import 'package:quiz/common/component/primary_button.dart';
-import 'package:quiz/common/data/colors.dart';
 import 'package:quiz/common/provider/selected_quiz_provider.dart';
-import 'package:quiz/common/screen/default_layout.dart';
 import 'package:quiz/common/theme/layout.dart';
 import 'package:quiz/common/utils/data_utils.dart';
-import 'package:quiz/home/screen/home_screen.dart';
-import 'package:quiz/quiz/screen/default_quiz_screen.dart';
 import 'package:quiz/setting/screen/responsive_screen.dart';
 import 'package:quiz/time/provider/time_provider.dart';
 import 'package:quiz/time/screen/time_count_screen.dart';
@@ -22,6 +20,8 @@ class TimeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final interstitialAd = ref.watch(interstitialAdProvider);
+    final adCount = ref.watch(adCountProvider);
     final selectedQuiz = ref.watch(selectedQuizProvider);
     Duration newDuration =
         selectedQuiz!.pass ? Duration(minutes: 3) : Duration(seconds: 5);
@@ -39,13 +39,34 @@ class TimeScreen extends ConsumerWidget {
           if (newDuration.inSeconds < 3) {
             DataUtils.showToast(msg: '최소 제한 시간은 3초 입니다.');
           } else {
-            ref.read(timeProvider.notifier).state = newDuration;
-            context.goNamed(
-              TimeCountScreen.routeName,
-            );
+            if (interstitialAd == null || adCount < 3) {
+              /// 광고없이 실행시킨다.
+              onGameStart(context, ref, newDuration);
+              ref.read(adCountProvider.notifier).addCount();
+            } else {
+              ref.read(adCountProvider.notifier).resetCount();
+              /// 광고를 띄운다
+              interstitialAd.fullScreenContentCallback =
+                  FullScreenContentCallback(
+                onAdDismissedFullScreenContent: (ad) {
+                  onGameStart(context, ref, newDuration);
+                },
+                onAdFailedToShowFullScreenContent: (ad, error) {
+                  onGameStart(context, ref, newDuration);
+                },
+              );
+              interstitialAd.show();
+            }
           }
         },
       ),
+    );
+  }
+
+  void onGameStart(BuildContext context, WidgetRef ref, Duration newDuration) {
+    ref.read(timeProvider.notifier).state = newDuration;
+    context.goNamed(
+      TimeCountScreen.routeName,
     );
   }
 }

@@ -1,21 +1,17 @@
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'quiz_model.g.dart';
 
 @JsonSerializable()
-@HiveType(typeId: 0)
 class QuizModel {
-  @HiveField(0)
   final int id;
-  @HiveField(1)
   final String title;
-  @HiveField(2)
   final String desc;
-  @HiveField(3)
   final bool pass;
-  @HiveField(4)
   final String subTitle;
+  final bool isEtc;
 
   QuizModel({
     required this.id,
@@ -23,6 +19,7 @@ class QuizModel {
     required this.subTitle,
     required this.desc,
     required this.pass,
+    required this.isEtc,
   });
 
   factory QuizModel.fromJson(Map<String, dynamic> json) =>

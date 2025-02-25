@@ -10,12 +10,12 @@ import 'package:quiz/quiz/model/quiz_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
+
   await dotenv.load(fileName: ".env");
   String SUPABASE_API_KEY = dotenv.env['SUPABASE_API_KEY'] ?? '';
   String SUPABASE_URL = dotenv.env['SUPABASE_URL'] ?? '';
-
-  WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
   await Supabase.initialize(
     url: SUPABASE_URL,
     anonKey: SUPABASE_API_KEY,
@@ -24,7 +24,6 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp, // 세로 모드만 허용
   ]);
-  Hive.registerAdapter(QuizModelAdapter());
   runApp(
     ProviderScope(
       child: const _App(),

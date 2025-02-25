@@ -22,7 +22,7 @@ class QuizStateNotifier extends StateNotifier<QuizPaginationBase> {
   Future<void> getQuiz() async {
 
     state = QuizPaginationLoading();
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     try {
       final resp = await repository.getQuiz();
       state = resp;

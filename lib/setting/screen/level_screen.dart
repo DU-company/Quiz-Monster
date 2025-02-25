@@ -6,6 +6,7 @@ import 'package:quiz/common/data/colors.dart';
 import 'package:quiz/common/provider/selected_quiz_provider.dart';
 import 'package:quiz/common/screen/default_layout.dart';
 import 'package:quiz/common/theme/layout.dart';
+import 'package:quiz/quiz/model/quiz_model.dart';
 import 'package:quiz/setting/screen/responsive_screen.dart';
 
 import '../../time/screen/time_screen.dart';

@@ -14,6 +14,7 @@ import 'package:quiz/quiz/component/quiz_detail_card.dart';
 import 'package:quiz/quiz/model/quiz_item_model.dart';
 import 'package:quiz/quiz/provider/page_controller_provider.dart';
 import 'package:quiz/quiz/provider/quiz_item_provider.dart';
+import 'package:quiz/etc/screen/fly_screen.dart';
 import 'package:quiz/setting/screen/level_screen.dart';
 import 'package:quiz/quiz/screen/none_pass_quiz_screen.dart';
 import 'package:quiz/quiz/screen/pass_quiz_screen.dart';
@@ -31,9 +32,7 @@ final currentIndexProvider = StateProvider<int>((ref) => 0);
 class DefaultQuizScreen extends ConsumerStatefulWidget {
   static String routeName = 'quiz';
 
-  const DefaultQuizScreen({
-    super.key,
-  });
+  const DefaultQuizScreen({super.key});
 
   @override
   ConsumerState<DefaultQuizScreen> createState() => _QuizScreenState();
@@ -89,6 +88,7 @@ class _QuizScreenState extends ConsumerState<DefaultQuizScreen>
         playSound();
       }
       return DefaultLayout(
+        needWillPopScope: true,
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
@@ -103,18 +103,33 @@ class _QuizScreenState extends ConsumerState<DefaultQuizScreen>
                   remainingSeconds: remainingSeconds,
                   onRedPressed: onRedPressed,
                 ),
-                if (selectedQuiz.pass)
+                if (selectedQuiz.pass && !selectedQuiz.isEtc!)
                   PassQuizScreen(
                     pageController: pageController,
                     remainingSeconds: remainingSeconds,
                   ),
-                if (!selectedQuiz.pass)
+                if (!selectedQuiz.pass && !selectedQuiz.isEtc!)
                   NonePassQuizScreen(
                     remainingSeconds: remainingSeconds,
                     pageController: pageController,
                     onNextPressed: onNextPressed,
                     onPrevPressed: onPrevPressed,
                     showAnswerPressed: showAnswerPressed,
+                  ),
+                if (selectedQuiz.title == '나는야 아나운서' ||
+                    selectedQuiz.title == '훈민정음')
+                  NonePassQuizScreen(
+                    remainingSeconds: remainingSeconds,
+                    pageController: pageController,
+                    onNextPressed: onNextPressed,
+                    onPrevPressed: onPrevPressed,
+                    showAnswerPressed: showAnswerPressed,
+                  ),
+                if (selectedQuiz.title == '파리가 몇 마리?')
+                  FlyScreen(
+                    showAnswerPressed: showAnswerPressed,
+                    onReplay: onReplay,
+                    remainingSeconds: remainingSeconds,
                   ),
               ],
             ),
@@ -140,12 +155,16 @@ class _QuizScreenState extends ConsumerState<DefaultQuizScreen>
     allStop();
   }
 
-  void onNextPressed() {
+  /// 파리가 몇 마리?
+  void onReplay() {
     stopSound();
     restartAnimation();
-    // ref.read(currentIndexProvider.notifier).update((state) => state + 1);
     ref.read(showAnswerProvider.notifier).state = false;
     ref.read(timerProvider.notifier).restartTimer();
+  }
+
+  void onNextPressed() {
+    onReplay();
     ref.read(pageControllerProvider.notifier).nextPage();
   }
 
@@ -230,12 +249,14 @@ class _CustomAppBar extends StatelessWidget {
             ]);
           },
         ),
-        Text(
-          currentIndex == 30
-              ? '$length/$length'
-              : '${currentIndex + 1}/$length',
-          style: TextStyle(color: Colors.white),
-        ),
+        if (length == 0) SizedBox(width: 32),
+        if (length != 0)
+          Text(
+            currentIndex == length
+                ? '$length/$length'
+                : '${currentIndex + 1}/$length',
+            style: TextStyle(color: Colors.white),
+          ),
       ],
     );
   }

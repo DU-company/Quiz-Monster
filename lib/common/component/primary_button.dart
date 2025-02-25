@@ -7,19 +7,20 @@ class PrimaryButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   final Color? fontColor;
+  final Widget? child;
   const PrimaryButton({
     super.key,
     required this.label,
     this.onPressed,
     this.backgroundColor = SUB_COLOR,
     this.fontColor = Colors.white,
+    this.child,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      child: Text(label, style: TextStyle(fontSize: context.layout(18, tablet: 20, desktop: 24)),),
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(16.0),
         backgroundColor: backgroundColor,
@@ -28,6 +29,12 @@ class PrimaryButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
       ),
+      child: child ?? Text(
+              label,
+              style: TextStyle(
+                fontSize: context.layout(18, tablet: 20, desktop: 24),
+              ),
+            ),
     );
   }
 }

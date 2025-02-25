@@ -2,17 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:quiz/ad/provider/banner_ad_provider.dart';
 import 'package:quiz/common/component/pagination_screen.dart';
 import 'package:quiz/common/data/colors.dart';
 import 'package:quiz/common/data/data.dart';
 import 'package:quiz/common/provider/selected_quiz_provider.dart';
 import 'package:quiz/common/screen/default_layout.dart';
 import 'package:quiz/common/theme/layout.dart';
+import 'package:quiz/etc/screen/player_screen.dart';
+import 'package:quiz/etc/screen/reaction_rate_screen.dart';
 import 'package:quiz/home/component/quiz_card.dart';
 import 'package:quiz/like/provider/like_provider.dart';
 import 'package:quiz/like/screen/like_screen.dart';
 import 'package:quiz/quiz/model/quiz_model.dart';
 import 'package:quiz/quiz/provider/quiz_provider.dart';
+import 'package:quiz/time/screen/time_count_screen.dart';
+import '../../ad/provider/interstitial_ad_provider.dart';
 import '../../common/component/custom_bottom_sheet.dart';
 import '../../common/model/pagination_model.dart';
 import '../../setting/screen/level_screen.dart';
@@ -30,18 +36,18 @@ class HomeScreen extends ConsumerWidget {
     final data = ref.watch(quizProvider);
     final currentIndex = ref.watch(_indexProvider);
     final likeList = ref.watch(likeProvider);
-
-    print(likeList.length);
+    ref.watch(interstitialAdProvider);
 
     if (data is QuizPagination<QuizModel>) {
       /// 현재 카테고리에 해당하는 QuizModel로 parsing
-      final pList = data.models
-          .where((model) => model.title.contains(CATEGORIES[currentIndex]))
-          .toList();
-      // Get an AnchoredAdaptiveBannerAdSize before loading the ad.
-      // final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-      //     MediaQuery.sizeOf(context).width.truncate());
+      final pList = currentIndex + 1 < CATEGORIES.length
+          ? data.models
+              .where((model) => model.title.contains(CATEGORIES[currentIndex]))
+              .toList()
+          : data.models.where((e) => e.isEtc == true).toList();
+
       return DefaultLayout(
+        needWillPopScope: true,
         backgroundColor: Colors.white,
         child: CustomScrollView(
           slivers: [
@@ -60,7 +66,7 @@ class HomeScreen extends ConsumerWidget {
                 return GestureDetector(
                   onTap: () => onCardPressed(context, ref, model),
                   child: QuizCard.fromModel(
-                    isLiked: likeList.where((e) => e.id == model.id).isNotEmpty,
+                    isLiked: likeList.where((id) => id == model.id).isNotEmpty,
                     onLikePressed: () =>
                         ref.read(likeProvider.notifier).onLikePressed(model),
                     model: model,
@@ -95,13 +101,23 @@ class HomeScreen extends ConsumerWidget {
           },
           onRedPressed: () {
             context.pop();
+            ref.read(selectedQuizProvider.notifier).state = model;
+
+            if (model.title == '라이어 게임') {
+              context.pushNamed(PlayerScreen.routeName);
+              return;
+            }
+            if (model.title == '반응속도 테스트') {
+              context.pushNamed(TimeCountScreen.routeName);
+              return;
+            }
             if (model.pass) {
               context.pushNamed(PassScreen.routeName);
+              return;
             } else {
               context.pushNamed(LevelScreen.routeName);
+              return;
             }
-
-            ref.read(selectedQuizProvider.notifier).state = model;
           },
         );
       },
@@ -122,7 +138,8 @@ class _AppBar extends StatelessWidget {
           children: [
             SizedBox(height: kToolbarHeight),
             renderTop(
-              onMenuPressed: () {},
+              onMenuPressed: (){},
+              // onMenuPressed: () => context.pushNamed(TestScreen.routeName),
               onLikePressed: () => context.pushNamed(LikeScreen.routeName),
             ),
             Row(
@@ -201,24 +218,28 @@ class _CategoryListView extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: CATEGORIES.length,
             itemBuilder: (context, index) {
-              return TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.black,
-                ),
-                onPressed: () => onPressed(index),
-                child: Text(
-                  CATEGORIES[index],
-                  style: TextStyle(
-                    color:
-                        index == currentIndex ? Colors.black : Colors.black45,
-                    fontWeight: index == currentIndex
-                        ? FontWeight.w500
-                        : FontWeight.w300,
-                  ),
-                ),
-              );
+              if (index == CATEGORIES.length) {
+                return renderCategoryButton(index, '기타 게임');
+              }
+              return renderCategoryButton(index, CATEGORIES[index]);
             },
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget renderCategoryButton(int index, String label) {
+    return TextButton(
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.black,
+      ),
+      onPressed: () => onPressed(index),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: index == currentIndex ? Colors.black : Colors.black45,
+          fontWeight: index == currentIndex ? FontWeight.w500 : FontWeight.w300,
         ),
       ),
     );

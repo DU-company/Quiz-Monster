@@ -27,22 +27,22 @@ class TestScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             PrimaryButton(
               label: 'Insert',
-              onPressed: () async {
-                final supabase = ref.read(supabaseProvider);
-                final list = ID10;
-                final quizItems = [...list];
-
-                final response = await supabase
-                    .from('quizItem')
-                    .insert(quizItems)
-                    .select(); // 선택적: 추가된 데이터 반환
-
-                if (response.isNotEmpty) {
-                  print('퀴즈 항목들이 추가되었습니다: $response');
-                } else {
-                  print('퀴즈 추가 실패');
-                }
-              },
+              // onPressed: () async {
+              //   final supabase = ref.read(supabaseProvider);
+              //   final list = ID11;
+              //   final quizItems = [...list];
+              //
+              //   final response = await supabase
+              //       .from('quizItem')
+              //       .insert(quizItems)
+              //       .select(); // 선택적: 추가된 데이터 반환
+              //
+              //   if (response.isNotEmpty) {
+              //     print('퀴즈 항목들이 추가되었습니다: $response');
+              //   } else {
+              //     print('퀴즈 추가 실패');
+              //   }
+              // },
             )
           ],
         ),

@@ -30,7 +30,7 @@ class QuizRepository {
     required String quizId,
     required int? level,
   }) async {
-    print('level : $level');
+    // print('level : $level');
     List<Map<String, dynamic>> resp;
     if (level == null) {
       /// 난이도 상관 없이 다 가져오기

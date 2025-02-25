@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiz/common/theme/layout.dart';
+import 'package:quiz/quiz/screen/responsive_quiz_screen.dart';
 
 import '../../common/component/primary_button.dart';
 import '../../common/model/pagination_model.dart';
@@ -35,69 +36,31 @@ class NonePassQuizScreen extends ConsumerWidget {
     final currentIndex = ref.watch(currentIndexProvider);
 
     data as QuizPagination<QuizItemModel>;
-    return context.layout(
-      Expanded(
-        child: Column(
-          children: [
-            _Body(
-              data: data,
-              pageController: pageController,
-              showAnswer: showAnswer,
-              onPageChanged: (index) => onPageChanged(index, ref),
-            ),
-            _AnswerBox(
-              showAnswer: showAnswer,
-              answer: data.models[currentIndex].answer,
-            ),
-            _TimeOver(remainingSeconds: remainingSeconds),
-            _Footer(
-              onPrevPressed: currentIndex == 0 ? null : onPrevPressed,
-              showAnswerPressed: showAnswerPressed,
-              onNextPressed:
-                  currentIndex + 1 == data.models.length ? null : onNextPressed,
-            ),
-          ],
-        ),
+    return ResponsiveQuizScreen(
+      body: _Body(
+        data: data,
+        pageController: pageController,
+        showAnswer: showAnswer,
+        onPageChanged: (index) => onPageChanged(index, ref),
       ),
-      desktop: Expanded(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            /// 좌측에는 QuizDetailCard
-            _Body(
-              data: data,
-              pageController: pageController,
-              showAnswer: showAnswer,
-              onPageChanged: (index) => onPageChanged(index, ref),
-            ),
-            const SizedBox(width: 16),
-
-            /// 우측에는 정답과 버튼들
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: _AnswerBox(
-                        showAnswer: showAnswer,
-                        answer: data.models[currentIndex].answer,
-                      ),
-                    ),
-                  ),
-                  _TimeOver(remainingSeconds: remainingSeconds),
-                  _Footer(
-                    onPrevPressed: currentIndex == 0 ? null : onPrevPressed,
-                    showAnswerPressed: showAnswerPressed,
-                    onNextPressed: onNextPressed,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+      footer: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _AnswerBox(
+            showAnswer: showAnswer,
+            answer: data.models[currentIndex].answer,
+          ),
+          _TimeOver(remainingSeconds: remainingSeconds),
+          _Footer(
+            onPrevPressed: currentIndex == 0 ? null : onPrevPressed,
+            showAnswerPressed: showAnswerPressed,
+            onNextPressed:
+            currentIndex + 1 == data.models.length ? null : onNextPressed,
+          ),
+        ],
       ),
     );
+
   }
 
   void onPageChanged(int index, WidgetRef ref) {

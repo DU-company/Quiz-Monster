@@ -11,6 +11,7 @@ import 'package:quiz/quiz/model/quiz_item_model.dart';
 import 'package:quiz/quiz/provider/quiz_item_provider.dart';
 import 'package:quiz/quiz/screen/default_quiz_screen.dart';
 import 'package:quiz/quiz/screen/pass_quiz_screen.dart';
+import 'package:quiz/quiz/screen/responsive_quiz_screen.dart';
 
 class ResultScreen extends ConsumerWidget {
   static String routeName = 'result';
@@ -23,11 +24,13 @@ class ResultScreen extends ConsumerWidget {
     final passedWords = ref.watch(passedWordProvider);
 
     return DefaultLayout(
+      needWillPopScope: true,
       child: SafeArea(
         top: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: context.layout(
+            /// mobile과 Tablet은 세로로 배치
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -38,33 +41,28 @@ class ResultScreen extends ConsumerWidget {
                       children: [
                         const SizedBox(height: kToolbarHeight),
                         _Top(
-                            passedWord: passedWords,
+                            passedWords: passedWords,
                             currentIndex: currentIndex),
                         Divider(),
-                        _WordBox(words: passedWords, label: 'PASSED WORD'),
-                        Divider(),
-                        _WordBox(words: correctWords, label: 'CORRECT WORD'),
+                        _Body(
+                          passedWords: passedWords,
+                          correctWords: correctWords,
+                        ),
                       ],
                     ),
                   ),
                 ),
-
-                // Spacer(),
-                PrimaryButton(
-                  label: 'Home',
-                  onPressed: () {
-                    ref.read(passedWordProvider.notifier).state = [];
-                    context.goNamed(HomeScreen.routeName);
-                    ref.read(currentIndexProvider.notifier).state = 0;
-                  },
-                )
+                _Footer(
+                  onPressed: () => onPressed(context, ref),
+                ),
               ],
             ),
+            /// Desktop은 가로로 1:1 배치
             desktop: Row(
               children: [
                 Expanded(
                   child: _Top(
-                    passedWord: passedWords,
+                    passedWords: passedWords,
                     currentIndex: currentIndex,
                   ),
                 ),
@@ -72,32 +70,13 @@ class ResultScreen extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                _WordBox(
-                                    words: passedWords, label: 'PASSED WORD'),
-                                Divider(),
-                                _WordBox(
-                                    words: correctWords, label: 'CORRECT WORD'),
-                              ],
-                            ),
-                          ),
-                        ),
+                      _Body(
+                        passedWords: passedWords,
+                        correctWords: correctWords,
                       ),
-
-                      // Spacer(),
-                      PrimaryButton(
-                        label: 'Home',
-                        onPressed: () {
-                          ref.read(passedWordProvider.notifier).state = [];
-                          context.goNamed(HomeScreen.routeName);
-                          ref.read(currentIndexProvider.notifier).state = 0;
-                        },
-                      )
+                      _Footer(
+                        onPressed: () => onPressed(context, ref),
+                      ),
                     ],
                   ),
                 )
@@ -108,15 +87,21 @@ class ResultScreen extends ConsumerWidget {
       ),
     );
   }
+
+  void onPressed(BuildContext context, WidgetRef ref) {
+    ref.read(passedWordProvider.notifier).state = [];
+    context.goNamed(HomeScreen.routeName);
+    ref.read(currentIndexProvider.notifier).state = 0;
+  }
 }
 
 class _Top extends StatelessWidget {
-  final List<String> passedWord;
+  final List<String> passedWords;
   final int currentIndex;
 
   const _Top({
     super.key,
-    required this.passedWord,
+    required this.passedWords,
     required this.currentIndex,
   });
 
@@ -150,7 +135,7 @@ class _Top extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          '${currentIndex - passedWord.length}/30',
+          '${currentIndex - passedWords.length}/30',
           textAlign: TextAlign.center,
           style: ts.copyWith(
             fontSize: 48,
@@ -212,6 +197,45 @@ class _WordBox extends StatelessWidget {
           fontFamily: 'Roboto',
         ),
       ),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final List<String> passedWords;
+  final List<String> correctWords;
+  const _Body({
+    super.key,
+    required this.passedWords,
+    required this.correctWords,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _WordBox(words: passedWords, label: 'PASSED WORD'),
+            Divider(),
+            _WordBox(words: correctWords, label: 'CORRECT WORD'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Footer extends StatelessWidget {
+  final VoidCallback onPressed;
+  const _Footer({super.key, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return PrimaryButton(
+      label: 'Home',
+      onPressed: onPressed,
     );
   }
 }
