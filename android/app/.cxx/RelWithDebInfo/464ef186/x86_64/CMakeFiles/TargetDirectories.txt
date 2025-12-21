@@ -1,0 +1,2 @@
+/Users/hony/Desktop/quiz_monster/android/app/.cxx/RelWithDebInfo/464ef186/x86_64/CMakeFiles/edit_cache.dir
+/Users/hony/Desktop/quiz_monster/android/app/.cxx/RelWithDebInfo/464ef186/x86_64/CMakeFiles/rebuild_cache.dir

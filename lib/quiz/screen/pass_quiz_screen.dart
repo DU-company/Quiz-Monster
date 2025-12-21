@@ -42,7 +42,7 @@ class PassQuizScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           if (rewardedAd != null)
             PrimaryButton(
-              label: '광고 보고 패스 추가(15초)',
+              label: '광고 보고 패스 추가(15~30초)',
               onPressed: () {
                 ref.read(rewardedAdProvider.notifier).showAd(
                       () => ref

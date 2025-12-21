@@ -130,7 +130,7 @@ class _FlyScreenState extends ConsumerState<FlyScreen> {
                 ),
                 Expanded(
                   child: PrimaryButton(
-                    label: '몇 마리?',
+                    label: '정답',
                     onPressed: widget.showAnswerPressed,
                   ),
                 ),

@@ -138,7 +138,7 @@ class _AppBar extends StatelessWidget {
           children: [
             SizedBox(height: kToolbarHeight),
             renderTop(
-              onMenuPressed: (){},
+              onMenuPressed: () {},
               // onMenuPressed: () => context.pushNamed(TestScreen.routeName),
               onLikePressed: () => context.pushNamed(LikeScreen.routeName),
             ),

@@ -1,0 +1,2 @@
+/Users/hony/Desktop/quiz_monster/android/app/.cxx/RelWithDebInfo/464ef186/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/hony/Desktop/quiz_monster/android/app/.cxx/RelWithDebInfo/464ef186/armeabi-v7a/CMakeFiles/rebuild_cache.dir

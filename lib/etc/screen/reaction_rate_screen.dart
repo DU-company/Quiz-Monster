@@ -170,7 +170,6 @@ class _ReactionRateScreenState extends ConsumerState<ReactionRateScreen> {
           redLabel: '끝내기',
           height: 160,
           onPressed: () => context.pop(), // hide bottom sheet
-
           onRedPressed: () {
             context.pop();
             resetScreen();
@@ -190,25 +189,42 @@ class _ReactionRateScreenState extends ConsumerState<ReactionRateScreen> {
   }
 
   void onReplay(InterstitialAd? interstitialAd, int adCount) {
-    if (interstitialAd == null || adCount < 3) {
-      resetScreen();
-      startTime = null;
-      countTime();
-      ref.read(adCountProvider.notifier).addCount();
-    } else {
-      ref.read(adCountProvider.notifier).resetCount();
+    showModalBottomSheet(
+      backgroundColor: Color(0xFFEFEFEF),
+      context: context,
+      builder: (context) {
+        return CustomBottomSheet(
+          title: '게임을 다시 진행할까요?',
+          desc: '',
+          label: '아니오',
+          redLabel: '다시 하기',
+          height: 160,
+          onPressed: () => context.pop(), // hide bottom sheet
+          onRedPressed: () {
+            context.pop();
+            if (interstitialAd == null || adCount < 3) {
+              resetScreen();
+              startTime = null;
+              countTime();
+              ref.read(adCountProvider.notifier).addCount();
+            } else {
+              ref.read(adCountProvider.notifier).resetCount();
 
-      /// 광고를 띄운다
-      DataUtils.showInterstitialAd(
-        interstitialAd: interstitialAd,
-        moveToScreen: () {
-          resetScreen();
-          startTime = null;
-          countTime();
-        },
-      );
-      ref.read(interstitialAdProvider.notifier).getAd();
-    }
+              /// 광고를 띄운다
+              DataUtils.showInterstitialAd(
+                interstitialAd: interstitialAd,
+                moveToScreen: () {
+                  resetScreen();
+                  startTime = null;
+                  countTime();
+                },
+              );
+              ref.read(interstitialAdProvider.notifier).getAd();
+            }
+          },
+        );
+      },
+    );
   }
 
   void resetScreen() {
@@ -286,18 +302,34 @@ class _AverageBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final average = testResults.isNotEmpty
-        ? testResults.reduce((a, b) => a + b) / testResults.length
+    final int average = testResults.isNotEmpty
+        ? (testResults.reduce((a, b) => a + b) / testResults.length).toInt()
         : 0;
-    return Text(
-      textAlign: TextAlign.center,
-      '평균속도 : ${average.toInt()} ms\n${testResults.map(
-            (e) => '${e}ms',
-          ).toList()}',
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: context.layout(32, mobile: 24),
-      ),
+    final comment = DataUtils.getReactionSpeedMessage(average);
+
+    return Column(
+      children: [
+        Text(
+          comment,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: context.layout(28, mobile: 20),
+          ),
+        ),
+        const SizedBox(height: 32),
+        Text(
+          '평균속도 : ${average.toInt()} ms'
+          '\n${testResults.map(
+                (e) => '${e}ms',
+              ).toList()}',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: context.layout(32, mobile: 24),
+          ),
+        ),
+      ],
     );
   }
 }
