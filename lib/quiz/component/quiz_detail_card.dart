@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/common/component/custom_indicator.dart';
-import 'package:quiz/common/theme/layout.dart';
+import 'package:quiz/ui/common/widgets/custom_indicator.dart';
+import 'package:quiz/core/theme/layout.dart';
 import 'package:quiz/quiz/model/quiz_item_model.dart';
 
 class QuizDetailCard extends StatelessWidget {

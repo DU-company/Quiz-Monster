@@ -6,8 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:quiz/ad/provider/ad_count_provider.dart';
 import 'package:quiz/ad/provider/interstitial_ad_provider.dart';
-import 'package:quiz/common/provider/selected_quiz_provider.dart';
-import 'package:quiz/common/screen/default_layout.dart';
+import 'package:quiz/core/service/selected_quiz_provider.dart';
+import 'package:quiz/ui/common/layout/default_layout.dart';
 import 'package:quiz/etc/screen/reaction_rate_screen.dart';
 import 'package:quiz/quiz/screen/default_quiz_screen.dart';
 

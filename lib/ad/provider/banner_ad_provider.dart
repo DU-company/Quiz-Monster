@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
-import '../data/ad_data.dart';
+import '../../core/service/ad_service.dart';
 
 final bannerAdProvider =
     StateNotifierProvider.autoDispose<BannerAdStateNotifier, BannerAd?>(

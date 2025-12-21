@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
-import 'package:quiz/common/data/colors.dart';
-import 'package:quiz/common/theme/layout.dart';
+import 'package:quiz/core/theme/layout.dart';
 
 final themeProvider = Provider(
   (ref) => ThemeData(

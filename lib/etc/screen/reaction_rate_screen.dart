@@ -4,17 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:quiz/common/component/primary_button.dart';
-import 'package:quiz/common/screen/default_layout.dart';
-import 'package:quiz/common/theme/layout.dart';
+import 'package:quiz/ui/common/widgets/primary_button.dart';
+import 'package:quiz/ui/common/layout/default_layout.dart';
+import 'package:quiz/core/theme/layout.dart';
 import 'package:quiz/home/screen/home_screen.dart';
 import 'package:quiz/quiz/screen/default_quiz_screen.dart';
 import 'package:quiz/time/screen/time_count_screen.dart';
 
 import '../../ad/provider/ad_count_provider.dart';
 import '../../ad/provider/interstitial_ad_provider.dart';
-import '../../common/component/custom_bottom_sheet.dart';
-import '../../common/utils/data_utils.dart';
+import '../../ui/common/widgets/custom_bottom_sheet.dart';
+import '../../core/utils/data_utils.dart';
 
 final _labelProvider = StateProvider((ref) => '');
 final _countProvider = StateProvider<int>((ref) => 1);

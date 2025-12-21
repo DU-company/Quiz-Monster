@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/common/data/colors.dart';
-import 'package:quiz/common/theme/layout.dart';
+import 'package:quiz/core/const/data.dart';
+import 'package:quiz/core/theme/layout.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String label;
@@ -29,12 +29,13 @@ class PrimaryButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
       ),
-      child: child ?? Text(
-              label,
-              style: TextStyle(
-                fontSize: context.layout(18, tablet: 20, desktop: 24),
-              ),
+      child: child ??
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: context.layout(18, tablet: 20, desktop: 24),
             ),
+          ),
     );
   }
 }

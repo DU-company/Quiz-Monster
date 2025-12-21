@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:quiz/common/provider/selected_quiz_provider.dart';
-import 'package:quiz/common/theme/layout.dart';
+import 'package:quiz/core/service/selected_quiz_provider.dart';
+import 'package:quiz/core/theme/layout.dart';
 
-import '../../common/screen/default_layout.dart';
+import '../../ui/common/layout/default_layout.dart';
 
 class ResponsiveSettingScreen extends ConsumerWidget {
   final String label;

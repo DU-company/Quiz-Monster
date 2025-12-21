@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:quiz/common/provider/supabase_provider.dart';
+import 'package:quiz/core/service/supabase_provider.dart';
 import 'package:quiz/quiz/model/quiz_item_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../common/model/pagination_model.dart';
+import '../../data/models/pagination_state.dart';
 import '../model/quiz_model.dart';
 
 final quizRepositoryProvider = Provider(
@@ -21,13 +21,13 @@ class QuizRepository {
     required this.supabase,
   });
 
-  Future<QuizPagination<QuizModel>> getQuiz() async {
+  Future<PaginationSuccess<QuizModel>> getQuiz() async {
     final resp = await supabase.from('quiz').select();
     final quizModels = resp.map((quiz) => QuizModel.fromJson(quiz)).toList();
-    return QuizPagination(models: quizModels);
+    return PaginationSuccess(models: quizModels);
   }
 
-  Future<QuizPagination<QuizItemModel>> getQuizItems({
+  Future<PaginationSuccess<QuizItemModel>> getQuizItems({
     required String quizId,
     required int? level,
   }) async {
@@ -51,6 +51,6 @@ class QuizRepository {
     }
     final quizItemModels =
         resp.map((item) => QuizItemModel.fromJson(item)).toList();
-    return QuizPagination(models: quizItemModels);
+    return PaginationSuccess(models: quizItemModels);
   }
 }

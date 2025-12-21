@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/common/data/colors.dart';
+import 'package:quiz/core/const/data.dart';
 
 class CustomBottomSheet extends StatelessWidget {
   final String title;

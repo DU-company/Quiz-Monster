@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/common/component/pagination_screen.dart';
-import 'package:quiz/common/component/primary_button.dart';
-import 'package:quiz/common/model/pagination_model.dart';
-import 'package:quiz/common/provider/selected_quiz_provider.dart';
-import 'package:quiz/common/screen/default_layout.dart';
+import 'package:quiz/ui/pagination/pagination_screen.dart';
+import 'package:quiz/ui/common/widgets/primary_button.dart';
+import 'package:quiz/data/models/pagination_state.dart';
+import 'package:quiz/core/service/selected_quiz_provider.dart';
+import 'package:quiz/ui/common/layout/default_layout.dart';
 import 'package:quiz/etc/provider/player_provider.dart';
 import 'package:quiz/home/screen/home_screen.dart';
 import 'package:quiz/quiz/model/quiz_item_model.dart';
@@ -16,7 +16,7 @@ import 'package:quiz/quiz/provider/page_controller_provider.dart';
 import 'package:quiz/quiz/provider/quiz_item_provider.dart';
 import 'package:quiz/quiz/screen/default_quiz_screen.dart';
 
-import '../../common/component/custom_bottom_sheet.dart';
+import '../../ui/common/widgets/custom_bottom_sheet.dart';
 
 final liarProvider = Provider.autoDispose<int>(
   (ref) {
@@ -43,7 +43,7 @@ class DefaultEtcScreen extends ConsumerWidget {
     final isLastPage = currentIndex >= playerCount;
     final isBeforeLastPage = currentIndex + 1 >= playerCount;
 
-    if (data is QuizPagination<QuizItemModel>) {
+    if (data is PaginationSuccess<QuizItemModel>) {
       return DefaultLayout(
         needWillPopScope: true,
         child: SafeArea(
@@ -186,7 +186,7 @@ class _Body extends StatelessWidget {
   final int playerCount;
   final bool showAnswer;
   final int liarIndex;
-  final QuizPagination<QuizItemModel> data;
+  final PaginationSuccess<QuizItemModel> data;
   const _Body({
     super.key,
     required this.pageController,

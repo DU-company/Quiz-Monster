@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import '../screen/default_layout.dart';
+import '../../ui/common/layout/default_layout.dart';
 
 class DataUtils {
   static void showToast({required String msg}) {

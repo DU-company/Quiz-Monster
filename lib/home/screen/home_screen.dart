@@ -3,16 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:quiz/ad/provider/banner_ad_provider.dart';
-import 'package:quiz/common/component/pagination_screen.dart';
-import 'package:quiz/common/data/colors.dart';
-import 'package:quiz/common/data/data.dart';
-import 'package:quiz/common/provider/selected_quiz_provider.dart';
-import 'package:quiz/common/screen/default_layout.dart';
-import 'package:quiz/common/theme/layout.dart';
+import 'package:quiz/ui/pagination/pagination_screen.dart';
+import 'package:quiz/core/service/selected_quiz_provider.dart';
+import 'package:quiz/core/const/data.dart';
+import 'package:quiz/ui/common/layout/default_layout.dart';
+import 'package:quiz/core/theme/layout.dart';
 import 'package:quiz/etc/screen/player_screen.dart';
-import 'package:quiz/etc/screen/reaction_rate_screen.dart';
 import 'package:quiz/home/component/quiz_card.dart';
 import 'package:quiz/like/provider/like_provider.dart';
 import 'package:quiz/like/screen/like_screen.dart';
@@ -20,8 +16,8 @@ import 'package:quiz/quiz/model/quiz_model.dart';
 import 'package:quiz/quiz/provider/quiz_provider.dart';
 import 'package:quiz/time/screen/time_count_screen.dart';
 import '../../ad/provider/interstitial_ad_provider.dart';
-import '../../common/component/custom_bottom_sheet.dart';
-import '../../common/model/pagination_model.dart';
+import '../../ui/common/widgets/custom_bottom_sheet.dart';
+import '../../data/models/pagination_state.dart';
 import '../../setting/screen/level_screen.dart';
 import '../../setting/screen/pass_screen.dart';
 import '../../test/test_screen.dart';
@@ -39,7 +35,7 @@ class HomeScreen extends ConsumerWidget {
     final likeList = ref.watch(likeProvider);
     ref.watch(interstitialAdProvider);
 
-    if (data is QuizPagination<QuizModel>) {
+    if (data is PaginationSuccess<QuizModel>) {
       /// 현재 카테고리에 해당하는 QuizModel로 parsing
       final pList = currentIndex + 1 < CATEGORIES.length
           ? data.models

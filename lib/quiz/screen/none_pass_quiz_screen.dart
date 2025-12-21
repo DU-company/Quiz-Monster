@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:quiz/common/theme/layout.dart';
+import 'package:quiz/core/theme/layout.dart';
 import 'package:quiz/quiz/screen/responsive_quiz_screen.dart';
 
-import '../../common/component/primary_button.dart';
-import '../../common/model/pagination_model.dart';
-import '../../common/provider/selected_quiz_provider.dart';
+import '../../ui/common/widgets/primary_button.dart';
+import '../../data/models/pagination_state.dart';
+import '../../core/service/selected_quiz_provider.dart';
 import '../../time/provider/timer_provider.dart';
 import '../component/quiz_detail_card.dart';
 import '../model/quiz_item_model.dart';
@@ -36,7 +36,7 @@ class NonePassQuizScreen extends ConsumerWidget {
     final showAnswer = ref.watch(showAnswerProvider);
     final currentIndex = ref.watch(currentIndexProvider);
 
-    data as QuizPagination<QuizItemModel>;
+    data as PaginationSuccess<QuizItemModel>;
     return ResponsiveQuizScreen(
       body: _Body(
         data: data,
@@ -70,7 +70,7 @@ class NonePassQuizScreen extends ConsumerWidget {
 }
 
 class _Body extends StatelessWidget {
-  final QuizPagination<QuizItemModel> data;
+  final PaginationSuccess<QuizItemModel> data;
   final PageController pageController;
   final bool showAnswer;
   final void Function(int) onPageChanged;

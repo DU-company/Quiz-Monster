@@ -3,24 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/common/component/custom_bottom_sheet.dart';
-import 'package:quiz/common/component/pagination_screen.dart';
-import 'package:quiz/common/component/primary_button.dart';
-import 'package:quiz/common/data/colors.dart';
-import 'package:quiz/common/model/pagination_model.dart';
-import 'package:quiz/common/provider/selected_quiz_provider.dart';
-import 'package:quiz/common/screen/default_layout.dart';
+import 'package:quiz/ui/common/widgets/custom_bottom_sheet.dart';
+import 'package:quiz/ui/pagination/pagination_screen.dart';
+import 'package:quiz/data/models/pagination_state.dart';
+import 'package:quiz/core/service/selected_quiz_provider.dart';
+import 'package:quiz/ui/common/layout/default_layout.dart';
 import 'package:quiz/home/screen/home_screen.dart';
-import 'package:quiz/quiz/component/quiz_detail_card.dart';
 import 'package:quiz/quiz/model/quiz_item_model.dart';
 import 'package:quiz/quiz/provider/page_controller_provider.dart';
 import 'package:quiz/quiz/provider/quiz_item_provider.dart';
 import 'package:quiz/etc/screen/fly_screen.dart';
-import 'package:quiz/setting/screen/level_screen.dart';
 import 'package:quiz/quiz/screen/none_pass_quiz_screen.dart';
 import 'package:quiz/quiz/screen/pass_quiz_screen.dart';
 import 'package:quiz/time/provider/time_provider.dart';
-import '../../common/utils/data_utils.dart';
+import '../../core/utils/data_utils.dart';
 import '../../setting/provider/level_provider.dart';
 import '../../time/provider/timer_provider.dart';
 
@@ -84,7 +80,7 @@ class _QuizScreenState extends ConsumerState<DefaultQuizScreen>
     final remainingSeconds = ref.watch(timerProvider); // 상태 감시
     final pageController = ref.watch(pageControllerProvider);
 
-    if (data is QuizPagination<QuizItemModel>) {
+    if (data is PaginationSuccess<QuizItemModel>) {
       if (!showAnswer && remainingSeconds == 3) {
         playSound();
       }

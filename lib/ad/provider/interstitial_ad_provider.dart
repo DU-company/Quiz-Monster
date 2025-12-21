@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:quiz/ad/data/ad_data.dart';
+import 'package:quiz/core/service/ad_service.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
 final interstitialAdProvider =

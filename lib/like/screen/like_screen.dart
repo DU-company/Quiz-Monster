@@ -4,15 +4,15 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:quiz/ad/provider/banner_ad_provider.dart';
-import 'package:quiz/common/model/pagination_model.dart';
-import 'package:quiz/common/screen/default_layout.dart';
-import 'package:quiz/common/theme/layout.dart';
+import 'package:quiz/data/models/pagination_state.dart';
+import 'package:quiz/ui/common/layout/default_layout.dart';
+import 'package:quiz/core/theme/layout.dart';
 import 'package:quiz/home/component/quiz_card.dart';
 import 'package:quiz/like/provider/like_provider.dart';
 import 'package:quiz/quiz/provider/quiz_provider.dart';
 
-import '../../common/component/custom_bottom_sheet.dart';
-import '../../common/provider/selected_quiz_provider.dart';
+import '../../ui/common/widgets/custom_bottom_sheet.dart';
+import '../../core/service/selected_quiz_provider.dart';
 import '../../etc/screen/player_screen.dart';
 import '../../quiz/model/quiz_model.dart';
 import '../../setting/screen/level_screen.dart';
@@ -28,7 +28,7 @@ class LikeScreen extends ConsumerWidget {
     final likedIdList = ref.watch(likeProvider);
     final data = ref.watch(quizProvider);
 
-    data as QuizPagination<QuizModel>;
+    data as PaginationSuccess<QuizModel>;
     final pList = data.models.where((model) => likedIdList.contains(model.id)).toList();
     return DefaultLayout(
       backgroundColor: Colors.white,

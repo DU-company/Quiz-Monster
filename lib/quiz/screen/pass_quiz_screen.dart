@@ -4,12 +4,12 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:quiz/ad/provider/rewarded_ad_provider.dart';
-import 'package:quiz/common/theme/layout.dart';
+import 'package:quiz/core/theme/layout.dart';
 import 'package:quiz/quiz/screen/default_quiz_screen.dart';
 import 'package:quiz/quiz/screen/result_screen.dart';
-import '../../common/component/primary_button.dart';
-import '../../common/model/pagination_model.dart';
-import '../../common/provider/selected_quiz_provider.dart';
+import '../../ui/common/widgets/primary_button.dart';
+import '../../data/models/pagination_state.dart';
+import '../../core/service/selected_quiz_provider.dart';
 import '../../setting/provider/pass_provider.dart';
 import '../model/quiz_item_model.dart';
 import '../provider/quiz_item_provider.dart';
@@ -36,7 +36,7 @@ class PassQuizScreen extends ConsumerWidget {
     final isGameOver = remainingSeconds == 0 || currentIndex == 30;
     final rewardedAd = ref.watch(rewardedAdProvider);
 
-    data as QuizPagination<QuizItemModel>;
+    data as PaginationSuccess<QuizItemModel>;
     return Expanded(
       child: Column(
         children: [
