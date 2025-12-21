@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:quiz/quiz/repository/quiz_repository.dart';
 
 import '../../common/model/pagination_model.dart';

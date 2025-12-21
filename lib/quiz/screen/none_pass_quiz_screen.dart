@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:quiz/common/theme/layout.dart';
 import 'package:quiz/quiz/screen/responsive_quiz_screen.dart';
 

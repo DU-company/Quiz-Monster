@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:quiz/common/provider/supabase_provider.dart';
 import 'package:quiz/quiz/model/quiz_item_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

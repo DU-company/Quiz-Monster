@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quiz/common/data/colors.dart';
 import 'package:quiz/common/theme/constrained_screen.dart';
@@ -30,7 +31,8 @@ class DefaultLayout extends ConsumerWidget {
 
     return WillPopScope(
       onWillPop: needWillPopScope
-          ? () async => DataUtils.onWillPop(currentBackPressTime, ref)  //뒤로가기 두번 눌러야 앱 종료,
+          ? () async =>
+              DataUtils.onWillPop(currentBackPressTime, ref) //뒤로가기 두번 눌러야 앱 종료,
           : null, // 일반 화면은 그냥 뒤로가기
       child: Scaffold(
         appBar: title != null

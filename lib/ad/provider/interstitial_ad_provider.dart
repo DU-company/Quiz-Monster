@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:quiz/ad/data/ad_data.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 final interstitialAdProvider =
     StateNotifierProvider.autoDispose<InterstitialAdStateNotifier, InterstitialAd?>(
