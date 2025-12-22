@@ -94,7 +94,7 @@ class _QuizScreenState extends ConsumerState<DefaultQuizScreen>
               // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _CustomAppBar(
-                  length: data.models.length,
+                  length: data.items.length,
                   currentIndex: currentIndex,
                   animationController: animationController,
                   remainingSeconds: remainingSeconds,

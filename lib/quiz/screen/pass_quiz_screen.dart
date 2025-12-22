@@ -45,7 +45,9 @@ class PassQuizScreen extends ConsumerWidget {
             PrimaryButton(
               label: '광고 보고 패스 추가(15~30초)',
               onPressed: () {
-                ref.read(rewardedAdProvider.notifier).showAd(
+                ref
+                    .read(rewardedAdProvider.notifier)
+                    .showAd(
                       () => ref
                           .read(passProvider.notifier)
                           .update((pass) => pass + 1),
@@ -56,12 +58,12 @@ class PassQuizScreen extends ConsumerWidget {
             child: PageView.builder(
               controller: pageController,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: data.models.length + 1,
+              itemCount: data.items.length + 1,
               itemBuilder: (context, index) {
-                if (index == data.models.length) {
+                if (index == data.items.length) {
                   return Text('');
                 }
-                final model = data.models[index];
+                final model = data.items[index];
                 return Center(
                   child: Text(
                     '- ${model.answer} -',
@@ -81,9 +83,11 @@ class PassQuizScreen extends ConsumerWidget {
           _PassFooter(
             passCount: passCount,
             isGameOver: isGameOver,
-            onNext: () => onNext(ref, data.models[currentIndex].answer),
-            onPass: () => onPass(ref, data.models[currentIndex].answer),
-          )
+            onNext: () =>
+                onNext(ref, data.items[currentIndex].answer),
+            onPass: () =>
+                onPass(ref, data.items[currentIndex].answer),
+          ),
         ],
       ),
     );
@@ -98,16 +102,18 @@ class PassQuizScreen extends ConsumerWidget {
       duration: Duration(milliseconds: 300),
       curve: Curves.linear,
     );
-    ref.read(passProvider.notifier).update((state) => state = state - 1);
-    ref.read(passedWordProvider.notifier).update(
-          (state) => state = [...state, word],
-        );
+    ref
+        .read(passProvider.notifier)
+        .update((state) => state = state - 1);
+    ref
+        .read(passedWordProvider.notifier)
+        .update((state) => state = [...state, word]);
   }
 
   void onNext(WidgetRef ref, String word) {
-    ref.read(correctWordProvider.notifier).update(
-          (state) => state = [...state, word],
-        );
+    ref
+        .read(correctWordProvider.notifier)
+        .update((state) => state = [...state, word]);
     pageController.nextPage(
       duration: Duration(milliseconds: 300),
       curve: Curves.linear,
@@ -180,7 +186,7 @@ class _PassFooter extends StatelessWidget {
             label: 'NEXT ▶',
             onPressed: isGameOver ? null : onNext,
           ),
-        )
+        ),
       ],
     );
   }

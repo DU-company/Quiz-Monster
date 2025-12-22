@@ -29,7 +29,7 @@ class LikeScreen extends ConsumerWidget {
     final data = ref.watch(quizProvider);
 
     data as PaginationSuccess<QuizModel>;
-    final pList = data.models.where((model) => likedIdList.contains(model.id)).toList();
+    final pList = data.items.where((model) => likedIdList.contains(model.id)).toList();
     return DefaultLayout(
       backgroundColor: Colors.white,
       bottomNavigationBar: bannerAd == null

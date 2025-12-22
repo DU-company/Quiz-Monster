@@ -49,14 +49,14 @@ class NonePassQuizScreen extends ConsumerWidget {
         children: [
           _AnswerBox(
             showAnswer: showAnswer,
-            answer: data.models[currentIndex].answer,
+            answer: data.items[currentIndex].answer,
           ),
           _TimeOver(remainingSeconds: remainingSeconds),
           _Footer(
             onPrevPressed: currentIndex == 0 ? null : onPrevPressed,
             showAnswerPressed: showAnswerPressed,
             onNextPressed:
-            currentIndex + 1 == data.models.length ? null : onNextPressed,
+            currentIndex + 1 == data.items.length ? null : onNextPressed,
           ),
         ],
       ),
@@ -90,9 +90,9 @@ class _Body extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         onPageChanged: onPageChanged,
         children: List.generate(
-          data.models.length,
+          data.items.length,
           (index) {
-            final model = data.models[index];
+            final model = data.items[index];
 
             return QuizDetailCard.fromModel(model: model);
           },

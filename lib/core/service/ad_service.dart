@@ -18,7 +18,9 @@ class AdMobService {
 
   static String get interstitialAdId {
     if (isDevMode) {
-      if (Platform.isIOS) return 'ca-app-pub-3940256099942544/4411468910';
+      if (Platform.isIOS) {
+        return 'ca-app-pub-3940256099942544/4411468910';
+      }
       return 'ca-app-pub-3940256099942544/1033173712';
     }
 
@@ -29,7 +31,9 @@ class AdMobService {
 
   static String get rewardedAdId {
     if (isDevMode) {
-      if (Platform.isIOS) return 'ca-app-pub-3940256099942544/1712485313';
+      if (Platform.isIOS) {
+        return 'ca-app-pub-3940256099942544/1712485313';
+      }
       return 'ca-app-pub-3940256099942544/5224354917';
     }
 

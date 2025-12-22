@@ -18,14 +18,12 @@ import 'package:quiz/quiz/screen/default_quiz_screen.dart';
 
 import '../../ui/common/widgets/custom_bottom_sheet.dart';
 
-final liarProvider = Provider.autoDispose<int>(
-  (ref) {
-    final playerCount = ref.watch(playerProvider);
-    final Random random = Random();
-    final liarIndex = random.nextInt(playerCount);
-    return liarIndex;
-  },
-);
+final liarProvider = Provider.autoDispose<int>((ref) {
+  final playerCount = ref.watch(playerProvider);
+  final Random random = Random();
+  final liarIndex = random.nextInt(playerCount);
+  return liarIndex;
+});
 
 class DefaultEtcScreen extends ConsumerWidget {
   static String routeName = 'etc';
@@ -53,7 +51,9 @@ class DefaultEtcScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _AppBar(
-                  label: isLastPage ? '' : 'PLAYER ${currentIndex + 1}',
+                  label: isLastPage
+                      ? ''
+                      : 'PLAYER ${currentIndex + 1}',
                   onBackPressed: () => onBackPressed(context, ref),
                 ),
                 Spacer(),
@@ -69,13 +69,16 @@ class DefaultEtcScreen extends ConsumerWidget {
                   label: isLastPage ? '정답 보기' : '단어 보기',
                   onAnswerPressed: (isLastPage && showAnswer)
                       ? null
-                      : () => onAnswerPressed(ref, isLastPage, context),
+                      : () =>
+                            onAnswerPressed(ref, isLastPage, context),
                 ),
                 Spacer(),
                 _Footer(
                   label: isBeforeLastPage ? "" : '⬇누르고 옆 사람에게 전달⬇',
                   buttonLabel: isBeforeLastPage ? '게임 시작' : '다음 사람',
-                  onNext: isLastPage ? null : () => onNext(ref, pageController),
+                  onNext: isLastPage
+                      ? null
+                      : () => onNext(ref, pageController),
                 ),
               ],
             ),
@@ -86,7 +89,11 @@ class DefaultEtcScreen extends ConsumerWidget {
     return PaginationScreen(data: data);
   }
 
-  void onAnswerPressed(WidgetRef ref, bool isLastPage, BuildContext context) {
+  void onAnswerPressed(
+    WidgetRef ref,
+    bool isLastPage,
+    BuildContext context,
+  ) {
     if (isLastPage) {
       showModalBottomSheet(
         backgroundColor: Colors.white,
@@ -113,7 +120,9 @@ class DefaultEtcScreen extends ConsumerWidget {
 
   void onNext(WidgetRef ref, PageController controller) {
     ref.read(showAnswerProvider.notifier).state = false;
-    ref.read(currentIndexProvider.notifier).update((index) => index + 1);
+    ref
+        .read(currentIndexProvider.notifier)
+        .update((index) => index + 1);
     controller.nextPage(
       duration: Duration(milliseconds: 300),
       curve: Curves.linear,
@@ -159,13 +168,9 @@ class _AppBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
-          style: IconButton.styleFrom(
-            foregroundColor: Colors.white,
-          ),
+          style: IconButton.styleFrom(foregroundColor: Colors.white),
           onPressed: onBackPressed,
-          icon: Icon(
-            Icons.arrow_back_ios,
-          ),
+          icon: Icon(Icons.arrow_back_ios),
         ),
         Text(
           label,
@@ -204,7 +209,7 @@ class _Body extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         itemCount: playerCount + 1,
         itemBuilder: (context, index) {
-          final model = data.models.first;
+          final model = data.items.first;
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 2),
             child: Column(
@@ -214,13 +219,10 @@ class _Body extends StatelessWidget {
                 Text(
                   index == playerCount
                       ? '설명을 시작하세요.'
-                          '\n필요하면 토론 시간을 늘릴 수도 있습니다.'
+                            '\n필요하면 토론 시간을 늘릴 수도 있습니다.'
                       : '혼자만 보세요',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 const SizedBox(height: 8),
                 Expanded(
@@ -266,10 +268,7 @@ class _AnswerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: PrimaryButton(
-        label: label,
-        onPressed: onAnswerPressed,
-      ),
+      child: PrimaryButton(label: label, onPressed: onAnswerPressed),
     );
   }
 }
@@ -294,16 +293,10 @@ class _Footer extends StatelessWidget {
         Text(
           label,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-          ),
+          style: TextStyle(color: Colors.white, fontSize: 18),
         ),
         const SizedBox(height: 8),
-        PrimaryButton(
-          label: buttonLabel,
-          onPressed: onNext,
-        ),
+        PrimaryButton(label: buttonLabel, onPressed: onNext),
       ],
     );
   }

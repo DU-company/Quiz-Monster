@@ -10,11 +10,11 @@ class PaginationError extends PaginationState {
 }
 
 class PaginationSuccess<T> extends PaginationState {
-  final List<T> models;
+  final List<T> items;
 
-  PaginationSuccess({required this.models});
+  PaginationSuccess({required this.items});
 
-  PaginationSuccess<T> copyWith({List<T>? models}) {
-    return PaginationSuccess(models: models ?? this.models);
+  PaginationSuccess<T> copyWith({List<T>? items}) {
+    return PaginationSuccess(items: items ?? this.items);
   }
 }

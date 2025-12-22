@@ -38,10 +38,13 @@ class HomeScreen extends ConsumerWidget {
     if (data is PaginationSuccess<QuizModel>) {
       /// 현재 카테고리에 해당하는 QuizModel로 parsing
       final pList = currentIndex + 1 < CATEGORIES.length
-          ? data.models
-              .where((model) => model.title.contains(CATEGORIES[currentIndex]))
-              .toList()
-          : data.models.where((e) => e.isEtc == true).toList();
+          ? data.items
+                .where(
+                  (model) =>
+                      model.title.contains(CATEGORIES[currentIndex]),
+                )
+                .toList()
+          : data.items.where((e) => e.isEtc == true).toList();
 
       return DefaultLayout(
         needWillPopScope: true,
@@ -63,14 +66,17 @@ class HomeScreen extends ConsumerWidget {
                 return GestureDetector(
                   onTap: () => onCardPressed(context, ref, model),
                   child: QuizCard.fromModel(
-                    isLiked: likeList.where((id) => id == model.id).isNotEmpty,
-                    onLikePressed: () =>
-                        ref.read(likeProvider.notifier).onLikePressed(model),
+                    isLiked: likeList
+                        .where((id) => id == model.id)
+                        .isNotEmpty,
+                    onLikePressed: () => ref
+                        .read(likeProvider.notifier)
+                        .onLikePressed(model),
                     model: model,
                   ),
                 );
               },
-            )
+            ),
           ],
         ),
       );
@@ -80,7 +86,11 @@ class HomeScreen extends ConsumerWidget {
     return PaginationScreen(data: data);
   }
 
-  void onCardPressed(BuildContext context, WidgetRef ref, QuizModel model) {
+  void onCardPressed(
+    BuildContext context,
+    WidgetRef ref,
+    QuizModel model,
+  ) {
     showModalBottomSheet(
       backgroundColor: Color(0xFFEFEFEF),
       context: context,
@@ -137,7 +147,8 @@ class _AppBar extends StatelessWidget {
             renderTop(
               onMenuPressed: () {},
               // onMenuPressed: () => context.pushNamed(TestScreen.routeName),
-              onLikePressed: () => context.pushNamed(LikeScreen.routeName),
+              onLikePressed: () =>
+                  context.pushNamed(LikeScreen.routeName),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -184,12 +195,7 @@ class _AppBar extends StatelessWidget {
           onPressed: onLikePressed,
           icon: Icon(CupertinoIcons.suit_heart),
         ),
-        IconButton(
-          onPressed: onMenuPressed,
-          icon: Icon(
-            Icons.menu,
-          ),
-        ),
+        IconButton(onPressed: onMenuPressed, icon: Icon(Icons.menu)),
       ],
     );
   }
@@ -228,15 +234,17 @@ class _CategoryListView extends StatelessWidget {
 
   Widget renderCategoryButton(int index, String label) {
     return TextButton(
-      style: TextButton.styleFrom(
-        foregroundColor: Colors.black,
-      ),
+      style: TextButton.styleFrom(foregroundColor: Colors.black),
       onPressed: () => onPressed(index),
       child: Text(
         label,
         style: TextStyle(
-          color: index == currentIndex ? Colors.black : Colors.black45,
-          fontWeight: index == currentIndex ? FontWeight.w500 : FontWeight.w300,
+          color: index == currentIndex
+              ? Colors.black
+              : Colors.black45,
+          fontWeight: index == currentIndex
+              ? FontWeight.w500
+              : FontWeight.w300,
         ),
       ),
     );
