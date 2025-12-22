@@ -1,50 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quiz/core/theme/layout.dart';
+import 'package:quiz/core/theme/responsive/layout.dart';
+import 'package:quiz/core/theme/responsive/light_theme.dart';
 
-final themeProvider = Provider(
-  (ref) => ThemeData(
-    fontFamily: "NotoSans",
-    // scaffoldBackgroundColor: MAIN_COLOR,
-    /// 일반 Text
-    textTheme: TextTheme(
-      bodyLarge: TextStyle(
-          fontWeight: FontWeight.w700, fontSize: 18, color: Colors.white),
-      bodyMedium: TextStyle(
-        fontWeight: FontWeight.w500,
-        fontSize: 16,
-      ),
-      bodySmall: TextStyle(
-        fontWeight: FontWeight.w300,
-        fontSize: 14,
-      ),
+final themeServiceProvider = Provider((ref) => LightTheme());
 
-      /// 버튼 위의 Text
-      labelLarge: TextStyle(
-        fontWeight: FontWeight.w500,
-        fontSize: 16,
-      ),
-
-      /// AppBar 혹은 Dialog의 Title
-      titleLarge: TextStyle(
-        fontWeight: FontWeight.w500,
-        fontSize: 16,
-      ),
-    ),
+final themeProvider = Provider((ref) {
+  final theme = ref.read(themeServiceProvider);
+  return ThemeData(
     textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        foregroundColor: Colors.white,
-      ),
+      style: TextButton.styleFrom(foregroundColor: Colors.white),
     ),
     iconButtonTheme: IconButtonThemeData(
-      style: IconButton.styleFrom(
-        foregroundColor: Colors.black,
-      ),
+      style: IconButton.styleFrom(foregroundColor: Colors.black),
     ),
     bottomSheetTheme: BottomSheetThemeData(
-      constraints: BoxConstraints(
-        maxWidth: Breakpoints.bottomSheet,
-      ),
+      constraints: BoxConstraints(maxWidth: Breakpoints.bottomSheet),
     ),
-  ),
-);
+    appBarTheme: AppBarTheme(
+      centerTitle: true,
+      scrolledUnderElevation: 0,
+      titleTextStyle: theme.typo.headline6,
+      backgroundColor: theme.color.primary,
+      foregroundColor: theme.color.onPrimary,
+    ),
+  );
+});

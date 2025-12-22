@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/ui/common/widgets/custom_indicator.dart';
+import 'package:quiz/ui/common/screens/home_screen.dart';
+import 'package:quiz/ui/common/widgets/loading_widget.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
-
-import '../../home/screen/home_screen.dart';
 import '../../data/models/pagination_state.dart';
 import '../common/layout/default_layout.dart';
 
 /// View로 만들기
 class PaginationScreen extends StatelessWidget {
   final PaginationState data;
-  PaginationScreen({
-    super.key,
-    required this.data,
-  });
+  PaginationScreen({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +21,7 @@ class PaginationScreen extends StatelessWidget {
           Image.asset('assets/img/eyes.png'),
           const SizedBox(height: 32),
           if (data is PaginationLoading)
-            Center(
-              child: CustomIndicator(),
-            ),
+            Center(child: LoadingWidget()),
           if (data is PaginationError)
             Column(
               children: [

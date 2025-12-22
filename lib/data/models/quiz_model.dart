@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'quiz_model.g.dart';
 
 @JsonSerializable()
-class NewQuizModel {
+class QuizModel {
   final int id;
   final String title;
   final String desc;
@@ -10,7 +10,7 @@ class NewQuizModel {
   final String subTitle;
   final bool isEtc;
 
-  NewQuizModel({
+  QuizModel({
     required this.id,
     required this.title,
     required this.subTitle,
@@ -19,6 +19,6 @@ class NewQuizModel {
     required this.isEtc,
   });
 
-  factory NewQuizModel.fromJson(Map<String, dynamic> json) =>
-      _$NewQuizModelFromJson(json);
+  factory QuizModel.fromJson(Map<String, dynamic> json) =>
+      _$QuizModelFromJson(json);
 }

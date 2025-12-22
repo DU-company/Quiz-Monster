@@ -4,12 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:quiz/ui/common/screens/home_screen.dart';
+import 'package:quiz/ui/common/widgets/dialog/base_confirm_dialog.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
 import 'package:quiz/ui/common/layout/default_layout.dart';
-import 'package:quiz/core/theme/layout.dart';
-import 'package:quiz/home/screen/home_screen.dart';
-import 'package:quiz/quiz/screen/default_quiz_screen.dart';
-import 'package:quiz/time/screen/time_count_screen.dart';
+import 'package:quiz/core/theme/responsive/layout.dart';
+
+import 'package:quiz/ui/quiz/detail/quiz_detail_success_view.dart';
+import 'package:quiz/ui/quiz/detail/widgets/exit_dialog.dart';
+import 'package:quiz/ui/settings/time/time_count_screen.dart';
 
 import '../../ad/provider/ad_count_provider.dart';
 import '../../ad/provider/interstitial_ad_provider.dart';
@@ -25,10 +28,12 @@ class ReactionRateScreen extends ConsumerStatefulWidget {
   const ReactionRateScreen({super.key});
 
   @override
-  ConsumerState<ReactionRateScreen> createState() => _ReactionRateScreenState();
+  ConsumerState<ReactionRateScreen> createState() =>
+      _ReactionRateScreenState();
 }
 
-class _ReactionRateScreenState extends ConsumerState<ReactionRateScreen> {
+class _ReactionRateScreenState
+    extends ConsumerState<ReactionRateScreen> {
   int? startTime;
 
   int setRandomTime() {
@@ -43,11 +48,14 @@ class _ReactionRateScreenState extends ConsumerState<ReactionRateScreen> {
 
   onTap() {
     if (startTime != null) {
-      int reactionTime = DateTime.now().millisecondsSinceEpoch - startTime!;
+      int reactionTime =
+          DateTime.now().millisecondsSinceEpoch - startTime!;
 
-      int adjustedReactionTime =
-          reactionTime >= 51 ? reactionTime - 50 : reactionTime;
-      ref.read(_labelProvider.notifier).state = '$adjustedReactionTime ms';
+      int adjustedReactionTime = reactionTime >= 51
+          ? reactionTime - 50
+          : reactionTime;
+      ref.read(_labelProvider.notifier).state =
+          '$adjustedReactionTime ms';
       ref
           .read(_averageProvider.notifier)
           .update((items) => [...items, adjustedReactionTime]);
@@ -84,100 +92,96 @@ class _ReactionRateScreenState extends ConsumerState<ReactionRateScreen> {
             bottom: 16.0,
           ),
           child: context.layout(
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _AppBar(
-                    count: count,
-                    onBack: onBack,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _AppBar(count: count, onBack: onBack),
+                if (!isEnd) _Header(isEnd: isEnd),
+                Spacer(),
+                if (isEnd) _AverageBox(testResults: testResults),
+                if (!isEnd)
+                  _Body(
+                    onTap: label.isEmpty ? onTap : null,
+                    showAnswer: showAnswer,
+                    label: label,
                   ),
-                  if (!isEnd) _Header(isEnd: isEnd),
-                  Spacer(),
-                  if (isEnd) _AverageBox(testResults: testResults),
-                  if (!isEnd)
-                    _Body(
-                      onTap: label.isEmpty ? onTap : null,
-                      showAnswer: showAnswer,
-                      label: label,
-                    ),
-                  Spacer(),
-                  _Footer(
-                    isEnd: isEnd,
-                    onNext: showAnswer && label.isNotEmpty ? onNext : null,
-                    onReplay: showAnswer && label.isNotEmpty
-                        ? () => onReplay(interstitialAd, adCount)
-                        : null,
-                  ),
-                ],
-              ),
-              desktop: Column(
-                children: [
-                  _AppBar(
-                    count: count,
-                    onBack: onBack,
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        if (!isEnd) Expanded(child: _Header(isEnd: isEnd)),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              if (isEnd)
-                                Expanded(
-                                    child: Center(
-                                        child: _AverageBox(
-                                            testResults: testResults))),
-                              if (!isEnd)
-                                Expanded(
-                                  child: _Body(
-                                    onTap: label.isEmpty ? onTap : null,
-                                    showAnswer: showAnswer,
-                                    label: label,
+                Spacer(),
+                _Footer(
+                  isEnd: isEnd,
+                  onNext: showAnswer && label.isNotEmpty
+                      ? onNext
+                      : null,
+                  onReplay: showAnswer && label.isNotEmpty
+                      ? () => onReplay(interstitialAd, adCount)
+                      : null,
+                ),
+              ],
+            ),
+            desktop: Column(
+              children: [
+                _AppBar(count: count, onBack: onBack),
+                Expanded(
+                  child: Row(
+                    children: [
+                      if (!isEnd)
+                        Expanded(child: _Header(isEnd: isEnd)),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.stretch,
+                          children: [
+                            if (isEnd)
+                              Expanded(
+                                child: Center(
+                                  child: _AverageBox(
+                                    testResults: testResults,
                                   ),
                                 ),
-                              _Footer(
-                                isEnd: isEnd,
-                                onNext: showAnswer && label.isNotEmpty
-                                    ? onNext
-                                    : null,
-                                onReplay: showAnswer && label.isNotEmpty
-                                    ? () => onReplay(interstitialAd, adCount)
-                                    : null,
                               ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              )),
+                            if (!isEnd)
+                              Expanded(
+                                child: _Body(
+                                  onTap: label.isEmpty ? onTap : null,
+                                  showAnswer: showAnswer,
+                                  label: label,
+                                ),
+                              ),
+                            _Footer(
+                              isEnd: isEnd,
+                              onNext: showAnswer && label.isNotEmpty
+                                  ? onNext
+                                  : null,
+                              onReplay: showAnswer && label.isNotEmpty
+                                  ? () => onReplay(
+                                      interstitialAd,
+                                      adCount,
+                                    )
+                                  : null,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
   void onBack() {
-    showModalBottomSheet(
-      backgroundColor: Color(0xFFEFEFEF),
+    showDialog(
       context: context,
-      builder: (context) {
-        return CustomBottomSheet(
-          title: '게임을 끝내시겠습니까?',
-          desc: '',
-          label: '게임 계속하기',
-          redLabel: '끝내기',
-          height: 160,
-          onPressed: () => context.pop(), // hide bottom sheet
-          onRedPressed: () {
-            context.pop();
-            resetScreen();
-            context.goNamed(HomeScreen.routeName);
-          },
-        );
-      },
+      builder: (context) => ExitDialog(
+        onTapConfirm: () {
+          context.pop();
+          resetScreen();
+          context.goNamed(HomeScreen.routeName);
+        },
+      ),
     );
   }
 
@@ -190,24 +194,20 @@ class _ReactionRateScreenState extends ConsumerState<ReactionRateScreen> {
   }
 
   void onReplay(InterstitialAd? interstitialAd, int adCount) {
-    showModalBottomSheet(
-      backgroundColor: Color(0xFFEFEFEF),
+    showDialog(
       context: context,
       builder: (context) {
-        return CustomBottomSheet(
-          title: '게임을 다시 진행할까요?',
-          desc: '',
-          label: '아니오',
-          redLabel: '다시 하기',
-          height: 160,
-          onPressed: () => context.pop(), // hide bottom sheet
-          onRedPressed: () {
+        return BaseConfirmDialog(
+          title: '재시작',
+          content: '게임을 다시 시작할까요?',
+          confirmLabel: '다시하기',
+          onTapConfirm: () {
             context.pop();
             if (interstitialAd == null || adCount < 3) {
               resetScreen();
               startTime = null;
               countTime();
-              ref.read(adCountProvider.notifier).addCount();
+              ref.read(adCountProvider.notifier).increaseCount();
             } else {
               ref.read(adCountProvider.notifier).resetCount();
 
@@ -223,6 +223,7 @@ class _ReactionRateScreenState extends ConsumerState<ReactionRateScreen> {
               ref.read(interstitialAdProvider.notifier).getAd();
             }
           },
+          cancelLabel: '뒤로가기',
         );
       },
     );
@@ -251,20 +252,13 @@ class _AppBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
-          style: IconButton.styleFrom(
-            foregroundColor: Colors.white,
-          ),
+          style: IconButton.styleFrom(foregroundColor: Colors.white),
           onPressed: onBack,
-          icon: Icon(
-            Icons.arrow_back_ios,
-          ),
+          icon: Icon(Icons.arrow_back_ios),
         ),
         Text(
           '$count/5 회',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-          ),
+          style: TextStyle(color: Colors.white, fontSize: 20),
         ),
       ],
     );
@@ -273,10 +267,7 @@ class _AppBar extends StatelessWidget {
 
 class _Header extends StatelessWidget {
   final bool isEnd;
-  const _Header({
-    required this.isEnd,
-    super.key,
-  });
+  const _Header({required this.isEnd, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -296,15 +287,13 @@ class _Header extends StatelessWidget {
 
 class _AverageBox extends StatelessWidget {
   final List<int> testResults;
-  const _AverageBox({
-    super.key,
-    required this.testResults,
-  });
+  const _AverageBox({super.key, required this.testResults});
 
   @override
   Widget build(BuildContext context) {
     final int average = testResults.isNotEmpty
-        ? (testResults.reduce((a, b) => a + b) / testResults.length).toInt()
+        ? (testResults.reduce((a, b) => a + b) / testResults.length)
+              .toInt()
         : 0;
     final comment = DataUtils.getReactionSpeedMessage(average);
 
@@ -321,9 +310,7 @@ class _AverageBox extends StatelessWidget {
         const SizedBox(height: 32),
         Text(
           '평균속도 : ${average.toInt()} ms'
-          '\n${testResults.map(
-                (e) => '${e}ms',
-              ).toList()}',
+          '\n${testResults.map((e) => '${e}ms').toList()}',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
@@ -362,7 +349,7 @@ class _Body extends StatelessWidget {
             height: context.layout(350, mobile: 250),
             child: Center(
               child: Text(
-                showAnswer ? 'CLICK HERE!' : 'Waitng...',
+                showAnswer ? 'CLICK HERE!' : 'Waiting...',
                 style: TextStyle(
                   fontSize: context.layout(32, mobile: 20),
                   color: Colors.black,

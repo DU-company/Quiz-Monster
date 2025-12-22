@@ -21,7 +21,7 @@ class QuizDataSource {
   Future<List<Map<String, dynamic>>> fetchQuizDetails(
     PaginationParams params,
   ) async {
-    if (params.level == null) {
+    if (params.p_level == null) {
       /// 난이도 상관 없이 랜덤
       return supabase.rpc(
         'random_pagination',

@@ -1,33 +1,49 @@
-import 'package:flutter_riverpod/legacy.dart';
-import 'package:flutter_riverpod/legacy.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-final adCountProvider = StateNotifierProvider<AdCountStateNotifier, int>(
-    (ref) => AdCountStateNotifier());
+/// Shared로 마이그레이션
+final adCountProvider = NotifierProvider(() => AdCountNotifier());
 
-class AdCountStateNotifier extends StateNotifier<int> {
-  AdCountStateNotifier() : super(1);
+class AdCountNotifier extends Notifier<int> {
+  @override
+  int build() {
+    getCurrentCount();
+    return 1;
+  }
 
-  /// 3번마다 광고를 보여주게 하기위한 count
-  Future<void> addCount() async {
-    final box = await Hive.openBox<int>('adCount');
-    final count = box.get('count');
+  Future<void> getCurrentCount() async {
+    final pref = await SharedPreferences.getInstance();
+
+    final count = pref.get('adCount') as int?;
 
     if (count == null) {
-      await box.put('count', 2);
-      state = 2;
+      await pref.setInt('adCount', 1);
+      state = 1;
     } else {
-      await box.put('count', count + 1);
+      state = count;
+    }
+  }
+
+  Future<void> increaseCount() async {
+    final pref = await SharedPreferences.getInstance();
+    final count = pref.get('adCount') as int;
+
+    // 3번 보면 초기화
+    if (count == 3) {
+      resetCount();
+    } else {
+      // 1씩 누적
+      pref.setInt('adCount', count + 1);
       state = count + 1;
     }
   }
 
   Future<void> resetCount() async {
-    final box = await Hive.openBox<int>('adCount');
-    final count = box.get('count');
+    final pref = await SharedPreferences.getInstance();
+    final count = pref.get('adCount') as int?;
 
     if (count != null) {
-      await box.put('count', 1);
+      await pref.setInt('adCount', 1);
       state = 1;
     }
   }

@@ -4,7 +4,7 @@ import 'package:quiz/data/data_sources/quiz_data_source.dart';
 import 'package:quiz/data/models/pagination_params.dart';
 import 'package:quiz/data/models/pagination_state.dart';
 import 'package:quiz/data/models/quiz_detail_model.dart';
-import 'package:quiz/quiz/model/quiz_model.dart';
+import 'package:quiz/data/models/quiz_model.dart';
 
 final quizRepositorProvider = Provider((ref) {
   final quizDataSource = ref.read(quizDataSourceProvider);
@@ -33,9 +33,9 @@ class QuizRepository {
   }) async {
     try {
       final params = PaginationParams(
-        qid: qid,
-        take: take,
-        level: level,
+        p_qid: qid,
+        p_take: take,
+        p_level: level,
       );
       final resp = await quizDataSource.fetchQuizDetails(params);
       final items = resp
@@ -43,6 +43,8 @@ class QuizRepository {
           .toList();
       return PaginationSuccess(items: items);
     } catch (e) {
+      print(e);
+
       throw QuizItemException();
     }
   }

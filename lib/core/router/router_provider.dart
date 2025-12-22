@@ -1,94 +1,98 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/ui/common/screens/splash_screen.dart';
+import 'package:quiz/ui/common/screens/home_screen.dart';
 import 'package:quiz/etc/screen/default_etc_screen.dart';
-import 'package:quiz/etc/screen/player_screen.dart';
+import 'package:quiz/ui/settings/player/player_screen.dart';
 import 'package:quiz/etc/screen/reaction_rate_screen.dart';
-import 'package:quiz/home/screen/home_screen.dart';
-import 'package:quiz/like/screen/like_screen.dart';
-import 'package:quiz/setting/screen/level_screen.dart';
-import 'package:quiz/quiz/screen/default_quiz_screen.dart';
-import 'package:quiz/quiz/screen/result_screen.dart';
-import 'package:quiz/time/screen/time_count_screen.dart';
-import 'package:quiz/time/screen/time_screen.dart';
-import '../../setting/screen/pass_screen.dart';
+
+import 'package:quiz/ui/wishlist/wishlist_screen.dart';
+import 'package:quiz/ui/quiz/detail/quiz_detail_screen.dart';
+import 'package:quiz/ui/settings/level/level_screen.dart';
+import 'package:quiz/ui/quiz/detail/quiz_detail_success_view.dart';
+import 'package:quiz/ui/result/result_screen.dart';
+import 'package:quiz/ui/settings/time/time_count_screen.dart';
+import 'package:quiz/ui/settings/time/time_screen.dart';
+import '../../ui/settings/pass/pass_screen.dart';
 import '../../test/test_screen.dart';
 
 final goRouterProvider = Provider((ref) {
   return GoRouter(
-    initialLocation: '/splash',
+    initialLocation: '/home',
     routes: [
       GoRoute(
-        path: '/',
-        builder: (context, state) => HomeScreen(),
+        path: '/home',
+        builder: (_, _) => HomeScreen(),
         name: HomeScreen.routeName,
         routes: [
           GoRoute(
-            path: '/like',
-            builder: (context, state) => LikeScreen(),
+            path: 'like',
+            builder: (_, _) => LikeScreen(),
             name: LikeScreen.routeName,
           ),
         ],
       ),
-      GoRoute(
-        path: '/splash',
-        builder: (context, state) => SplashScreen(),
-        name: SplashScreen.routeName,
-      ),
+      // GoRoute(
+      //   path: '/splash',
+      //   builder: (context, state) => SplashScreen(),
+      //   name: SplashScreen.routeName,
+      // ),
       GoRoute(
         path: '/test',
-        builder: (context, state) => TestScreen(),
+        builder: (_, _) => TestScreen(),
         name: TestScreen.routeName,
       ),
 
       /// Settings
       GoRoute(
         path: '/pass',
-        builder: (context, state) => PassScreen(),
+        builder: (_, _) => PassScreen(),
         name: PassScreen.routeName,
       ),
       GoRoute(
         path: '/level',
-        builder: (context, state) => LevelScreen(),
+        builder: (_, _) => LevelScreen(),
         name: LevelScreen.routeName,
       ),
       GoRoute(
         path: '/time',
         name: TimeScreen.routeName,
-        builder: (context, state) => TimeScreen(),
+        builder: (_, _) => TimeScreen(),
       ),
       GoRoute(
         path: '/player',
-        builder: (context, state) => PlayerScreen(),
+        builder: (_, _) => PlayerScreen(),
         name: PlayerScreen.routeName,
       ),
       GoRoute(
         path: '/timeCount',
         name: TimeCountScreen.routeName,
-        builder: (context, state) => TimeCountScreen(),
+        builder: (_, _) => TimeCountScreen(),
       ),
 
       /// Quiz
       GoRoute(
-        path: '/quiz',
-        builder: (context, state) => DefaultQuizScreen(),
-        name: DefaultQuizScreen.routeName,
+        path: '/quiz-detail/:qid',
+        builder: (_, state) {
+          final qid = int.parse(state.pathParameters['qid']!);
+          return QuizDetailScreen(qid);
+        },
+        name: QuizDetailScreen.routeName,
       ),
       GoRoute(
         path: '/result',
-        builder: (context, state) => ResultScreen(),
+        builder: (_, _) => ResultScreen(),
         name: ResultScreen.routeName,
       ),
 
       GoRoute(
         path: '/etc',
-        builder: (context, state) => DefaultEtcScreen(),
+        builder: (_, _) => DefaultEtcScreen([]),
         name: DefaultEtcScreen.routeName,
       ),
       GoRoute(
         path: '/reaction',
-        builder: (context, state) => ReactionRateScreen(),
+        builder: (_, _) => ReactionRateScreen(),
         name: ReactionRateScreen.routeName,
       ),
     ],

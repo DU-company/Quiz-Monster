@@ -6,7 +6,7 @@ part of 'quiz_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-NewQuizModel _$NewQuizModelFromJson(Map<String, dynamic> json) => NewQuizModel(
+QuizModel _$QuizModelFromJson(Map<String, dynamic> json) => QuizModel(
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       subTitle: json['subTitle'] as String,
@@ -15,8 +15,7 @@ NewQuizModel _$NewQuizModelFromJson(Map<String, dynamic> json) => NewQuizModel(
       isEtc: json['isEtc'] as bool,
     );
 
-Map<String, dynamic> _$NewQuizModelToJson(NewQuizModel instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$QuizModelToJson(QuizModel instance) => <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'desc': instance.desc,

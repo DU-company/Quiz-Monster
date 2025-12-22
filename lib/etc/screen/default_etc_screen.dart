@@ -2,19 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/ui/pagination/pagination_screen.dart';
+import 'package:quiz/data/models/quiz_detail_model.dart';
+import 'package:quiz/ui/common/screens/home_screen.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
-import 'package:quiz/data/models/pagination_state.dart';
-import 'package:quiz/core/service/selected_quiz_provider.dart';
 import 'package:quiz/ui/common/layout/default_layout.dart';
-import 'package:quiz/etc/provider/player_provider.dart';
-import 'package:quiz/home/screen/home_screen.dart';
-import 'package:quiz/quiz/model/quiz_item_model.dart';
+import 'package:quiz/ui/settings/player/player_provider.dart';
 import 'package:quiz/quiz/provider/page_controller_provider.dart';
-import 'package:quiz/quiz/provider/quiz_item_provider.dart';
-import 'package:quiz/quiz/screen/default_quiz_screen.dart';
+import 'package:quiz/ui/quiz/detail/quiz_detail_success_view.dart';
 
 import '../../ui/common/widgets/custom_bottom_sheet.dart';
 
@@ -25,9 +20,12 @@ final liarProvider = Provider.autoDispose<int>((ref) {
   return liarIndex;
 });
 
+/// TODO  : 이게 지금 오로지 라이어게임에만 맞추어져있음.
+/// 이름을 liarScreen 뭐 이런식으로 바꾸는게 어떰?
 class DefaultEtcScreen extends ConsumerWidget {
+  final List<QuizDetailModel> items;
   static String routeName = 'etc';
-  const DefaultEtcScreen({super.key});
+  const DefaultEtcScreen(this.items);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,57 +34,49 @@ class DefaultEtcScreen extends ConsumerWidget {
     final playerCount = ref.watch(playerProvider);
     final liarIndex = ref.watch(liarProvider);
     final currentIndex = ref.watch(currentIndexProvider);
-    final selectedQuiz = ref.watch(selectedQuizProvider);
-    final data = ref.watch(quizItemProvider('${selectedQuiz!.id}'));
     final isLastPage = currentIndex >= playerCount;
     final isBeforeLastPage = currentIndex + 1 >= playerCount;
 
-    if (data is PaginationSuccess<QuizItemModel>) {
-      return DefaultLayout(
-        needWillPopScope: true,
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _AppBar(
-                  label: isLastPage
-                      ? ''
-                      : 'PLAYER ${currentIndex + 1}',
-                  onBackPressed: () => onBackPressed(context, ref),
-                ),
-                Spacer(),
-                _Body(
-                  pageController: pageController,
-                  playerCount: playerCount,
-                  showAnswer: showAnswer,
-                  liarIndex: liarIndex,
-                  data: data,
-                ),
-                const SizedBox(height: 16),
-                _AnswerButton(
-                  label: isLastPage ? '정답 보기' : '단어 보기',
-                  onAnswerPressed: (isLastPage && showAnswer)
-                      ? null
-                      : () =>
-                            onAnswerPressed(ref, isLastPage, context),
-                ),
-                Spacer(),
-                _Footer(
-                  label: isBeforeLastPage ? "" : '⬇누르고 옆 사람에게 전달⬇',
-                  buttonLabel: isBeforeLastPage ? '게임 시작' : '다음 사람',
-                  onNext: isLastPage
-                      ? null
-                      : () => onNext(ref, pageController),
-                ),
-              ],
-            ),
+    return DefaultLayout(
+      needWillPopScope: true,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _AppBar(
+                label: isLastPage ? '' : 'PLAYER ${currentIndex + 1}',
+                onBackPressed: () => onBackPressed(context, ref),
+              ),
+              Spacer(),
+              _Body(
+                pageController: pageController,
+                playerCount: playerCount,
+                showAnswer: showAnswer,
+                liarIndex: liarIndex,
+                items: items,
+              ),
+              const SizedBox(height: 16),
+              _AnswerButton(
+                label: isLastPage ? '정답 보기' : '단어 보기',
+                onAnswerPressed: (isLastPage && showAnswer)
+                    ? null
+                    : () => onAnswerPressed(ref, isLastPage, context),
+              ),
+              Spacer(),
+              _Footer(
+                label: isBeforeLastPage ? "" : '⬇누르고 옆 사람에게 전달⬇',
+                buttonLabel: isBeforeLastPage ? '게임 시작' : '다음 사람',
+                onNext: isLastPage
+                    ? null
+                    : () => onNext(ref, pageController),
+              ),
+            ],
           ),
         ),
-      );
-    }
-    return PaginationScreen(data: data);
+      ),
+    );
   }
 
   void onAnswerPressed(
@@ -191,14 +181,14 @@ class _Body extends StatelessWidget {
   final int playerCount;
   final bool showAnswer;
   final int liarIndex;
-  final PaginationSuccess<QuizItemModel> data;
+  final List<QuizDetailModel> items;
   const _Body({
     super.key,
     required this.pageController,
     required this.playerCount,
     required this.showAnswer,
     required this.liarIndex,
-    required this.data,
+    required this.items,
   });
 
   @override
@@ -209,7 +199,7 @@ class _Body extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         itemCount: playerCount + 1,
         itemBuilder: (context, index) {
-          final model = data.items.first;
+          final model = items.first;
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 2),
             child: Column(

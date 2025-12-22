@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiz/data/models/pagination_state.dart';
 import 'package:quiz/data/repositories/quiz_repository.dart';
-import 'package:quiz/setting/provider/level_provider.dart';
+import 'package:quiz/ui/settings/level/level_provider.dart';
 
 final quizDetailViewModelProvider = NotifierProvider.family
     .autoDispose((int qid) => QuizDetailViewModel(qid));

@@ -2,12 +2,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:quiz/ui/common/widgets/custom_indicator.dart';
+import 'package:quiz/ui/common/widgets/loading_widget.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
-import 'package:quiz/core/theme/layout.dart';
-import 'package:quiz/quiz/screen/default_quiz_screen.dart';
-import 'package:quiz/quiz/screen/responsive_quiz_screen.dart';
-import 'package:quiz/setting/provider/level_provider.dart';
+import 'package:quiz/core/theme/responsive/layout.dart';
+import 'package:quiz/ui/quiz/detail/quiz_detail_success_view.dart';
+import 'package:quiz/ui/common/layout/quiz_detail_layout.dart';
+import 'package:quiz/ui/settings/level/level_provider.dart';
 
 class FlyScreen extends ConsumerStatefulWidget {
   final VoidCallback showAnswerPressed;
@@ -74,7 +74,7 @@ class _FlyScreenState extends ConsumerState<FlyScreen> {
     final showAnswer = ref.watch(showAnswerProvider);
 
     if (flyPositions == null) {
-      return CustomIndicator();
+      return LoadingWidget();
     } else {
       return Expanded(
         child: Column(
@@ -106,7 +106,7 @@ class _FlyScreenState extends ConsumerState<FlyScreen> {
                 Expanded(
                   child: PrimaryButton(
                     backgroundColor: Colors.orange,
-                    fontColor: Colors.black,
+                    foregroundColor: Colors.black,
                     label: '새로 고침',
                     child: Icon(
                       Icons.refresh,

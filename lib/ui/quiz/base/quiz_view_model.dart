@@ -16,6 +16,7 @@ class QuizViewModel extends Notifier<PaginationState> {
   Future<void> getQuizList() async {
     try {
       state = PaginationLoading();
+
       final resp = await repository.getQuiz();
       state = resp;
     } catch (e) {

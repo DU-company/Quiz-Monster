@@ -1,39 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiz/core/const/data.dart';
-import 'package:quiz/core/theme/layout.dart';
+import 'package:quiz/core/theme/responsive/layout.dart';
+import 'package:quiz/core/theme/theme_provider.dart';
 
-class PrimaryButton extends StatelessWidget {
+class PrimaryButton extends ConsumerWidget {
   final String label;
   final VoidCallback? onPressed;
   final Color? backgroundColor;
-  final Color? fontColor;
+  final Color? foregroundColor;
+  final Color? borderColor;
   final Widget? child;
   const PrimaryButton({
     super.key,
     required this.label,
     this.onPressed,
-    this.backgroundColor = SUB_COLOR,
-    this.fontColor = Colors.white,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.borderColor,
     this.child,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.read(themeServiceProvider);
+
+    return OutlinedButton(
       onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.all(16.0),
-        backgroundColor: backgroundColor,
-        foregroundColor: fontColor,
+      style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
+        padding: const EdgeInsets.all(16.0),
+
+        /// Color
+        backgroundColor: backgroundColor ?? theme.color.secondary,
+        foregroundColor: foregroundColor ?? theme.color.onSecondary,
+        side: BorderSide(
+          color: borderColor ?? Colors.transparent,
+          width: 0.5,
+        ),
+        splashFactory: InkSparkle.splashFactory,
       ),
-      child: child ??
+      child:
+          child ??
           Text(
             label,
-            style: TextStyle(
-              fontSize: context.layout(18, tablet: 20, desktop: 24),
+            style: theme.typo.headline6.copyWith(
+              color: foregroundColor,
+              fontWeight: theme.typo.semiBold,
             ),
           ),
     );
