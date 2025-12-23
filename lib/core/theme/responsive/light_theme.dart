@@ -32,8 +32,8 @@ class LightTheme implements AppTheme {
     onHintContainer: Palette.grey500,
 
     /// Inactive
-    inactive: Palette.grey600,
-    inactiveContainer: Palette.grey700,
+    inactive: Palette.grey500,
+    inactiveContainer: Palette.grey600,
     onInactiveContainer: Palette.white,
 
     /// Accent

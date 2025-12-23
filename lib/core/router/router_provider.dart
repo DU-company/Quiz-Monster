@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quiz/data/models/quiz_model.dart';
 import 'package:quiz/ui/common/screens/home_screen.dart';
 import 'package:quiz/etc/screen/default_etc_screen.dart';
 import 'package:quiz/ui/settings/player/player_screen.dart';
@@ -27,7 +28,10 @@ final goRouterProvider = Provider((ref) {
         routes: [
           GoRoute(
             path: 'wishlist',
-            builder: (_, _) => WishlistScreen(),
+            builder: (_, state) {
+              final items = state.extra as List<QuizModel>;
+              return WishlistScreen(items);
+            },
             name: WishlistScreen.routeName,
           ),
         ],

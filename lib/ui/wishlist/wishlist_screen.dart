@@ -14,17 +14,16 @@ import 'package:quiz/ui/wishlist/wishlist_view_model.dart';
 class WishlistScreen extends ConsumerWidget {
   static String routeName = 'wishlist';
 
-  const WishlistScreen({super.key});
+  final List<QuizModel> items;
+  const WishlistScreen(this.items);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bannerAd = ref.watch(bannerAdProvider);
     final theme = ref.read(themeServiceProvider);
     final wishlist = ref.watch(wishlistViewModelProvider);
-    final data = ref.watch(quizViewModelProvider);
 
-    data as PaginationSuccess<QuizModel>;
-    final pList = data.items
+    final pList = items
         .where((model) => wishlist.contains(model.id))
         .toList();
     return DefaultLayout(
@@ -41,7 +40,6 @@ class WishlistScreen extends ConsumerWidget {
       /// Wishlist
       child: Column(
         children: [
-          SizedBox(height: kToolbarHeight),
           _AppBar(),
           if (wishlist.isEmpty)
             Expanded(
@@ -86,21 +84,16 @@ class _AppBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.read(themeServiceProvider);
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () => context.pop(),
-            icon: Icon(Icons.arrow_back_ios),
-          ),
-          Text(
-            '위시리스트',
-            style: theme.typo.headline1.copyWith(
-              color: theme.color.secondary,
-            ),
-          ),
-        ],
+    return AppBar(
+      backgroundColor: theme.color.onSecondary,
+      foregroundColor: theme.color.secondary,
+      centerTitle: false,
+      titleSpacing: 0,
+      title: Text(
+        '위시리스트',
+        style: theme.typo.headline5.copyWith(
+          color: theme.color.secondary,
+        ),
       ),
     );
   }

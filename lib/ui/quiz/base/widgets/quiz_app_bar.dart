@@ -6,10 +6,12 @@ import 'package:go_router/go_router.dart';
 import 'package:quiz/core/const/data.dart';
 import 'package:quiz/core/theme/responsive/layout.dart';
 import 'package:quiz/core/theme/theme_provider.dart';
+import 'package:quiz/data/models/quiz_model.dart';
 import 'package:quiz/ui/wishlist/wishlist_screen.dart';
 
 class QuizAppBar extends ConsumerWidget {
-  const QuizAppBar({super.key});
+  final List<QuizModel> items;
+  const QuizAppBar(this.items);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,8 +25,10 @@ class QuizAppBar extends ConsumerWidget {
               renderTop(
                 onMenuPressed: () {},
                 // onMenuPressed: () => context.pushNamed(TestScreen.routeName),
-                onLikePressed: () =>
-                    context.pushNamed(WishlistScreen.routeName),
+                onLikePressed: () => context.pushNamed(
+                  WishlistScreen.routeName,
+                  extra: items,
+                ),
               ),
 
               /// Body

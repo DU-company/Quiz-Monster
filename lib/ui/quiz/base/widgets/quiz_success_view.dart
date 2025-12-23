@@ -34,7 +34,7 @@ class QuizSuccessView extends ConsumerWidget {
       backgroundColor: Colors.white,
       child: CustomScrollView(
         slivers: [
-          QuizAppBar(),
+          QuizAppBar(items),
           QuizCategoryList(
             onPressed: (index) {
               ref.read(_indexProvider.notifier).state = index;
