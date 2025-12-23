@@ -20,42 +20,42 @@ class AppTypo {
     height: 1.3,
     fontFamily: typo.name,
     fontWeight: typo.semiBold,
-    fontSize: 24,
+    fontSize: 32,
     color: fontColor,
   );
   late final TextStyle headline2 = TextStyle(
     height: 1.3,
     fontFamily: typo.name,
     fontWeight: typo.semiBold,
-    fontSize: 22,
+    fontSize: 30,
     color: fontColor,
   );
   late final TextStyle headline3 = TextStyle(
     height: 1.3,
     fontFamily: typo.name,
     fontWeight: typo.semiBold,
-    fontSize: 21,
+    fontSize: 28,
     color: fontColor,
   );
   late final TextStyle headline4 = TextStyle(
     height: 1.3,
     fontFamily: typo.name,
     fontWeight: typo.semiBold,
-    fontSize: 20,
+    fontSize: 26,
     color: fontColor,
   );
   late final TextStyle headline5 = TextStyle(
     height: 1.3,
     fontFamily: typo.name,
     fontWeight: typo.semiBold,
-    fontSize: 19,
+    fontSize: 24,
     color: fontColor,
   );
   late final TextStyle headline6 = TextStyle(
     height: 1.3,
     fontFamily: typo.name,
-    fontWeight: typo.regular,
-    fontSize: 18,
+    fontWeight: typo.semiBold,
+    fontSize: 20,
     color: fontColor,
   );
 

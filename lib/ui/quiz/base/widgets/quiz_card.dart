@@ -63,7 +63,7 @@ class QuizCard extends ConsumerWidget {
         height: 180,
         decoration: BoxDecoration(
           color: theme.color.primary,
-          borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: Stack(
           children: [
@@ -84,11 +84,11 @@ class _ImageBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      right: 0,
-      top: 0,
       bottom: 0,
+      top: 0,
+      right: 0,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(32),
+        borderRadius: BorderRadius.circular(16),
         child: Image.asset(
           'assets/img/black$randomNumber.png',
           width: 150,
@@ -112,25 +112,25 @@ class _TextBox extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.read(themeServiceProvider);
-    return Positioned(
-      right: 0,
-      bottom: 18,
-      top: 0,
-      left: 18,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(title, style: theme.typo.headline3),
-          const SizedBox(height: 4),
-          Text(subTitle, style: theme.typo.subtitle2),
-        ],
+    return Align(
+      alignment: Alignment.bottomLeft,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: theme.typo.headline6),
+            const SizedBox(height: 4),
+            Text(subTitle, style: theme.typo.subtitle2),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _LikeButton extends StatelessWidget {
+class _LikeButton extends ConsumerWidget {
   final VoidCallback onPressed;
   final bool isLiked;
   const _LikeButton({
@@ -140,19 +140,24 @@ class _LikeButton extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: 8,
-      left: 8,
-      child: IconButton(
-        style: IconButton.styleFrom(
-          backgroundColor: Colors.black12,
-          foregroundColor: Colors.white,
-        ),
-        onPressed: onPressed,
-        icon: Icon(
-          isLiked ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-          size: 20,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.read(themeServiceProvider);
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: IconButton(
+          style: IconButton.styleFrom(
+            backgroundColor: theme.color.secondary,
+            foregroundColor: theme.color.onSecondary,
+          ),
+          onPressed: onPressed,
+          icon: Icon(
+            isLiked
+                ? CupertinoIcons.heart_fill
+                : CupertinoIcons.heart,
+            size: 24,
+          ),
         ),
       ),
     );

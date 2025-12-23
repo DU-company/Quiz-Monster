@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:quiz/core/theme/theme_provider.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
 import 'package:quiz/core/utils/data_utils.dart';
-import 'package:quiz/ui/settings/player/player_provider.dart';
+import 'package:quiz/ui/settings/player/player_view_model.dart';
 import 'package:quiz/etc/screen/default_etc_screen.dart';
 import 'package:quiz/ui/common/layout/setting_layout.dart';
 import 'package:quiz/ui/settings/time/time_count_screen.dart';
@@ -19,91 +20,56 @@ class PlayerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final interstitialAd = ref.watch(interstitialAdProvider);
-    final adCount = ref.watch(adCountProvider);
-    final players = ref.watch(playerProvider);
+    ref.watch(interstitialAdProvider);
+    ref.watch(adCountProvider);
+    final players = ref.watch(playerViewModelProvider);
+    final viewModel = ref.read(playerViewModelProvider.notifier);
 
     return SettingLayout(
       label: '참가자 수를\n선택해 주세요',
       body: _Body(
-        onSubPressed: players <= 3 ? null : () => onSubPressed(ref),
-        onAddPressed: players >= 30 ? null : () => onAddPressed(ref),
+        onTapDecrease: () => viewModel.decreasePlayer(),
+        onTapIncrease: () => viewModel.increasePlayer(),
         players: players,
       ),
-      footer: _Footer(
-        onPressed: () {
-          if (interstitialAd == null || adCount < 3) {
-            context.goNamed(DefaultEtcScreen.routeName);
-            ref.read(adCountProvider.notifier).increaseCount();
-          } else {
-            ref.read(adCountProvider.notifier).resetCount();
-
-            /// 광고를 띄운다
-            DataUtils.showInterstitialAd(
-              interstitialAd: interstitialAd,
-              moveToScreen: () =>
-                  context.goNamed(DefaultEtcScreen.routeName),
-            );
-          }
-        },
+      footer: PrimaryButton(
+        label: '시작하기',
+        onPressed: () => viewModel.onStart(context),
       ),
     );
   }
-
-  void onSubPressed(WidgetRef ref) {
-    ref.read(playerProvider.notifier).update((state) => state - 1);
-  }
-
-  void onAddPressed(WidgetRef ref) {
-    ref.read(playerProvider.notifier).update((state) => state + 1);
-  }
 }
 
-class _Body extends StatelessWidget {
-  final VoidCallback? onAddPressed;
-  final VoidCallback? onSubPressed;
+class _Body extends ConsumerWidget {
   final int players;
+  final VoidCallback onTapIncrease;
+  final VoidCallback onTapDecrease;
   const _Body({
     super.key,
-    required this.onAddPressed,
-    required this.onSubPressed,
     required this.players,
+    required this.onTapIncrease,
+    required this.onTapDecrease,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.read(themeServiceProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        PrimaryButton(label: '−', onPressed: onSubPressed),
+        PrimaryButton(
+          label: '−',
+          onPressed: players <= 3 ? null : onTapDecrease,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),
-          child: Text(
-            '$players',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-              fontFamily: 'Roboto',
-            ),
-          ),
+          child: Text('$players', style: theme.typo.headline1),
         ),
         PrimaryButton(
           label: '+',
-          foregroundColor: Colors.white,
-          onPressed: onAddPressed,
+          onPressed: players >= 30 ? null : onTapIncrease,
         ),
       ],
     );
-  }
-}
-
-class _Footer extends StatelessWidget {
-  final VoidCallback onPressed;
-  const _Footer({super.key, required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return PrimaryButton(label: '시작하기', onPressed: onPressed);
   }
 }

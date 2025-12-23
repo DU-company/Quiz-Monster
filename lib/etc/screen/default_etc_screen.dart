@@ -7,14 +7,14 @@ import 'package:quiz/data/models/quiz_detail_model.dart';
 import 'package:quiz/ui/common/screens/home_screen.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
 import 'package:quiz/ui/common/layout/default_layout.dart';
-import 'package:quiz/ui/settings/player/player_provider.dart';
+import 'package:quiz/ui/settings/player/player_view_model.dart';
 import 'package:quiz/quiz/provider/page_controller_provider.dart';
 import 'package:quiz/ui/quiz/detail/quiz_detail_success_view.dart';
 
 import '../../ui/common/widgets/custom_bottom_sheet.dart';
 
 final liarProvider = Provider.autoDispose<int>((ref) {
-  final playerCount = ref.watch(playerProvider);
+  final playerCount = ref.watch(playerViewModelProvider);
   final Random random = Random();
   final liarIndex = random.nextInt(playerCount);
   return liarIndex;
@@ -31,7 +31,7 @@ class DefaultEtcScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final showAnswer = ref.watch(showAnswerProvider);
     final pageController = ref.watch(pageControllerProvider);
-    final playerCount = ref.watch(playerProvider);
+    final playerCount = ref.watch(playerViewModelProvider);
     final liarIndex = ref.watch(liarProvider);
     final currentIndex = ref.watch(currentIndexProvider);
     final isLastPage = currentIndex >= playerCount;
