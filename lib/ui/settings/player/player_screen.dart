@@ -11,8 +11,8 @@ import 'package:quiz/etc/screen/default_etc_screen.dart';
 import 'package:quiz/ui/common/layout/setting_layout.dart';
 import 'package:quiz/ui/settings/time/time_count_screen.dart';
 
-import '../../../ad/provider/ad_count_provider.dart';
-import '../../../ad/provider/interstitial_ad_provider.dart';
+import '../../ad/ad_count_provider.dart';
+import '../../ad/interstitial_ad_provider.dart';
 
 class PlayerScreen extends ConsumerWidget {
   static String routeName = 'player';

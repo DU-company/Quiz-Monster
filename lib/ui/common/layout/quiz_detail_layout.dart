@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:quiz/core/theme/responsive/layout.dart';
 
-class ResponsiveQuizScreen extends StatelessWidget {
+class QuizDetailLayout extends StatelessWidget {
   final Widget body;
   final Widget footer;
-  const ResponsiveQuizScreen({
+  const QuizDetailLayout({
     super.key,
     required this.body,
     required this.footer,
@@ -13,7 +13,10 @@ class ResponsiveQuizScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return context.layout(
+      /// Mobile & Tablet
       Expanded(child: Column(children: [body, footer])),
+
+      /// Desktop
       desktop: Expanded(
         child: Row(
           children: [

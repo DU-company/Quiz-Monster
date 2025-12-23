@@ -10,12 +10,12 @@ import 'package:quiz/ui/common/widgets/primary_button.dart';
 import 'package:quiz/ui/common/layout/default_layout.dart';
 import 'package:quiz/core/theme/responsive/layout.dart';
 
-import 'package:quiz/ui/quiz/detail/quiz_detail_success_view.dart';
+import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 import 'package:quiz/ui/quiz/detail/widgets/exit_dialog.dart';
 import 'package:quiz/ui/settings/time/time_count_screen.dart';
 
-import '../../ad/provider/ad_count_provider.dart';
-import '../../ad/provider/interstitial_ad_provider.dart';
+import '../../ui/ad/ad_count_provider.dart';
+import '../../ui/ad/interstitial_ad_provider.dart';
 import '../../ui/common/widgets/custom_bottom_sheet.dart';
 import '../../core/utils/data_utils.dart';
 

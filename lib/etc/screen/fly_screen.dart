@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:quiz/ui/common/widgets/loading_widget.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
 import 'package:quiz/core/theme/responsive/layout.dart';
-import 'package:quiz/ui/quiz/detail/quiz_detail_success_view.dart';
+import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 import 'package:quiz/ui/common/layout/quiz_detail_layout.dart';
 import 'package:quiz/ui/settings/level/level_provider.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/ad/provider/ad_count_provider.dart';
-import 'package:quiz/ad/provider/interstitial_ad_provider.dart';
+import 'package:quiz/ui/ad/ad_count_provider.dart';
+import 'package:quiz/ui/ad/interstitial_ad_provider.dart';
 import 'package:quiz/core/utils/data_utils.dart';
 import 'package:quiz/etc/screen/default_etc_screen.dart';
 

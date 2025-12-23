@@ -8,9 +8,10 @@ import 'package:quiz/ui/common/layout/default_layout.dart';
 import 'package:quiz/etc/screen/reaction_rate_screen.dart';
 import 'package:quiz/ui/quiz/detail/quiz_detail_screen.dart';
 import 'package:quiz/ui/quiz/detail/quiz_detail_view_model.dart';
+import 'package:quiz/ui/settings/time/time_view_model.dart';
 
 class TimeCountScreen extends ConsumerStatefulWidget {
-  static String routeName = 'timeCount';
+  static String routeName = 'time-count';
 
   const TimeCountScreen({super.key});
   @override
@@ -79,7 +80,7 @@ class _TimeCountScreenState extends ConsumerState<TimeCountScreen>
   Widget build(BuildContext context) {
     final theme = ref.read(themeServiceProvider);
     final selectedQuiz = ref.watch(selectedQuizProvider);
-
+    ref.watch(timeViewModelProvider);
     ref.watch(quizDetailViewModelProvider(selectedQuiz!.id));
 
     return DefaultLayout(

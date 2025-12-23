@@ -9,10 +9,14 @@ final themeProvider = Provider((ref) {
   final theme = ref.read(themeServiceProvider);
   return ThemeData(
     textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(foregroundColor: Colors.white),
+      style: TextButton.styleFrom(
+        foregroundColor: theme.color.onPrimary,
+      ),
     ),
     iconButtonTheme: IconButtonThemeData(
-      style: IconButton.styleFrom(foregroundColor: Colors.black),
+      style: IconButton.styleFrom(
+        foregroundColor: theme.color.secondary,
+      ),
     ),
     bottomSheetTheme: BottomSheetThemeData(
       constraints: BoxConstraints(maxWidth: Breakpoints.bottomSheet),

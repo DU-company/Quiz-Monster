@@ -47,7 +47,10 @@ class QuizCategoryList extends ConsumerWidget {
     AppTheme theme,
   ) {
     return TextButton(
-      style: TextButton.styleFrom(foregroundColor: Colors.black),
+      style: TextButton.styleFrom(
+        foregroundColor: theme.color.onSecondary,
+        backgroundColor: Colors.transparent,
+      ),
       onPressed: () => onPressed(index),
       child: Text(
         label,

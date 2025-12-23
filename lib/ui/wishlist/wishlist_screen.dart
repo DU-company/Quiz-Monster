@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:quiz/ad/provider/banner_ad_provider.dart';
+import 'package:quiz/ui/ad/banner_ad_provider.dart';
 import 'package:quiz/core/theme/theme_provider.dart';
 import 'package:quiz/data/models/pagination_state.dart';
 import 'package:quiz/data/models/quiz_model.dart';
@@ -11,10 +11,10 @@ import 'package:quiz/ui/quiz/base/quiz_view_model.dart';
 import 'package:quiz/ui/quiz/base/widgets/quiz_card.dart';
 import 'package:quiz/ui/wishlist/wishlist_view_model.dart';
 
-class LikeScreen extends ConsumerWidget {
-  static String routeName = 'like';
+class WishlistScreen extends ConsumerWidget {
+  static String routeName = 'wishlist';
 
-  const LikeScreen({super.key});
+  const WishlistScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,17 +29,17 @@ class LikeScreen extends ConsumerWidget {
         .toList();
     return DefaultLayout(
       backgroundColor: Colors.white,
-      bottomNavigationBar: bannerAd == null
-          ? null
-          : SizedBox(
-              height: 100,
-              child: AdWidget(
-                key: ValueKey('like_screen_key'),
-                ad: bannerAd,
-              ),
-            ),
+
+      /// Banner Ad
+      bottomNavigationBar: SizedBox(
+        height: 100,
+        child: bannerAd == null
+            ? null
+            : AdWidget(key: ValueKey('wishlist_key'), ad: bannerAd),
+      ),
+
+      /// Wishlist
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: kToolbarHeight),
           _AppBar(),

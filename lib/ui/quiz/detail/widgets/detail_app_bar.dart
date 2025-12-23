@@ -9,14 +9,14 @@ class DetailAppBar extends ConsumerWidget {
   final AnimationController animationController;
   final int remainingSeconds;
   final int currentIndex;
-  final VoidCallback onTapComfrim;
+  final VoidCallback onTapConfirm;
   const DetailAppBar({
     super.key,
     required this.length,
     required this.currentIndex,
     required this.animationController,
     required this.remainingSeconds,
-    required this.onTapComfrim,
+    required this.onTapConfirm,
   });
 
   @override
@@ -26,10 +26,15 @@ class DetailAppBar extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
-          onPressed: () => onPop(context),
-          style: IconButton.styleFrom(foregroundColor: Colors.white),
-          icon: Icon(Icons.arrow_back_ios),
+        SizedBox(
+          width: 48,
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: theme.color.onPrimary,
+            ),
+            onPressed: () => onPop(context),
+          ),
         ),
         AnimatedBuilder(
           animation: animationController,
@@ -56,7 +61,7 @@ class DetailAppBar extends ConsumerWidget {
                   child: Center(
                     child: Text(
                       DataUtils.formatTime(remainingSeconds),
-                      style: theme.typo.headline5,
+                      style: theme.typo.headline6,
                     ),
                   ),
                 ),
@@ -64,14 +69,18 @@ class DetailAppBar extends ConsumerWidget {
             );
           },
         ),
-        if (length == 0) SizedBox(width: 32),
-        if (length != 0)
-          Text(
-            currentIndex == length
-                ? '$length/$length'
-                : '${currentIndex + 1}/$length',
-            style: theme.typo.headline6,
-          ),
+
+        SizedBox(
+          width: 56,
+          child: length == 0
+              ? null
+              : Text(
+                  currentIndex == length
+                      ? '$length/$length'
+                      : '${currentIndex + 1}/$length',
+                  style: theme.typo.headline6,
+                ),
+        ),
       ],
     );
   }
@@ -79,7 +88,7 @@ class DetailAppBar extends ConsumerWidget {
   void onPop(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => ExitDialog(onTapConfirm: onTapComfrim),
+      builder: (context) => ExitDialog(onTapConfirm: onTapConfirm),
     );
   }
 }

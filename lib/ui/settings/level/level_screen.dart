@@ -16,7 +16,6 @@ class LevelScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedQuiz = ref.watch(selectedQuizProvider);
     final level = ref.watch(levelProvider);
     return SettingLayout(
       label: '난이도를\n설정해 주세요',
@@ -28,7 +27,7 @@ class LevelScreen extends ConsumerWidget {
         onTapNoLevel: () => onOverallPressed(context, ref),
       ),
       footer: PrimaryButton(
-        label: '다음',
+        label: 'NEXT',
         onPressed: level == null
             ? null
             : () => onNextPressed(context),

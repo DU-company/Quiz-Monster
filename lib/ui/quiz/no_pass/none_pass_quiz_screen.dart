@@ -5,7 +5,7 @@ import 'package:quiz/data/models/quiz_detail_model.dart';
 import 'package:quiz/ui/common/layout/quiz_detail_layout.dart';
 import '../../common/widgets/primary_button.dart';
 import '../detail/widgets/quiz_detail_card.dart';
-import '../detail/quiz_detail_success_view.dart';
+import '../detail/widgets/quiz_detail_success_view.dart';
 
 class NonePassQuizScreen extends ConsumerWidget {
   final PageController pageController;
@@ -29,7 +29,7 @@ class NonePassQuizScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final showAnswer = ref.watch(showAnswerProvider);
     final currentIndex = ref.watch(currentIndexProvider);
-    return ResponsiveQuizScreen(
+    return QuizDetailLayout(
       body: _Body(
         items: items,
         pageController: pageController,

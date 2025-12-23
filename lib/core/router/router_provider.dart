@@ -9,7 +9,7 @@ import 'package:quiz/etc/screen/reaction_rate_screen.dart';
 import 'package:quiz/ui/wishlist/wishlist_screen.dart';
 import 'package:quiz/ui/quiz/detail/quiz_detail_screen.dart';
 import 'package:quiz/ui/settings/level/level_screen.dart';
-import 'package:quiz/ui/quiz/detail/quiz_detail_success_view.dart';
+import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 import 'package:quiz/ui/result/result_screen.dart';
 import 'package:quiz/ui/settings/time/time_count_screen.dart';
 import 'package:quiz/ui/settings/time/time_screen.dart';
@@ -26,17 +26,13 @@ final goRouterProvider = Provider((ref) {
         name: HomeScreen.routeName,
         routes: [
           GoRoute(
-            path: 'like',
-            builder: (_, _) => LikeScreen(),
-            name: LikeScreen.routeName,
+            path: 'wishlist',
+            builder: (_, _) => WishlistScreen(),
+            name: WishlistScreen.routeName,
           ),
         ],
       ),
-      // GoRoute(
-      //   path: '/splash',
-      //   builder: (context, state) => SplashScreen(),
-      //   name: SplashScreen.routeName,
-      // ),
+
       GoRoute(
         path: '/test',
         builder: (_, _) => TestScreen(),
@@ -65,7 +61,7 @@ final goRouterProvider = Provider((ref) {
         name: PlayerScreen.routeName,
       ),
       GoRoute(
-        path: '/timeCount',
+        path: '/time-count',
         name: TimeCountScreen.routeName,
         builder: (_, _) => TimeCountScreen(),
       ),

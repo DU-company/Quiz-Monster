@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/ad/provider/rewarded_ad_provider.dart';
+import 'package:quiz/ui/ad/rewarded_ad_provider.dart';
 import 'package:quiz/ui/quiz/pass/pass_quiz_screen.dart';
 import 'package:quiz/ui/settings/time/time_screen.dart';
 

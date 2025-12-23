@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/ad/provider/rewarded_ad_provider.dart';
+import 'package:quiz/ui/ad/rewarded_ad_provider.dart';
 import 'package:quiz/core/theme/responsive/layout.dart';
 import 'package:quiz/core/theme/theme_provider.dart';
 import 'package:quiz/data/models/quiz_detail_model.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
-import 'package:quiz/ui/quiz/detail/quiz_detail_success_view.dart';
+import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 import 'package:quiz/ui/result/result_screen.dart';
 import 'package:quiz/ui/settings/pass/pass_view_model.dart';
 

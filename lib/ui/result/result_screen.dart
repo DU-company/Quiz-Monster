@@ -5,7 +5,7 @@ import 'package:quiz/ui/common/screens/home_screen.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
 import 'package:quiz/ui/common/layout/default_layout.dart';
 import 'package:quiz/core/theme/responsive/layout.dart';
-import 'package:quiz/ui/quiz/detail/quiz_detail_success_view.dart';
+import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 import 'package:quiz/ui/quiz/pass/pass_quiz_screen.dart';
 
 class ResultScreen extends ConsumerWidget {

@@ -9,7 +9,7 @@ import 'package:quiz/ui/common/widgets/primary_button.dart';
 import 'package:quiz/ui/common/layout/default_layout.dart';
 import 'package:quiz/ui/settings/player/player_view_model.dart';
 import 'package:quiz/quiz/provider/page_controller_provider.dart';
-import 'package:quiz/ui/quiz/detail/quiz_detail_success_view.dart';
+import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 
 import '../../ui/common/widgets/custom_bottom_sheet.dart';
 

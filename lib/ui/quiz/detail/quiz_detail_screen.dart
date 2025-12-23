@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quiz/data/models/pagination_state.dart';
 import 'package:quiz/data/models/quiz_detail_model.dart';
-import 'package:quiz/ui/quiz/detail/quiz_detail_success_view.dart';
+import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 import 'package:quiz/ui/common/layout/default_layout.dart';
 import 'package:quiz/ui/common/screens/home_screen.dart';
 import 'package:quiz/ui/common/widgets/error_message_widget.dart';
