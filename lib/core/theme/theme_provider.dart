@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiz/core/theme/responsive/layout.dart';
 import 'package:quiz/core/theme/responsive/light_theme.dart';
 
+// 그냥 final로 선언해도 되지만, 추후 확장성을 위해..
 final themeServiceProvider = Provider((ref) => LightTheme());
 
 final themeProvider = Provider((ref) {

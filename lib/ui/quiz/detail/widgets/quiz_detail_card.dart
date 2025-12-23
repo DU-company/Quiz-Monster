@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz/data/entities/quiz_detail_entity.dart';
 import 'package:quiz/data/models/quiz_detail_model.dart';
 import 'package:quiz/ui/common/widgets/loading_widget.dart';
 import 'package:quiz/core/theme/responsive/layout.dart';

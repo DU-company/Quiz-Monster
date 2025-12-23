@@ -7,7 +7,7 @@ import 'package:quiz/core/theme/theme_provider.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
 import 'package:quiz/core/utils/data_utils.dart';
 import 'package:quiz/ui/settings/player/player_view_model.dart';
-import 'package:quiz/etc/screen/default_etc_screen.dart';
+import 'package:quiz/ui/quiz/etc/liar/liar_screen.dart';
 import 'package:quiz/ui/common/layout/setting_layout.dart';
 import 'package:quiz/ui/settings/time/time_count_screen.dart';
 

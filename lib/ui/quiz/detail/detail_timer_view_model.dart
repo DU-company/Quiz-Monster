@@ -6,7 +6,7 @@ import 'package:quiz/core/service/selected_quiz_provider.dart';
 import 'package:quiz/ui/settings/time/time_view_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-final detailTimerViewModelProvider = NotifierProvider(
+final detailTimerViewModelProvider = NotifierProvider.autoDispose(
   () => DetailTimerViewModel(),
 );
 

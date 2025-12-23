@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'quiz_detail_model.dart';
+part of 'quiz_detail_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-QuizDetailModel _$QuizDetailModelFromJson(Map<String, dynamic> json) =>
-    QuizDetailModel(
+QuizDetailEntity _$QuizDetailEntityFromJson(Map<String, dynamic> json) =>
+    QuizDetailEntity(
       id: json['id'] as String,
       level: (json['level'] as num).toInt(),
       imgUrl: json['imgUrl'] as String?,
@@ -15,7 +15,7 @@ QuizDetailModel _$QuizDetailModelFromJson(Map<String, dynamic> json) =>
       answer: json['answer'] as String,
     );
 
-Map<String, dynamic> _$QuizDetailModelToJson(QuizDetailModel instance) =>
+Map<String, dynamic> _$QuizDetailEntityToJson(QuizDetailEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'level': instance.level,

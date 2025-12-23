@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quiz/data/entities/quiz_detail_entity.dart';
 import 'package:quiz/data/models/quiz_detail_model.dart';
+import 'package:quiz/ui/quiz/etc/liar/liar_screen.dart';
 import 'package:quiz/ui/common/screens/home_screen.dart';
 import 'package:quiz/core/service/selected_quiz_provider.dart';
 import 'package:quiz/ui/common/layout/default_layout.dart';
-import 'package:quiz/quiz/provider/page_controller_provider.dart';
+import 'package:quiz/page_controller_provider.dart';
 import 'package:quiz/etc/screen/fly_screen.dart';
 import 'package:quiz/ui/quiz/no_pass/none_pass_quiz_screen.dart';
 import 'package:quiz/ui/quiz/pass/pass_quiz_screen.dart';
@@ -60,10 +62,12 @@ class _QuizScreenState extends ConsumerState<QuizDetailSuccessView>
     final currentIndex = ref.watch(currentIndexProvider);
     final remainingSeconds = ref.watch(detailTimerViewModelProvider);
     final pageController = ref.watch(pageControllerProvider);
+    ref.watch(timeViewModelProvider);
 
     if (!showAnswer && remainingSeconds == 3) {
       playSound();
     }
+
     return DefaultLayout(
       needWillPopScope: true,
       child: SafeArea(
@@ -75,7 +79,7 @@ class _QuizScreenState extends ConsumerState<QuizDetailSuccessView>
           child: Column(
             children: [
               DetailAppBar(
-                length: widget.items.length,
+                itemLength: widget.items.length,
                 currentIndex: currentIndex,
                 animationController: animationController,
                 remainingSeconds: remainingSeconds,

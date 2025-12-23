@@ -1,8 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
-part 'quiz_detail_model.g.dart';
+import 'package:quiz/data/entities/quiz_detail_entity.dart';
+import 'package:quiz/data/models/quiz_model.dart';
 
-@JsonSerializable()
 class QuizDetailModel {
+  final QuizModel quiz;
   final String id;
   final int level;
   final String? imgUrl;
@@ -10,6 +10,7 @@ class QuizDetailModel {
   final String answer;
 
   QuizDetailModel({
+    required this.quiz,
     required this.id,
     required this.level,
     required this.imgUrl,
@@ -17,6 +18,17 @@ class QuizDetailModel {
     required this.answer,
   });
 
-  factory QuizDetailModel.fromJson(Map<String, dynamic> json) =>
-      _$QuizDetailModelFromJson(json);
+  factory QuizDetailModel.fromEntity(
+    QuizModel quiz,
+    QuizDetailEntity entity,
+  ) {
+    return QuizDetailModel(
+      quiz: quiz,
+      id: entity.id,
+      level: entity.level,
+      imgUrl: entity.imgUrl,
+      question: entity.question,
+      answer: entity.answer,
+    );
+  }
 }

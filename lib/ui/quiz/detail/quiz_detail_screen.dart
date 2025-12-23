@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quiz/data/models/pagination_state.dart';
+import 'package:quiz/data/entities/quiz_detail_entity.dart';
 import 'package:quiz/data/models/quiz_detail_model.dart';
+import 'package:quiz/ui/quiz/etc/liar/liar_screen.dart';
+import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_state.dart';
 import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 import 'package:quiz/ui/common/layout/default_layout.dart';
 import 'package:quiz/ui/common/screens/home_screen.dart';
@@ -21,18 +24,23 @@ class QuizDetailScreen extends ConsumerWidget {
     return DefaultLayout(child: _body(detailState, context));
   }
 
-  Widget _body(PaginationState state, BuildContext context) {
-    if (state is PaginationLoading) {
+  Widget _body(QuizDetailState state, BuildContext context) {
+    if (state is QuizDetailLoading) {
       return LoadingWidget();
     }
-    if (state is PaginationError) {
+    if (state is QuizDetailError) {
       return ErrorMessageWidget(
         message: state.message,
         onTap: () => context.goNamed(HomeScreen.routeName),
         label: '홈으로',
       );
     }
-    state as PaginationSuccess<QuizDetailModel>;
+    state as QuizDetailSuccess;
+
+    if (state.quiz.title == '라이어 게임') {
+      // 라이어 게임은 앱바가 필요하지 않고, 다른 게임들과 화면 분리가 필요
+      return LiarGameScreen(state.items);
+    }
     return QuizDetailSuccessView(state.items);
   }
 }

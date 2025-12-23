@@ -3,8 +3,10 @@ import 'package:quiz/core/exception/quiz_exception.dart';
 import 'package:quiz/data/data_sources/quiz_data_source.dart';
 import 'package:quiz/data/models/pagination_params.dart';
 import 'package:quiz/data/models/pagination_state.dart';
+import 'package:quiz/data/entities/quiz_detail_entity.dart';
 import 'package:quiz/data/models/quiz_detail_model.dart';
 import 'package:quiz/data/models/quiz_model.dart';
+import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_state.dart';
 
 final quizRepositorProvider = Provider((ref) {
   final quizDataSource = ref.read(quizDataSourceProvider);
@@ -26,7 +28,8 @@ class QuizRepository {
     }
   }
 
-  Future<PaginationSuccess<QuizDetailModel>> getQuizDetails({
+  Future<QuizDetailSuccess> getQuizDetails({
+    required QuizModel quiz,
     required int qid,
     required int take,
     required int? level,
@@ -38,10 +41,12 @@ class QuizRepository {
         p_level: level,
       );
       final resp = await quizDataSource.fetchQuizDetails(params);
-      final items = resp
-          .map((e) => QuizDetailModel.fromJson(e))
-          .toList();
-      return PaginationSuccess(items: items);
+      final entities = resp.map((e) => QuizDetailEntity.fromJson(e));
+      final items = entities.map(
+        (entity) => QuizDetailModel.fromEntity(quiz, entity),
+      );
+
+      return QuizDetailSuccess(quiz: quiz, items: items.toList());
     } catch (e) {
       print(e);
 

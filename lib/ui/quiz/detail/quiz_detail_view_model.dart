@@ -1,35 +1,38 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quiz/data/models/pagination_state.dart';
+import 'package:quiz/core/service/selected_quiz_provider.dart';
 import 'package:quiz/data/repositories/quiz_repository.dart';
+import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_state.dart';
 import 'package:quiz/ui/settings/level/level_provider.dart';
 
 final quizDetailViewModelProvider = NotifierProvider.family
     .autoDispose((int qid) => QuizDetailViewModel(qid));
 
-class QuizDetailViewModel extends Notifier<PaginationState> {
+class QuizDetailViewModel extends Notifier<QuizDetailState> {
   final int qid;
   QuizDetailViewModel(this.qid);
 
   QuizRepository get repository => ref.read(quizRepositorProvider);
   @override
-  PaginationState build() {
+  QuizDetailState build() {
     getQuizDetails();
-    return PaginationLoading();
+    return QuizDetailLoading();
   }
 
   Future<void> getQuizDetails() async {
     try {
-      state = PaginationLoading();
+      state = QuizDetailLoading();
 
+      final quiz = ref.read(selectedQuizProvider)!;
       final level = ref.read(levelProvider);
       final resp = await repository.getQuizDetails(
+        quiz: quiz,
         qid: qid,
         take: 30,
         level: level,
       );
       state = resp;
     } catch (e) {
-      state = PaginationError(message: e.toString());
+      state = QuizDetailError(e.toString());
     }
   }
 }

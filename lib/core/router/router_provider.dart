@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quiz/data/entities/quiz_detail_entity.dart';
+import 'package:quiz/data/models/quiz_detail_model.dart';
 import 'package:quiz/data/models/quiz_model.dart';
 import 'package:quiz/ui/common/screens/home_screen.dart';
-import 'package:quiz/etc/screen/default_etc_screen.dart';
+import 'package:quiz/ui/quiz/etc/liar/liar_screen.dart';
 import 'package:quiz/ui/settings/player/player_screen.dart';
 import 'package:quiz/etc/screen/reaction_rate_screen.dart';
 
@@ -86,9 +88,12 @@ final goRouterProvider = Provider((ref) {
       ),
 
       GoRoute(
-        path: '/etc',
-        builder: (_, _) => DefaultEtcScreen([]),
-        name: DefaultEtcScreen.routeName,
+        path: '/liar',
+        builder: (_, state) {
+          final items = state.extra as List<QuizDetailModel>;
+          return LiarGameScreen(items);
+        },
+        name: LiarGameScreen.routeName,
       ),
       GoRoute(
         path: '/reaction',

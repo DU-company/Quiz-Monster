@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quiz/core/service/selected_quiz_provider.dart';
 import 'package:quiz/core/theme/theme_provider.dart';
+import 'package:quiz/ui/quiz/etc/liar/liar_screen.dart';
 import 'package:quiz/ui/common/layout/default_layout.dart';
 import 'package:quiz/etc/screen/reaction_rate_screen.dart';
 import 'package:quiz/ui/quiz/detail/quiz_detail_screen.dart';
@@ -68,6 +69,8 @@ class _TimeCountScreenState extends ConsumerState<TimeCountScreen>
     final selectedModel = ref.read(selectedQuizProvider);
     if (selectedModel!.title == '반응속도 테스트') {
       context.goNamed(ReactionRateScreen.routeName);
+    } else if (selectedModel.title == '러이어 게임') {
+      context.goNamed(LiarGameScreen.routeName);
     } else {
       context.goNamed(
         QuizDetailScreen.routeName,

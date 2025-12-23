@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiz/core/theme/responsive/layout.dart';
+import 'package:quiz/data/entities/quiz_detail_entity.dart';
 import 'package:quiz/data/models/quiz_detail_model.dart';
 import 'package:quiz/ui/common/layout/quiz_detail_layout.dart';
 import '../../common/widgets/primary_button.dart';
