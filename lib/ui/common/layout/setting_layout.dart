@@ -80,7 +80,7 @@ class _Top extends ConsumerWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          style: theme.typo.headline1,
+          style: theme.typo.headline6,
           textAlign: TextAlign.center,
           label,
         ),

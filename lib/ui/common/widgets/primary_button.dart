@@ -36,6 +36,8 @@ class PrimaryButton extends ConsumerWidget {
         /// Color
         backgroundColor: backgroundColor ?? theme.color.secondary,
         foregroundColor: foregroundColor ?? theme.color.onSecondary,
+        disabledBackgroundColor: theme.color.inactiveContainer,
+        disabledForegroundColor: theme.color.onInactiveContainer,
         side: BorderSide(
           color: borderColor ?? Colors.transparent,
           width: 0.5,
@@ -46,7 +48,7 @@ class PrimaryButton extends ConsumerWidget {
           child ??
           Text(
             label,
-            style: theme.typo.headline6.copyWith(
+            style: theme.typo.subtitle1.copyWith(
               color: foregroundColor,
               fontWeight: theme.typo.semiBold,
             ),

@@ -4,19 +4,20 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quiz/ad/provider/rewarded_ad_provider.dart';
 import 'package:quiz/core/theme/responsive/layout.dart';
+import 'package:quiz/core/theme/theme_provider.dart';
 import 'package:quiz/data/models/quiz_detail_model.dart';
+import 'package:quiz/ui/common/widgets/primary_button.dart';
 import 'package:quiz/ui/quiz/detail/quiz_detail_success_view.dart';
 import 'package:quiz/ui/result/result_screen.dart';
-import '../../common/widgets/primary_button.dart';
-import '../../settings/pass/pass_provider.dart';
+import 'package:quiz/ui/settings/pass/pass_view_model.dart';
 
 final passedWordProvider = StateProvider<List<String>>((ref) => []);
 final correctWordProvider = StateProvider<List<String>>((ref) => []);
 
 class PassQuizScreen extends ConsumerWidget {
+  final List<QuizDetailModel> items;
   final PageController pageController;
   final int remainingSeconds;
-  final List<QuizDetailModel> items;
 
   const PassQuizScreen({
     super.key,
@@ -27,12 +28,16 @@ class PassQuizScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final passCount = ref.watch(passProvider);
-    // final selectedQuiz = ref.watch(selectedQuizProvider);
-    // final data = ref.watch(quizItemProvider('${selectedQuiz!.id}'));
+    final theme = ref.read(themeServiceProvider);
+    final viewModel = ref.read(passViewModelProvider.notifier);
+
+    /// state
+    final passCount = ref.watch(passViewModelProvider);
     final currentIndex = ref.watch(currentIndexProvider);
-    final isGameOver = remainingSeconds == 0 || currentIndex == 30;
     final rewardedAd = ref.watch(rewardedAdProvider);
+
+    /// boolean
+    final isGameOver = remainingSeconds == 0 || currentIndex == 30;
 
     return Expanded(
       child: Column(
@@ -40,16 +45,8 @@ class PassQuizScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           if (rewardedAd != null)
             PrimaryButton(
-              label: '광고 보고 패스 추가(15~30초)',
-              onPressed: () {
-                ref
-                    .read(rewardedAdProvider.notifier)
-                    .showAd(
-                      () => ref
-                          .read(passProvider.notifier)
-                          .update((pass) => pass + 1),
-                    );
-              },
+              label: '광고 보고 패스 추가',
+              onPressed: () => viewModel.showAd(),
             ),
           Expanded(
             child: PageView.builder(
@@ -57,17 +54,17 @@ class PassQuizScreen extends ConsumerWidget {
               physics: NeverScrollableScrollPhysics(),
               itemCount: items.length + 1,
               itemBuilder: (context, index) {
-                if (index == items.length) {
-                  return Text('');
+                final lastItem = index == items.length;
+                if (lastItem) {
+                  return SizedBox();
                 }
                 final model = items[index];
                 return Center(
                   child: Text(
                     '- ${model.answer} -',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: context.layout(52, mobile: 36),
+                    style: theme.typo.headline6.copyWith(
+                      fontSize: context.layout(48, mobile: 24),
                     ),
                   ),
                 );
@@ -76,13 +73,19 @@ class PassQuizScreen extends ConsumerWidget {
             ),
           ),
           if (isGameOver) _GameOver(),
-          // if (!isGameOver)
-          _PassFooter(
-            passCount: passCount,
-            isGameOver: isGameOver,
-            onNext: () => onNext(ref, items[currentIndex].answer),
-            onPass: () => onPass(ref, items[currentIndex].answer),
-          ),
+          if (!isGameOver)
+            _PassFooter(
+              passCount: passCount,
+              isGameOver: isGameOver,
+              onNextPage: () => viewModel.onNextPage(
+                pageController,
+                items[currentIndex].answer,
+              ),
+              onPass: () => viewModel.onPass(
+                pageController,
+                items[currentIndex].answer,
+              ),
+            ),
         ],
       ),
     );
@@ -91,60 +94,28 @@ class PassQuizScreen extends ConsumerWidget {
   void onPageChanged(int index, WidgetRef ref) {
     ref.read(currentIndexProvider.notifier).state = index;
   }
-
-  void onPass(WidgetRef ref, String word) {
-    pageController.nextPage(
-      duration: Duration(milliseconds: 300),
-      curve: Curves.linear,
-    );
-    ref
-        .read(passProvider.notifier)
-        .update((state) => state = state - 1);
-    ref
-        .read(passedWordProvider.notifier)
-        .update((state) => state = [...state, word]);
-  }
-
-  void onNext(WidgetRef ref, String word) {
-    ref
-        .read(correctWordProvider.notifier)
-        .update((state) => state = [...state, word]);
-    pageController.nextPage(
-      duration: Duration(milliseconds: 300),
-      curve: Curves.linear,
-    );
-  }
 }
 
 ///-----------------------------------------------------------------------------
-class _GameOver extends StatelessWidget {
+class _GameOver extends ConsumerWidget {
   const _GameOver({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            '💣 GAME OVER 💣',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 32,
-              fontFamily: 'Roboto',
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          PrimaryButton(
-            label: '결과 보기',
-            onPressed: () {
-              context.goNamed(ResultScreen.routeName);
-            },
-          ),
-        ],
-      ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.read(themeServiceProvider);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          '💣 GAME OVER 💣',
+          textAlign: TextAlign.center,
+          style: theme.typo.headline1.copyWith(fontFamily: 'Roboto'),
+        ),
+        PrimaryButton(
+          label: '결과 보기',
+          onPressed: () => context.goNamed(ResultScreen.routeName),
+        ),
+      ],
     );
   }
 }
@@ -153,14 +124,14 @@ class _PassFooter extends StatelessWidget {
   final int passCount;
   final bool isGameOver;
   final VoidCallback onPass;
-  final VoidCallback onNext;
+  final VoidCallback onNextPage;
 
   const _PassFooter({
     super.key,
     required this.passCount,
     required this.isGameOver,
-    required this.onNext,
     required this.onPass,
+    required this.onNextPage,
   });
 
   @override
@@ -179,7 +150,7 @@ class _PassFooter extends StatelessWidget {
         Expanded(
           child: PrimaryButton(
             label: 'NEXT ▶',
-            onPressed: isGameOver ? null : onNext,
+            onPressed: isGameOver ? null : onNextPage,
           ),
         ),
       ],
