@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quiz/core/theme/theme_provider.dart';
 import 'package:quiz/ui/common/screens/home_screen.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
 import 'package:quiz/ui/common/layout/default_layout.dart';
@@ -90,7 +92,7 @@ class ResultScreen extends ConsumerWidget {
   }
 }
 
-class _Top extends StatelessWidget {
+class _Top extends ConsumerWidget {
   final List<String> passedWords;
   final int currentIndex;
 
@@ -101,11 +103,10 @@ class _Top extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final TextStyle ts = TextStyle(
-      color: Colors.white,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.read(themeServiceProvider);
+    final TextStyle ts = theme.typo.headline3.copyWith(
       fontSize: 28,
-      fontWeight: FontWeight.w700,
       fontFamily: 'Roboto',
     );
     return Column(
@@ -117,11 +118,12 @@ class _Top extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         const SizedBox(height: 16),
-        Image.asset(
-          'assets/img/eyes.png',
+        SvgPicture.asset(
+          'assets/img/eyes1.svg',
           height: 100,
           fit: BoxFit.cover,
         ),
+
         const SizedBox(height: 16),
         Text(
           'YOUR SCORE IS',
@@ -139,7 +141,7 @@ class _Top extends StatelessWidget {
   }
 }
 
-class _WordBox extends StatelessWidget {
+class _WordBox extends ConsumerWidget {
   final String label;
   final List<String> words;
   const _WordBox({
@@ -149,7 +151,8 @@ class _WordBox extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.read(themeServiceProvider);
     return Column(
       children: [
         renderLabel(label),
@@ -164,10 +167,8 @@ class _WordBox extends StatelessWidget {
               ),
               child: Text(
                 words[index],
-                style: TextStyle(
+                style: theme.typo.subtitle1.copyWith(
                   fontSize: context.layout(32, mobile: 20),
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),

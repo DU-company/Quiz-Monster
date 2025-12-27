@@ -7,11 +7,11 @@ import 'package:quiz/data/entities/quiz_detail_entity.dart';
 import 'package:quiz/data/models/quiz_detail_model.dart';
 import 'package:quiz/ui/quiz/etc/liar/liar_screen.dart';
 import 'package:quiz/ui/common/screens/home_screen.dart';
-import 'package:quiz/core/service/selected_quiz_provider.dart';
+import 'package:quiz/core/provider/selected_quiz_provider.dart';
 import 'package:quiz/ui/common/layout/default_layout.dart';
-import 'package:quiz/page_controller_provider.dart';
-import 'package:quiz/etc/screen/fly_screen.dart';
-import 'package:quiz/ui/quiz/no_pass/none_pass_quiz_screen.dart';
+import 'package:quiz/core/provider/page_controller_provider.dart';
+import 'package:quiz/ui/quiz/etc/fly/fly_screen.dart';
+import 'package:quiz/ui/quiz/no_pass/no_pass_quiz_screen.dart';
 import 'package:quiz/ui/quiz/pass/pass_quiz_screen.dart';
 import 'package:quiz/ui/quiz/detail/detail_timer_view_model.dart';
 import 'package:quiz/ui/quiz/detail/widgets/detail_app_bar.dart';
@@ -96,7 +96,7 @@ class _QuizScreenState extends ConsumerState<QuizDetailSuccessView>
 
               /// NoPass
               if (!selectedQuiz.hasPass && !selectedQuiz.isEtc)
-                NonePassQuizScreen(
+                NoPassQuizScreen(
                   items: widget.items,
                   remainingSeconds: remainingSeconds,
                   pageController: pageController,
@@ -108,7 +108,7 @@ class _QuizScreenState extends ConsumerState<QuizDetailSuccessView>
               /// ETC
               if (selectedQuiz.title == '나는야 아나운서' ||
                   selectedQuiz.title == '훈민정음')
-                NonePassQuizScreen(
+                NoPassQuizScreen(
                   items: widget.items,
                   remainingSeconds: remainingSeconds,
                   pageController: pageController,

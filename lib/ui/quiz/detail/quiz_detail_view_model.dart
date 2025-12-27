@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quiz/core/service/selected_quiz_provider.dart';
+import 'package:quiz/core/provider/selected_quiz_provider.dart';
 import 'package:quiz/data/repositories/quiz_repository.dart';
 import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_state.dart';
 import 'package:quiz/ui/settings/level/level_provider.dart';

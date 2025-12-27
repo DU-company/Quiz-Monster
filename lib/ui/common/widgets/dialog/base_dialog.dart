@@ -8,6 +8,7 @@ class BaseDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Dialog(
+      constraints: BoxConstraints(maxWidth: 500),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),

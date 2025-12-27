@@ -7,6 +7,7 @@ import 'package:quiz/ui/ad/rewarded_ad_provider.dart';
 import 'package:quiz/core/theme/responsive/layout.dart';
 import 'package:quiz/core/theme/theme_provider.dart';
 import 'package:quiz/data/entities/quiz_detail_entity.dart';
+import 'package:quiz/ui/common/layout/quiz_detail_layout.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
 import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 import 'package:quiz/ui/result/result_screen.dart';
@@ -40,39 +41,41 @@ class PassQuizScreen extends ConsumerWidget {
     /// boolean
     final isGameOver = remainingSeconds == 0 || currentIndex == 30;
 
-    return Expanded(
-      child: Column(
+    return QuizDetailLayout(
+      body: Expanded(
+        child: PageView.builder(
+          controller: pageController,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: items.length + 1,
+          itemBuilder: (context, index) {
+            final lastItem = index == items.length;
+            if (lastItem) {
+              return SizedBox();
+            }
+            final model = items[index];
+            return Center(
+              child: Text(
+                '- ${model.answer} -',
+                textAlign: TextAlign.center,
+                style: theme.typo.headline6.copyWith(
+                  fontSize: context.layout(48, mobile: 24),
+                ),
+              ),
+            );
+          },
+          onPageChanged: (index) => onPageChanged(index, ref),
+        ),
+      ),
+      footer: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          const SizedBox(height: 8),
           if (rewardedAd != null)
             PrimaryButton(
               label: '광고 보고 패스 추가',
               onPressed: () => viewModel.showAd(),
             ),
-          Expanded(
-            child: PageView.builder(
-              controller: pageController,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: items.length + 1,
-              itemBuilder: (context, index) {
-                final lastItem = index == items.length;
-                if (lastItem) {
-                  return SizedBox();
-                }
-                final model = items[index];
-                return Center(
-                  child: Text(
-                    '- ${model.answer} -',
-                    textAlign: TextAlign.center,
-                    style: theme.typo.headline6.copyWith(
-                      fontSize: context.layout(48, mobile: 24),
-                    ),
-                  ),
-                );
-              },
-              onPageChanged: (index) => onPageChanged(index, ref),
-            ),
-          ),
+          const SizedBox(height: 16),
           if (isGameOver) _GameOver(),
           if (!isGameOver)
             _PassFooter(

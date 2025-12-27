@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/core/service/selected_quiz_provider.dart';
+import 'package:quiz/core/provider/selected_quiz_provider.dart';
 import 'package:quiz/data/models/quiz_model.dart';
 import 'package:quiz/ui/settings/player/player_screen.dart';
 import 'package:quiz/ui/settings/level/level_screen.dart';

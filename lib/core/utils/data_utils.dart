@@ -48,20 +48,20 @@ class DataUtils {
     return Future.value(true);
   }
 
-  static showInterstitialAd({
-    required InterstitialAd interstitialAd,
-    required VoidCallback moveToScreen,
-  }) {
-    interstitialAd.fullScreenContentCallback =
-        FullScreenContentCallback(
-          onAdDismissedFullScreenContent: (ad) => moveToScreen(),
-          onAdFailedToShowFullScreenContent: (ad, error) {
-            print(error);
-            moveToScreen();
-          },
-        );
-    interstitialAd.show();
-  }
+  // static showInterstitialAd({
+  //   required InterstitialAd interstitialAd,
+  //   required VoidCallback moveToScreen,
+  // }) {
+  //   interstitialAd.fullScreenContentCallback =
+  //       FullScreenContentCallback(
+  //         onAdDismissedFullScreenContent: (ad) => moveToScreen(),
+  //         onAdFailedToShowFullScreenContent: (ad, error) {
+  //           print(error);
+  //           moveToScreen();
+  //         },
+  //       );
+  //   interstitialAd.show();
+  // }
 
   static String getReactionSpeedMessage(int reactionTime) {
     if (reactionTime <= 120) {

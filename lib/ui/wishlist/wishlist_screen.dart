@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:quiz/ui/ad/banner_ad_provider.dart';
+import 'package:quiz/ui/ad/banner_ad_view_model.dart';
 import 'package:quiz/core/theme/theme_provider.dart';
 import 'package:quiz/data/models/pagination_state.dart';
 import 'package:quiz/data/models/quiz_model.dart';
@@ -19,7 +19,7 @@ class WishlistScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bannerAd = ref.watch(bannerAdProvider);
+    final bannerAd = ref.watch(bannerAdViewModelProvider);
     final theme = ref.read(themeServiceProvider);
     final wishlist = ref.watch(wishlistViewModelProvider);
 

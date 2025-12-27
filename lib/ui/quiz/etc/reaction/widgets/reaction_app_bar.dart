@@ -1,0 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quiz/core/theme/theme_provider.dart';
+
+class ReactionAppBar extends ConsumerWidget {
+  final VoidCallback onTapBack;
+  final int count;
+  const ReactionAppBar({
+    super.key,
+    required this.onTapBack,
+    required this.count,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.read(themeServiceProvider);
+    return AppBar(
+      leading: IconButton(
+        onPressed: onTapBack,
+        icon: Icon(Icons.arrow_back_ios),
+      ),
+      actions: [Text('$count/5 회', style: theme.typo.headline6)],
+    );
+  }
+}

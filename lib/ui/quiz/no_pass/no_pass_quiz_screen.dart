@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiz/core/theme/responsive/layout.dart';
+import 'package:quiz/core/theme/theme_provider.dart';
 import 'package:quiz/data/entities/quiz_detail_entity.dart';
 import 'package:quiz/data/models/quiz_detail_model.dart';
 import 'package:quiz/ui/common/layout/quiz_detail_layout.dart';
@@ -8,7 +9,7 @@ import '../../common/widgets/primary_button.dart';
 import '../detail/widgets/quiz_detail_card.dart';
 import '../detail/widgets/quiz_detail_success_view.dart';
 
-class NonePassQuizScreen extends ConsumerWidget {
+class NoPassQuizScreen extends ConsumerWidget {
   final PageController pageController;
   final int remainingSeconds;
   final VoidCallback onNextPressed;
@@ -16,7 +17,7 @@ class NonePassQuizScreen extends ConsumerWidget {
   final VoidCallback showAnswerPressed;
   final List<QuizDetailModel> items;
 
-  const NonePassQuizScreen({
+  const NoPassQuizScreen({
     super.key,
     required this.pageController,
     required this.remainingSeconds,
@@ -77,38 +78,32 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: PageView(
-        controller: pageController,
-        physics: NeverScrollableScrollPhysics(),
-        onPageChanged: onPageChanged,
-        children: List.generate(items.length, (index) {
-          final model = items[index];
+    return PageView(
+      controller: pageController,
+      physics: NeverScrollableScrollPhysics(),
+      onPageChanged: onPageChanged,
+      children: List.generate(items.length, (index) {
+        final model = items[index];
 
-          return QuizDetailCard(detail: model);
-        }),
-      ),
+        return QuizDetailCard(detail: model);
+      }),
     );
   }
 }
 
-class _TimeOver extends StatelessWidget {
+class _TimeOver extends ConsumerWidget {
   final int remainingSeconds;
   const _TimeOver({super.key, required this.remainingSeconds});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.read(themeServiceProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Text(
         remainingSeconds == 0 ? '💣 TIME OVER 💣' : "",
         textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 32,
-          fontFamily: 'Roboto',
-          color: Colors.white,
-          fontWeight: FontWeight.w700,
-        ),
+        style: theme.typo.headline3.copyWith(fontFamily: 'Roboto'),
       ),
     );
   }
@@ -171,7 +166,7 @@ class _Footer extends StatelessWidget {
   }
 }
 
-class _AnswerBox extends StatelessWidget {
+class _AnswerBox extends ConsumerWidget {
   final bool showAnswer;
   final String answer;
   const _AnswerBox({
@@ -181,14 +176,13 @@ class _AnswerBox extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.read(themeServiceProvider);
     return Text(
       showAnswer ? 'A.$answer' : '',
       textAlign: TextAlign.center,
-      style: TextStyle(
+      style: theme.typo.headline6.copyWith(
         fontSize: context.layout(48, mobile: 24),
-        color: Colors.white,
-        fontWeight: FontWeight.w700,
       ),
     );
   }

@@ -4,15 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:quiz/core/theme/theme_provider.dart';
 import 'package:quiz/data/models/quiz_detail_model.dart';
 import 'package:quiz/ui/common/screens/home_screen.dart';
-import 'package:quiz/ui/common/widgets/custom_bottom_sheet.dart';
-import 'package:quiz/ui/common/widgets/dialog/base_confirm_dialog.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
 import 'package:quiz/ui/common/layout/default_layout.dart';
 import 'package:quiz/ui/quiz/detail/widgets/exit_dialog.dart';
 import 'package:quiz/ui/quiz/etc/liar/liar_view_model.dart';
 import 'package:quiz/ui/quiz/etc/liar/widgets/answer_dialog.dart';
 import 'package:quiz/ui/settings/player/player_view_model.dart';
-import 'package:quiz/page_controller_provider.dart';
+import 'package:quiz/core/provider/page_controller_provider.dart';
 import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 
 class LiarGameScreen extends ConsumerWidget {
@@ -102,10 +100,7 @@ class LiarGameScreen extends ConsumerWidget {
     ref
         .read(currentIndexProvider.notifier)
         .update((index) => index + 1);
-    controller.nextPage(
-      duration: Duration(milliseconds: 300),
-      curve: Curves.linear,
-    );
+    ref.read(pageControllerProvider.notifier).nextPage();
   }
 
   void onBackPressed(BuildContext context, WidgetRef ref) {

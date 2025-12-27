@@ -14,7 +14,12 @@ class QuizDetailLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return context.layout(
       /// Mobile & Tablet
-      Expanded(child: Column(children: [body, footer])),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [Expanded(child: body), footer],
+        ),
+      ),
 
       /// Desktop
       desktop: Expanded(

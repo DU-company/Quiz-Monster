@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:quiz/core/service/selected_quiz_provider.dart';
+import 'package:quiz/core/provider/selected_quiz_provider.dart';
 import 'package:quiz/ui/settings/time/time_view_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

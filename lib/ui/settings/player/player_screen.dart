@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:quiz/core/theme/theme_provider.dart';
+import 'package:quiz/ui/ad/ad_finished_provider.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
 import 'package:quiz/core/utils/data_utils.dart';
 import 'package:quiz/ui/settings/player/player_view_model.dart';
@@ -12,7 +13,7 @@ import 'package:quiz/ui/common/layout/setting_layout.dart';
 import 'package:quiz/ui/settings/time/time_count_screen.dart';
 
 import '../../ad/ad_count_provider.dart';
-import '../../ad/interstitial_ad_provider.dart';
+import '../../ad/interstitial_ad_view_model.dart';
 
 class PlayerScreen extends ConsumerWidget {
   static String routeName = 'player';
@@ -20,7 +21,13 @@ class PlayerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(interstitialAdProvider);
+    ref.listen(adFinishedProvider, (p, n) {
+      if (n == true) {
+        context.goNamed(TimeCountScreen.routeName);
+        ref.read(adFinishedProvider.notifier).onReset();
+      }
+    });
+    ref.watch(interstitialAdViewModelProvider);
     ref.watch(adCountProvider);
     final players = ref.watch(playerViewModelProvider);
     final viewModel = ref.read(playerViewModelProvider.notifier);

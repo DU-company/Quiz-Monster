@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quiz/ui/common/widgets/primary_button.dart';
-import 'package:quiz/core/service/selected_quiz_provider.dart';
+import 'package:quiz/core/provider/selected_quiz_provider.dart';
 import 'package:quiz/ui/common/layout/setting_layout.dart';
 import 'package:quiz/ui/settings/level/level_button.dart';
 

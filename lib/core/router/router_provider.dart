@@ -7,7 +7,7 @@ import 'package:quiz/data/models/quiz_model.dart';
 import 'package:quiz/ui/common/screens/home_screen.dart';
 import 'package:quiz/ui/quiz/etc/liar/liar_screen.dart';
 import 'package:quiz/ui/settings/player/player_screen.dart';
-import 'package:quiz/etc/screen/reaction_rate_screen.dart';
+import 'package:quiz/ui/quiz/etc/reaction/reaction_rate_screen.dart';
 
 import 'package:quiz/ui/wishlist/wishlist_screen.dart';
 import 'package:quiz/ui/quiz/detail/quiz_detail_screen.dart';
