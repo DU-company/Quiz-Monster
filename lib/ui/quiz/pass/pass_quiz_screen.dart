@@ -42,29 +42,27 @@ class PassQuizScreen extends ConsumerWidget {
     final isGameOver = remainingSeconds == 0 || currentIndex == 30;
 
     return QuizDetailLayout(
-      body: Expanded(
-        child: PageView.builder(
-          controller: pageController,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: items.length + 1,
-          itemBuilder: (context, index) {
-            final lastItem = index == items.length;
-            if (lastItem) {
-              return SizedBox();
-            }
-            final model = items[index];
-            return Center(
-              child: Text(
-                '- ${model.answer} -',
-                textAlign: TextAlign.center,
-                style: theme.typo.headline6.copyWith(
-                  fontSize: context.layout(48, mobile: 24),
-                ),
+      body: PageView.builder(
+        controller: pageController,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: items.length + 1,
+        itemBuilder: (context, index) {
+          final lastItem = index == items.length;
+          if (lastItem) {
+            return SizedBox();
+          }
+          final model = items[index];
+          return Center(
+            child: Text(
+              '- ${model.answer} -',
+              textAlign: TextAlign.center,
+              style: theme.typo.headline6.copyWith(
+                fontSize: context.layout(48, mobile: 24),
               ),
-            );
-          },
-          onPageChanged: (index) => onPageChanged(index, ref),
-        ),
+            ),
+          );
+        },
+        onPageChanged: (index) => onPageChanged(index, ref),
       ),
       footer: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

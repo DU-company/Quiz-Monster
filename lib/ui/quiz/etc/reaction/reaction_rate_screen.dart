@@ -78,8 +78,10 @@ class _ReactionRateScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              /// AppBar
               ReactionAppBar(onTapBack: onTapBack, count: count),
               QuizDetailLayout(
+                /// Body
                 body: isGameOver
                     ? ReactionAverageBox(testResults: resultList)
                     : ReactionCircle(
@@ -87,6 +89,8 @@ class _ReactionRateScreenState
                         isGreen: isGreen,
                         label: label,
                       ),
+
+                /// Footer
                 footer: PrimaryButton(
                   label: isGameOver ? '다시 시작' : '다음',
                   onPressed: isStepOver

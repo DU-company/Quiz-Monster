@@ -18,4 +18,3 @@ class AdFinishedProvider extends Notifier<bool> {
     state = false;
   }
 }
-/// 반속 & 타임세팅 등에서도 interstitial 적용하기

@@ -26,9 +26,9 @@ class TimeScreen extends ConsumerWidget {
     ref.listen(adFinishedProvider, (p, n) {
       if (n == true) {
         context.goNamed(TimeCountScreen.routeName);
+        ref.read(adFinishedProvider.notifier).onReset();
       }
     });
-    // ref.watch(interstitialAdViewModelProvider);
     final selectedQuiz = ref.watch(selectedQuizProvider);
     final hasPass = selectedQuiz!.hasPass;
     final timeState = ref.watch(timeViewModelProvider);
@@ -41,7 +41,7 @@ class TimeScreen extends ConsumerWidget {
       ),
       footer: PrimaryButton(
         label: 'START',
-        onPressed: () => viewModel.onTapStart(context),
+        onPressed: () => viewModel.onTapStart(),
       ),
     );
   }

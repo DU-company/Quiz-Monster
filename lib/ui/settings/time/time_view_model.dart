@@ -28,34 +28,11 @@ class TimeViewModel extends Notifier<Duration> {
     state = duration;
   }
 
-  void onTapStart(BuildContext context) {
-    // final interstitialAd = ref.read(interstitialAdProvider);
-    // final adCount = ref.read(adCountProvider);
-
+  void onTapStart() {
     if (state.inSeconds < 3) {
       DataUtils.showToast(msg: '최소 제한 시간은 3초 입니다.');
     } else {
       ref.read(interstitialAdViewModelProvider.notifier).showAd();
-      // if (interstitialAd == null || adCount < 3) {
-      //   /// 광고 없이 실행
-      //   context.goNamed(TimeCountScreen.routeName);
-      //
-      //   ref.read(adCountProvider.notifier).increaseCount();
-      // } else {
-      //   ref.read(adCountProvider.notifier).resetCount();
-      //
-      //   /// 광고 실행
-      //   interstitialAd.fullScreenContentCallback =
-      //       FullScreenContentCallback(
-      //         onAdDismissedFullScreenContent: (ad) {
-      //           context.goNamed(TimeCountScreen.routeName);
-      //         },
-      //         onAdFailedToShowFullScreenContent: (ad, error) {
-      //           context.goNamed(TimeCountScreen.routeName);
-      //         },
-      //       );
-      //   interstitialAd.show();
-      // }
     }
   }
 }

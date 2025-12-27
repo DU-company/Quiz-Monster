@@ -25,7 +25,7 @@ class QuizDetailLayout extends StatelessWidget {
       desktop: Expanded(
         child: Row(
           children: [
-            body,
+            Expanded(child: body),
             const SizedBox(width: 8),
             Expanded(child: footer),
           ],

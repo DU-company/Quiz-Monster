@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:quiz/ui/common/widgets/dialog/base_confirm_dialog.dart';
 
-class AnswerDialog extends StatelessWidget {
+class ShowAnswerDialog extends StatelessWidget {
   final VoidCallback showAnswer;
-  const AnswerDialog({super.key, required this.showAnswer});
+  const ShowAnswerDialog({super.key, required this.showAnswer});
 
   @override
   Widget build(BuildContext context) {
