@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quiz/data/models/pagination_state.dart';
-import 'package:quiz/data/repositories/quiz_repository.dart';
+import 'package:quiz_monster/data/models/pagination_state.dart';
+import 'package:quiz_monster/data/repositories/quiz_repository.dart';
 
 final quizViewModelProvider = NotifierProvider(() => QuizViewModel());
 

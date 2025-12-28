@@ -4,17 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:quiz/ui/ad/ad_count_provider.dart';
-import 'package:quiz/ui/ad/ad_finished_provider.dart';
-import 'package:quiz/ui/ad/interstitial_ad_view_model.dart';
-import 'package:quiz/ui/common/widgets/primary_button.dart';
-import 'package:quiz/core/provider/selected_quiz_provider.dart';
-import 'package:quiz/core/theme/responsive/layout.dart';
-import 'package:quiz/core/utils/data_utils.dart';
-import 'package:quiz/ui/common/layout/setting_layout.dart';
-import 'package:quiz/ui/settings/time/time_view_model.dart';
-import 'package:quiz/ui/settings/time/time_count_screen.dart';
-import 'package:quiz/ui/settings/time/widgets/time_picker.dart';
+import 'package:quiz_monster/ui/ad/ad_count_provider.dart';
+import 'package:quiz_monster/ui/ad/ad_finished_provider.dart';
+import 'package:quiz_monster/ui/ad/interstitial_ad_view_model.dart';
+import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
+import 'package:quiz_monster/core/provider/selected_quiz_provider.dart';
+import 'package:quiz_monster/core/theme/responsive/layout.dart';
+import 'package:quiz_monster/core/utils/data_utils.dart';
+import 'package:quiz_monster/ui/common/layout/setting_layout.dart';
+import 'package:quiz_monster/ui/settings/time/time_view_model.dart';
+import 'package:quiz_monster/ui/settings/time/time_count_screen.dart';
+import 'package:quiz_monster/ui/settings/time/widgets/time_picker.dart';
 
 class TimeScreen extends ConsumerWidget {
   static String routeName = 'time';

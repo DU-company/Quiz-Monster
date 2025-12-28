@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/ui/common/widgets/primary_button.dart';
-import 'package:quiz/core/provider/selected_quiz_provider.dart';
-import 'package:quiz/ui/common/layout/setting_layout.dart';
-import 'package:quiz/ui/settings/level/level_button.dart';
+import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
+import 'package:quiz_monster/core/provider/selected_quiz_provider.dart';
+import 'package:quiz_monster/ui/common/layout/setting_layout.dart';
+import 'package:quiz_monster/ui/settings/level/level_button.dart';
 
 import '../time/time_screen.dart';
 import 'level_provider.dart';

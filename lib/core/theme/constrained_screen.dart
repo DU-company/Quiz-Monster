@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/core/theme/responsive/layout.dart';
+import 'package:quiz_monster/core/theme/responsive/layout.dart';
 
 class ConstrainedScreen extends StatelessWidget {
   final Widget child;

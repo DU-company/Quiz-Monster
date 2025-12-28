@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quiz/data/models/pagination_state.dart';
-import 'package:quiz/data/models/quiz_model.dart';
-import 'package:quiz/ui/common/widgets/error_message_widget.dart';
-import 'package:quiz/ui/common/widgets/loading_widget.dart';
-import 'package:quiz/ui/quiz/base/quiz_view_model.dart';
-import 'package:quiz/ui/quiz/base/widgets/quiz_success_view.dart';
+import 'package:quiz_monster/data/models/pagination_state.dart';
+import 'package:quiz_monster/data/models/quiz_model.dart';
+import 'package:quiz_monster/ui/common/widgets/error_message_widget.dart';
+import 'package:quiz_monster/ui/common/widgets/loading_widget.dart';
+import 'package:quiz_monster/ui/quiz/base/quiz_view_model.dart';
+import 'package:quiz_monster/ui/quiz/base/widgets/quiz_success_view.dart';
 
 class QuizScreen extends ConsumerWidget {
   const QuizScreen({super.key});

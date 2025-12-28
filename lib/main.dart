@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:quiz/core/const/data.dart';
-import 'package:quiz/core/router/router_provider.dart';
-import 'package:quiz/core/theme/theme_provider.dart';
+import 'package:quiz_monster/core/const/data.dart';
+import 'package:quiz_monster/core/router/router_provider.dart';
+import 'package:quiz_monster/core/theme/theme_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {

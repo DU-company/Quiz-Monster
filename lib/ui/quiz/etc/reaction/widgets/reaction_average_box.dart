@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quiz/core/theme/responsive/layout.dart';
-import 'package:quiz/core/theme/theme_provider.dart';
-import 'package:quiz/core/utils/data_utils.dart';
+import 'package:quiz_monster/core/theme/responsive/layout.dart';
+import 'package:quiz_monster/core/theme/theme_provider.dart';
+import 'package:quiz_monster/core/utils/data_utils.dart';
 
 class ReactionAverageBox extends ConsumerWidget {
   final List<int> testResults;

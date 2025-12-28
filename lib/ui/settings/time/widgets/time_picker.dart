@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quiz/core/theme/responsive/layout.dart';
+import 'package:quiz_monster/core/theme/responsive/layout.dart';
 
 class TimePicker extends StatelessWidget {
   final void Function(Duration) onTimerDurationChanged;

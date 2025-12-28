@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/core/theme/app_theme.dart';
-import 'package:quiz/core/theme/color/app_color.dart';
-import 'package:quiz/core/theme/color/app_deco.dart';
-import 'package:quiz/core/theme/color/palette.dart';
-import 'package:quiz/core/theme/typo/app_typo.dart';
-import 'package:quiz/core/theme/typo/typo.dart';
+import 'package:quiz_monster/core/theme/app_theme.dart';
+import 'package:quiz_monster/core/theme/color/app_color.dart';
+import 'package:quiz_monster/core/theme/color/app_deco.dart';
+import 'package:quiz_monster/core/theme/color/palette.dart';
+import 'package:quiz_monster/core/theme/typo/app_typo.dart';
+import 'package:quiz_monster/core/theme/typo/typo.dart';
 
 class LightTheme implements AppTheme {
   LightTheme();

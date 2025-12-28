@@ -2,9 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:quiz/core/theme/constrained_screen.dart';
-import 'package:quiz/core/theme/theme_provider.dart';
-import 'package:quiz/core/utils/data_utils.dart';
+import 'package:quiz_monster/core/theme/constrained_screen.dart';
+import 'package:quiz_monster/core/theme/theme_provider.dart';
+import 'package:quiz_monster/core/utils/data_utils.dart';
 
 final willPopScopeTimeProvider = StateProvider<DateTime?>(
   (ref) => null,

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:quiz/core/service/ad_service.dart';
+import 'package:quiz_monster/core/service/ad_service.dart';
 
 final bannerAdViewModelProvider = NotifierProvider.autoDispose(
   () => BannerAdViewModel(),

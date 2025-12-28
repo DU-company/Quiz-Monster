@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:quiz/core/theme/theme_provider.dart';
-import 'package:quiz/data/models/quiz_model.dart';
+import 'package:quiz_monster/core/theme/theme_provider.dart';
+import 'package:quiz_monster/data/models/quiz_model.dart';
 
 final randomNumberProvider = StateProvider.family<int, int>((
   ref,

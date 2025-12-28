@@ -1,21 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/data/entities/quiz_detail_entity.dart';
-import 'package:quiz/data/models/quiz_detail_model.dart';
-import 'package:quiz/data/models/quiz_model.dart';
-import 'package:quiz/ui/common/screens/home_screen.dart';
-import 'package:quiz/ui/quiz/etc/liar/liar_screen.dart';
-import 'package:quiz/ui/settings/player/player_screen.dart';
-import 'package:quiz/ui/quiz/etc/reaction/reaction_rate_screen.dart';
+import 'package:quiz_monster/data/entities/quiz_detail_entity.dart';
+import 'package:quiz_monster/data/models/quiz_detail_model.dart';
+import 'package:quiz_monster/data/models/quiz_model.dart';
+import 'package:quiz_monster/ui/common/screens/home_screen.dart';
+import 'package:quiz_monster/ui/quiz/etc/liar/liar_screen.dart';
+import 'package:quiz_monster/ui/settings/player/player_screen.dart';
+import 'package:quiz_monster/ui/quiz/etc/reaction/reaction_rate_screen.dart';
 
-import 'package:quiz/ui/wishlist/wishlist_screen.dart';
-import 'package:quiz/ui/quiz/detail/quiz_detail_screen.dart';
-import 'package:quiz/ui/settings/level/level_screen.dart';
-import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
-import 'package:quiz/ui/result/result_screen.dart';
-import 'package:quiz/ui/settings/time/time_count_screen.dart';
-import 'package:quiz/ui/settings/time/time_screen.dart';
+import 'package:quiz_monster/ui/wishlist/wishlist_screen.dart';
+import 'package:quiz_monster/ui/quiz/detail/quiz_detail_screen.dart';
+import 'package:quiz_monster/ui/settings/level/level_screen.dart';
+import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
+import 'package:quiz_monster/ui/result/result_screen.dart';
+import 'package:quiz_monster/ui/settings/time/time_count_screen.dart';
+import 'package:quiz_monster/ui/settings/time/time_screen.dart';
 import '../../ui/settings/pass/pass_screen.dart';
 import '../../test/test_screen.dart';
 

@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quiz/core/exception/quiz_exception.dart';
-import 'package:quiz/data/data_sources/quiz_data_source.dart';
-import 'package:quiz/data/models/pagination_params.dart';
-import 'package:quiz/data/models/pagination_state.dart';
-import 'package:quiz/data/entities/quiz_detail_entity.dart';
-import 'package:quiz/data/models/quiz_detail_model.dart';
-import 'package:quiz/data/models/quiz_model.dart';
-import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_state.dart';
+import 'package:quiz_monster/core/exception/quiz_exception.dart';
+import 'package:quiz_monster/data/data_sources/quiz_data_source.dart';
+import 'package:quiz_monster/data/models/pagination_params.dart';
+import 'package:quiz_monster/data/models/pagination_state.dart';
+import 'package:quiz_monster/data/entities/quiz_detail_entity.dart';
+import 'package:quiz_monster/data/models/quiz_detail_model.dart';
+import 'package:quiz_monster/data/models/quiz_model.dart';
+import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_state.dart';
 
 final quizRepositorProvider = Provider((ref) {
   final quizDataSource = ref.read(quizDataSourceProvider);

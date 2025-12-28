@@ -1,5 +1,5 @@
-import 'package:quiz/data/entities/quiz_detail_entity.dart';
-import 'package:quiz/data/models/quiz_model.dart';
+import 'package:quiz_monster/data/entities/quiz_detail_entity.dart';
+import 'package:quiz_monster/data/models/quiz_model.dart';
 
 class QuizDetailModel {
   final QuizModel quiz;

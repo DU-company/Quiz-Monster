@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/ui/common/widgets/dialog/base_confirm_dialog.dart';
+import 'package:quiz_monster/ui/common/widgets/dialog/base_confirm_dialog.dart';
 
 class ShowAnswerDialog extends StatelessWidget {
   final VoidCallback showAnswer;

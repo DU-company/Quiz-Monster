@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quiz/core/provider/selected_quiz_provider.dart';
-import 'package:quiz/data/repositories/quiz_repository.dart';
-import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_state.dart';
-import 'package:quiz/ui/settings/level/level_provider.dart';
+import 'package:quiz_monster/core/provider/selected_quiz_provider.dart';
+import 'package:quiz_monster/data/repositories/quiz_repository.dart';
+import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_state.dart';
+import 'package:quiz_monster/ui/settings/level/level_provider.dart';
 
 final quizDetailViewModelProvider = NotifierProvider.family
     .autoDispose((int qid) => QuizDetailViewModel(qid));

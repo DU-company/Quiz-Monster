@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quiz/core/service/supabase_provider.dart';
-import 'package:quiz/data/models/pagination_params.dart';
+import 'package:quiz_monster/core/service/supabase_provider.dart';
+import 'package:quiz_monster/data/models/pagination_params.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final quizDataSourceProvider = Provider((ref) {

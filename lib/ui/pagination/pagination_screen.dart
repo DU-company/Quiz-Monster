@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/ui/common/screens/home_screen.dart';
-import 'package:quiz/ui/common/widgets/loading_widget.dart';
-import 'package:quiz/ui/common/widgets/primary_button.dart';
+import 'package:quiz_monster/ui/common/screens/home_screen.dart';
+import 'package:quiz_monster/ui/common/widgets/loading_widget.dart';
+import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
 import '../../data/models/pagination_state.dart';
 import '../common/layout/default_layout.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:quiz/ui/common/widgets/primary_button.dart';
-import 'package:quiz/core/service/supabase_provider.dart';
-import 'package:quiz/ui/common/layout/default_layout.dart';
+import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
+import 'package:quiz_monster/core/service/supabase_provider.dart';
+import 'package:quiz_monster/ui/common/layout/default_layout.dart';
 
 import 'quiz_data.dart';
 

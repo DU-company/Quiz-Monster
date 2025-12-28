@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quiz/data/models/quiz_model.dart';
+import 'package:quiz_monster/data/models/quiz_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final wishlistViewModelProvider = NotifierProvider(

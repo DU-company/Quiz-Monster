@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/data/entities/quiz_detail_entity.dart';
-import 'package:quiz/data/models/quiz_detail_model.dart';
-import 'package:quiz/ui/common/widgets/loading_widget.dart';
-import 'package:quiz/core/theme/responsive/layout.dart';
+import 'package:quiz_monster/data/entities/quiz_detail_entity.dart';
+import 'package:quiz_monster/data/models/quiz_detail_model.dart';
+import 'package:quiz_monster/ui/common/widgets/loading_widget.dart';
+import 'package:quiz_monster/core/theme/responsive/layout.dart';
 
 class QuizDetailCard extends StatelessWidget {
   final QuizDetailModel detail;

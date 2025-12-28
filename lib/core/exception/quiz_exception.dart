@@ -1,4 +1,4 @@
-import 'package:quiz/core/exception/custom_exception.dart';
+import 'package:quiz_monster/core/exception/custom_exception.dart';
 
 class QuizException extends CustomException {
   QuizException() : super('퀴즈 목록을 불러올 수 없습니다.\n네트워크 연결을 확인해주세요!');

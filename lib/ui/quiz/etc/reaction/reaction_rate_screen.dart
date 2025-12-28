@@ -1,25 +1,26 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:quiz/core/utils/data_utils.dart';
-import 'package:quiz/ui/ad/ad_count_provider.dart';
-import 'package:quiz/ui/ad/ad_finished_provider.dart';
-import 'package:quiz/ui/ad/interstitial_ad_view_model.dart';
-import 'package:quiz/ui/common/layout/quiz_detail_layout.dart';
-import 'package:quiz/ui/common/screens/home_screen.dart';
-import 'package:quiz/ui/common/widgets/dialog/base_confirm_dialog.dart';
-import 'package:quiz/ui/common/widgets/primary_button.dart';
-import 'package:quiz/ui/common/layout/default_layout.dart';
-import 'package:quiz/core/theme/responsive/layout.dart';
-import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
-import 'package:quiz/ui/quiz/detail/widgets/exit_dialog.dart';
-import 'package:quiz/ui/quiz/etc/reaction/widgets/reaction_app_bar.dart';
-import 'package:quiz/ui/quiz/etc/reaction/widgets/reaction_average_box.dart';
-import 'package:quiz/ui/quiz/etc/reaction/widgets/reaction_circle.dart';
-import 'package:quiz/ui/quiz/etc/reaction/widgets/replay_dialog.dart';
+import 'package:quiz_monster/core/utils/data_utils.dart';
+import 'package:quiz_monster/ui/ad/ad_count_provider.dart';
+import 'package:quiz_monster/ui/ad/ad_finished_provider.dart';
+import 'package:quiz_monster/ui/ad/interstitial_ad_view_model.dart';
+import 'package:quiz_monster/ui/common/layout/quiz_detail_layout.dart';
+import 'package:quiz_monster/ui/common/screens/home_screen.dart';
+import 'package:quiz_monster/ui/common/widgets/dialog/base_confirm_dialog.dart';
+import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
+import 'package:quiz_monster/ui/common/layout/default_layout.dart';
+import 'package:quiz_monster/core/theme/responsive/layout.dart';
+import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
+import 'package:quiz_monster/ui/quiz/detail/widgets/exit_dialog.dart';
+import 'package:quiz_monster/ui/quiz/etc/reaction/widgets/reaction_app_bar.dart';
+import 'package:quiz_monster/ui/quiz/etc/reaction/widgets/reaction_average_box.dart';
+import 'package:quiz_monster/ui/quiz/etc/reaction/widgets/reaction_circle.dart';
+import 'package:quiz_monster/ui/quiz/etc/reaction/widgets/replay_dialog.dart';
 
 class ReactionRateScreen extends ConsumerStatefulWidget {
   static String routeName = 'reaction';
@@ -44,6 +45,7 @@ class _ReactionRateScreenState
     setState(() {
       isGreen = true;
     });
+    // SchedulerBinding.instance.ensureVisualUpdate();
   }
 
   // 2~4초 사이의 랜덤 시간 설정
@@ -80,6 +82,8 @@ class _ReactionRateScreenState
             children: [
               /// AppBar
               ReactionAppBar(onTapBack: onTapBack, count: count),
+              // UI 멈춤 방지
+              CircularProgressIndicator(color: Colors.transparent),
               QuizDetailLayout(
                 /// Body
                 body: isGameOver

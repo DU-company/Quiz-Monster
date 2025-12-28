@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quiz/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
+import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 
 final pageControllerProvider = NotifierProvider.autoDispose(
   () => PageControllerNotifier(),

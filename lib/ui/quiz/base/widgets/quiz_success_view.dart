@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:quiz/core/const/data.dart';
-import 'package:quiz/data/models/quiz_model.dart';
-import 'package:quiz/ui/quiz/base/widgets/quiz_app_bar.dart';
-import 'package:quiz/ui/quiz/base/widgets/quiz_card.dart';
-import 'package:quiz/ui/common/layout/default_layout.dart';
-import 'package:quiz/ui/quiz/base/widgets/quiz_category_list.dart';
-import 'package:quiz/ui/quiz/base/widgets/start_quiz_dialog.dart';
-import 'package:quiz/ui/wishlist/wishlist_view_model.dart';
+import 'package:quiz_monster/core/const/data.dart';
+import 'package:quiz_monster/data/models/quiz_model.dart';
+import 'package:quiz_monster/ui/quiz/base/widgets/quiz_app_bar.dart';
+import 'package:quiz_monster/ui/quiz/base/widgets/quiz_card.dart';
+import 'package:quiz_monster/ui/common/layout/default_layout.dart';
+import 'package:quiz_monster/ui/quiz/base/widgets/quiz_category_list.dart';
+import 'package:quiz_monster/ui/quiz/base/widgets/start_quiz_dialog.dart';
+import 'package:quiz_monster/ui/wishlist/wishlist_view_model.dart';
 
 final _indexProvider = StateProvider((ref) => 0);
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quiz/core/const/data.dart';
-import 'package:quiz/core/theme/app_theme.dart';
-import 'package:quiz/core/theme/theme_provider.dart';
+import 'package:quiz_monster/core/const/data.dart';
+import 'package:quiz_monster/core/theme/app_theme.dart';
+import 'package:quiz_monster/core/theme/theme_provider.dart';
 
 class QuizCategoryList extends ConsumerWidget {
   final void Function(int) onPressed;

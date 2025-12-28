@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/core/theme/typo/typo.dart';
+import 'package:quiz_monster/core/theme/typo/typo.dart';
 
 class AppTypo {
   /// Typo

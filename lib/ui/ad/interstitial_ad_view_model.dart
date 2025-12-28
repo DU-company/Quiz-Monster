@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:quiz/core/service/ad_service.dart';
-import 'package:quiz/ui/ad/ad_count_provider.dart';
-import 'package:quiz/ui/ad/ad_finished_provider.dart';
+import 'package:quiz_monster/core/service/ad_service.dart';
+import 'package:quiz_monster/ui/ad/ad_count_provider.dart';
+import 'package:quiz_monster/ui/ad/ad_finished_provider.dart';
 
 final interstitialAdViewModelProvider = AsyncNotifierProvider(
   () => InterstitialAdViewModel(),

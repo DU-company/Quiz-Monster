@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/core/const/data.dart';
-import 'package:quiz/core/theme/responsive/layout.dart';
-import 'package:quiz/core/theme/theme_provider.dart';
-import 'package:quiz/data/models/quiz_model.dart';
-import 'package:quiz/ui/wishlist/wishlist_screen.dart';
+import 'package:quiz_monster/core/const/data.dart';
+import 'package:quiz_monster/core/theme/responsive/layout.dart';
+import 'package:quiz_monster/core/theme/theme_provider.dart';
+import 'package:quiz_monster/data/models/quiz_model.dart';
+import 'package:quiz_monster/ui/wishlist/wishlist_screen.dart';
 
 class QuizAppBar extends ConsumerWidget {
   final List<QuizModel> items;

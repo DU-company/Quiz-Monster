@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/core/theme/color/app_color.dart';
-import 'package:quiz/core/theme/theme_provider.dart';
-import 'package:quiz/ui/common/widgets/dialog/base_dialog.dart';
-import 'package:quiz/ui/common/widgets/primary_button.dart';
+import 'package:quiz_monster/core/theme/color/app_color.dart';
+import 'package:quiz_monster/core/theme/theme_provider.dart';
+import 'package:quiz_monster/ui/common/widgets/dialog/base_dialog.dart';
+import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
 
 class BaseConfirmDialog extends ConsumerWidget {
   final String title;
@@ -36,8 +36,9 @@ class BaseConfirmDialog extends ConsumerWidget {
           /// Title
           Text(
             title,
-            style: theme.typo.headline3.copyWith(
+            style: theme.typo.subtitle1.copyWith(
               color: theme.color.secondary,
+              fontWeight: theme.typo.semiBold,
             ),
           ),
           const SizedBox(height: 12),
@@ -46,7 +47,7 @@ class BaseConfirmDialog extends ConsumerWidget {
           if (content != null)
             Text(
               content!,
-              style: theme.typo.subtitle1.copyWith(
+              style: theme.typo.subtitle2.copyWith(
                 color: theme.color.subtext,
                 fontWeight: theme.typo.semiBold,
               ),

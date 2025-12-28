@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:quiz/core/provider/selected_quiz_provider.dart';
-import 'package:quiz/ui/settings/time/time_view_model.dart';
+import 'package:quiz_monster/core/provider/selected_quiz_provider.dart';
+import 'package:quiz_monster/ui/settings/time/time_view_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final detailTimerViewModelProvider = NotifierProvider.autoDispose(

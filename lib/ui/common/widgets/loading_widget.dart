@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quiz/core/theme/theme_provider.dart';
+import 'package:quiz_monster/core/theme/theme_provider.dart';
 
 class LoadingWidget extends ConsumerWidget {
   const LoadingWidget({super.key});

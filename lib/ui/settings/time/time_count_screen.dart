@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz/core/provider/selected_quiz_provider.dart';
-import 'package:quiz/core/theme/theme_provider.dart';
-import 'package:quiz/ui/quiz/etc/liar/liar_screen.dart';
-import 'package:quiz/ui/common/layout/default_layout.dart';
-import 'package:quiz/ui/quiz/etc/reaction/reaction_rate_screen.dart';
-import 'package:quiz/ui/quiz/detail/quiz_detail_screen.dart';
-import 'package:quiz/ui/quiz/detail/quiz_detail_view_model.dart';
-import 'package:quiz/ui/settings/time/time_view_model.dart';
+import 'package:quiz_monster/core/provider/selected_quiz_provider.dart';
+import 'package:quiz_monster/core/theme/theme_provider.dart';
+import 'package:quiz_monster/ui/quiz/etc/liar/liar_screen.dart';
+import 'package:quiz_monster/ui/common/layout/default_layout.dart';
+import 'package:quiz_monster/ui/quiz/etc/reaction/reaction_rate_screen.dart';
+import 'package:quiz_monster/ui/quiz/detail/quiz_detail_screen.dart';
+import 'package:quiz_monster/ui/quiz/detail/quiz_detail_view_model.dart';
+import 'package:quiz_monster/ui/settings/time/time_view_model.dart';
 
 class TimeCountScreen extends ConsumerStatefulWidget {
   static String routeName = 'time-count';
