@@ -36,10 +36,11 @@ class PassQuizScreen extends ConsumerWidget {
     /// state
     final passCount = ref.watch(passViewModelProvider);
     final currentIndex = ref.watch(currentIndexProvider);
-    final rewardedAd = ref.watch(rewardedAdProvider);
+    final ad = ref.watch(rewardedAdViewModelProvider);
 
     /// boolean
     final isGameOver = remainingSeconds == 0 || currentIndex == 30;
+    final isAdLoaded = ad is AsyncData && ad.value != null;
 
     return QuizDetailLayout(
       body: PageView.builder(
@@ -68,7 +69,7 @@ class PassQuizScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          if (rewardedAd != null)
+          if (isAdLoaded)
             PrimaryButton(
               label: '광고 보고 패스 추가',
               onPressed: () => viewModel.showAd(),

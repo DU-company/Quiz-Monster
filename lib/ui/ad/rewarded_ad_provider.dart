@@ -1,70 +1,61 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:quiz_monster/core/service/ad_service.dart';
 
-final rewardedAdProvider =
-    StateNotifierProvider.autoDispose<
-      RewardedAdStateNotifier,
-      RewardedAd?
-    >((ref) => RewardedAdStateNotifier());
+final rewardedAdViewModelProvider = AsyncNotifierProvider.autoDispose(
+  () => RewardedAdViewModel(),
+);
 
-class RewardedAdStateNotifier extends StateNotifier<RewardedAd?> {
-  RewardedAdStateNotifier() : super(null) {
-    getAd();
+class RewardedAdViewModel extends AsyncNotifier<RewardedAd?> {
+  @override
+  FutureOr<RewardedAd?> build() {
+    return _loadAd();
   }
 
-  void getAd() {
+  Future<void> _reload() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => _loadAd());
+  }
+
+  Future<RewardedAd?> _loadAd() async {
+    final completer = Completer<RewardedAd?>();
+
     RewardedAd.load(
       adUnitId: AdMobService.rewardedAdId,
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
-          debugPrint('REWARDED : $ad loaded.');
-          state = ad;
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              ad.dispose();
+            },
+            onAdFailedToShowFullScreenContent: (ad, error) {
+              ad.dispose();
+            },
+          );
+          completer.complete(ad);
         },
         onAdFailedToLoad: (error) {
-          debugPrint('RewardedAd failed to load: $error');
-          state = null;
+          completer.completeError(error);
         },
       ),
     );
+
+    return completer.future;
   }
 
-  void showAd({required VoidCallback onRewardEarned}) {
-    if (state == null) {
-      debugPrint('광고가 아직 로드되지 않았습니다.');
-      return;
+  void showAd({required VoidCallback onRewarded}) {
+    final shouldShow = state is AsyncData && state.value != null;
+
+    if (shouldShow) {
+      state.value!.show(
+        onUserEarnedReward: (ad, reward) {
+          onRewarded();
+          state = AsyncLoading();
+        },
+      );
     }
-
-    state!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdDismissedFullScreenContent: (RewardedAd ad) {
-        debugPrint('광고가 닫혔습니다.');
-        ad.dispose();
-        state = null;
-        // getAd(); // 광고 다시 로드
-      },
-      onAdFailedToShowFullScreenContent:
-          (RewardedAd ad, AdError error) {
-            debugPrint('광고 표시 실패: $error');
-            ad.dispose();
-            state = null;
-          },
-    );
-
-    state!.show(
-      onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
-        debugPrint('보상 획득!');
-        onRewardEarned(); // 보상 지급 로직 실행
-        ad.dispose();
-        state = null;
-      },
-    );
-  }
-
-  // 광고를 해제하는 메소드
-  void disposeAd() {
-    state?.dispose();
-    state = null;
   }
 }

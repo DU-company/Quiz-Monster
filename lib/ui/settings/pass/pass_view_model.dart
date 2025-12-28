@@ -59,7 +59,7 @@ class PassViewModel extends Notifier<int> {
   /// 광고 보고 패스 추가되는 로직
   void showAd() {
     ref
-        .read(rewardedAdProvider.notifier)
-        .showAd(onRewardEarned: () => onPassChanged(state + 1));
+        .read(rewardedAdViewModelProvider.notifier)
+        .showAd(onRewarded: () => state = state + 1);
   }
 }

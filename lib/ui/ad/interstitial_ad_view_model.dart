@@ -60,7 +60,7 @@ class InterstitialAdViewModel extends AsyncNotifier<InterstitialAd?> {
   }
 
   void showAd() {
-    final shouldShow = state.hasValue && state.value != null;
+    final shouldShow = state is AsyncData && state.value != null;
     final adCount = ref.read(adCountProvider);
 
     if (shouldShow && adCount >= 3) {
