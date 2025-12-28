@@ -6,7 +6,7 @@ import 'package:quiz_monster/data/models/pagination_state.dart';
 import 'package:quiz_monster/data/entities/quiz_detail_entity.dart';
 import 'package:quiz_monster/data/models/quiz_detail_model.dart';
 import 'package:quiz_monster/data/models/quiz_model.dart';
-import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_state.dart';
+import 'package:quiz_monster/ui/quiz/detail/view_model/quiz_detail_state.dart';
 
 final quizRepositorProvider = Provider((ref) {
   final quizDataSource = ref.read(quizDataSourceProvider);

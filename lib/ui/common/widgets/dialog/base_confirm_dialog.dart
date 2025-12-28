@@ -36,19 +36,18 @@ class BaseConfirmDialog extends ConsumerWidget {
           /// Title
           Text(
             title,
-            style: theme.typo.subtitle1.copyWith(
+            style: theme.typo.headline6.copyWith(
               color: theme.color.secondary,
-              fontWeight: theme.typo.semiBold,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
 
           /// Content
           if (content != null)
             Text(
               content!,
               style: theme.typo.subtitle2.copyWith(
-                color: theme.color.subtext,
+                color: theme.color.onHintContainer,
                 fontWeight: theme.typo.semiBold,
               ),
             ),

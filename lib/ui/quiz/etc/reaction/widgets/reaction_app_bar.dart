@@ -4,11 +4,11 @@ import 'package:quiz_monster/core/theme/theme_provider.dart';
 
 class ReactionAppBar extends ConsumerWidget {
   final VoidCallback onTapBack;
-  final int count;
+  final int step;
   const ReactionAppBar({
     super.key,
     required this.onTapBack,
-    required this.count,
+    required this.step,
   });
 
   @override
@@ -19,7 +19,7 @@ class ReactionAppBar extends ConsumerWidget {
         onPressed: onTapBack,
         icon: Icon(Icons.arrow_back_ios),
       ),
-      actions: [Text('$count/5 회', style: theme.typo.headline6)],
+      actions: [Text('$step/5 회', style: theme.typo.headline6)],
     );
   }
 }

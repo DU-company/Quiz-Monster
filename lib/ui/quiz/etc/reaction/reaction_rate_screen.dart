@@ -17,60 +17,34 @@ import 'package:quiz_monster/ui/common/layout/default_layout.dart';
 import 'package:quiz_monster/core/theme/responsive/layout.dart';
 import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 import 'package:quiz_monster/ui/quiz/detail/widgets/exit_dialog.dart';
+import 'package:quiz_monster/ui/quiz/etc/reaction/view_model/reaction_view_model.dart';
 import 'package:quiz_monster/ui/quiz/etc/reaction/widgets/reaction_app_bar.dart';
 import 'package:quiz_monster/ui/quiz/etc/reaction/widgets/reaction_average_box.dart';
 import 'package:quiz_monster/ui/quiz/etc/reaction/widgets/reaction_circle.dart';
 import 'package:quiz_monster/ui/quiz/etc/reaction/widgets/replay_dialog.dart';
 
-class ReactionRateScreen extends ConsumerStatefulWidget {
+class ReactionRateScreen extends ConsumerWidget {
   static String routeName = 'reaction';
   const ReactionRateScreen({super.key});
 
   @override
-  ConsumerState<ReactionRateScreen> createState() =>
-      _ReactionRateScreenState();
-}
-
-class _ReactionRateScreenState
-    extends ConsumerState<ReactionRateScreen> {
-  int? startTime;
-  int count = 1;
-  String label = '';
-  List<int> resultList = [];
-  bool isGreen = false;
-
-  Future<void> countRandomTime() async {
-    await Future.delayed(Duration(milliseconds: _setRandomTime()));
-    startTime = DateTime.now().millisecondsSinceEpoch;
-    setState(() {
-      isGreen = true;
-    });
-    // SchedulerBinding.instance.ensureVisualUpdate();
-  }
-
-  // 2~4초 사이의 랜덤 시간 설정
-  int _setRandomTime() {
-    return Random().nextInt(2000) + 2000;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    countRandomTime();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.read(reactionViewModelProvider.notifier);
+    final reactionState = ref.watch(reactionViewModelProvider);
     ref.listen(adFinishedProvider, (p, n) async {
       if (n == true) {
-        resetScreen();
-        await countRandomTime();
+        viewModel.resetScreen();
         ref.read(adFinishedProvider.notifier).onReset();
       }
     });
 
-    final isStepOver = isGreen && label.isNotEmpty; // 단계 끝
-    final isGameOver = count == 5 && label.isNotEmpty; // 게임 끝
+    // 단계 끝
+    final isStepOver =
+        reactionState.isGreen && reactionState.result.isNotEmpty;
+    // 게임 끝
+    final isGameOver =
+        reactionState.currentStep == 5 &&
+        reactionState.result.isNotEmpty;
 
     return DefaultLayout(
       needWillPopScope: true,
@@ -81,17 +55,22 @@ class _ReactionRateScreenState
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               /// AppBar
-              ReactionAppBar(onTapBack: onTapBack, count: count),
+              ReactionAppBar(
+                onTapBack: () => onTapBack(context),
+                step: reactionState.currentStep,
+              ),
               // UI 멈춤 방지
               CircularProgressIndicator(color: Colors.transparent),
               QuizDetailLayout(
                 /// Body
                 body: isGameOver
-                    ? ReactionAverageBox(testResults: resultList)
+                    ? ReactionAverageBox(
+                        testResults: reactionState.resultList,
+                      )
                     : ReactionCircle(
-                        onTapCircle: onTapCircle,
-                        isGreen: isGreen,
-                        label: label,
+                        onTapCircle: viewModel.onTapCircle,
+                        isGreen: reactionState.isGreen,
+                        label: reactionState.result,
                       ),
 
                 /// Footer
@@ -99,8 +78,8 @@ class _ReactionRateScreenState
                   label: isGameOver ? '다시 시작' : '다음',
                   onPressed: isStepOver
                       ? isGameOver
-                            ? shoReplayDialog
-                            : onTapNext
+                            ? () => shoReplayDialog(context, ref)
+                            : viewModel.onTapNext
                       : null,
                 ),
               ),
@@ -111,75 +90,31 @@ class _ReactionRateScreenState
     );
   }
 
-  void onTapBack() {
+  void onTapBack(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => ExitDialog(
         onTapConfirm: () {
           context.pop();
-          // resetScreen();
           context.goNamed(HomeScreen.routeName);
         },
       ),
     );
   }
 
-  void onTapCircle() {
-    if (isGreen && label.isNotEmpty) return;
-    if (startTime != null) {
-      int reactionTime =
-          DateTime.now().millisecondsSinceEpoch - startTime!;
-      // 50ms만큼 임의의 상향조정
-      int result = reactionTime >= 51
-          ? reactionTime - 50
-          : reactionTime;
-
-      setState(() {
-        label = '$result ms';
-        resultList = [...resultList, result];
-      });
-    } else {
-      setState(() {
-        label = '너무 빨리 눌렀습니다!';
-        count = 0;
-        isGreen = true;
-        resultList = [];
-      });
-    }
-    startTime = null;
-  }
-
-  void onTapNext() {
-    setState(() {
-      isGreen = false;
-      label = '';
-      count = count + 1;
-      startTime = null;
-      countRandomTime();
-    });
-  }
-
-  void shoReplayDialog() {
+  void shoReplayDialog(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
       builder: (context) {
-        return RecationReplayDialog(onTapReplay: _onTapReplay);
+        return RecationReplayDialog(
+          onTapReplay: () {
+            context.pop();
+            ref
+                .read(interstitialAdViewModelProvider.notifier)
+                .showAd();
+          },
+        );
       },
     );
-  }
-
-  void _onTapReplay() {
-    context.pop();
-    ref.read(interstitialAdViewModelProvider.notifier).showAd();
-  }
-
-  void resetScreen() {
-    setState(() {
-      isGreen = false;
-      count = 1;
-      label = '';
-      startTime = null;
-      resultList = [];
-    });
   }
 }

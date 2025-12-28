@@ -77,7 +77,7 @@ class QuizAppBar extends ConsumerWidget {
           onPressed: onLikePressed,
           icon: Icon(CupertinoIcons.suit_heart),
         ),
-        IconButton(onPressed: onMenuPressed, icon: Icon(Icons.menu)),
+        // IconButton(onPressed: onMenuPressed, icon: Icon(Icons.menu)),
       ],
     );
   }

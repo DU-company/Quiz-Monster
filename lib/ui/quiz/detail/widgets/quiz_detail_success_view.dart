@@ -13,7 +13,7 @@ import 'package:quiz_monster/core/provider/page_controller_provider.dart';
 import 'package:quiz_monster/ui/quiz/etc/fly/fly_screen.dart';
 import 'package:quiz_monster/ui/quiz/no_pass/no_pass_quiz_screen.dart';
 import 'package:quiz_monster/ui/quiz/pass/pass_quiz_screen.dart';
-import 'package:quiz_monster/ui/quiz/detail/detail_timer_view_model.dart';
+import 'package:quiz_monster/ui/quiz/detail/view_model/detail_timer_view_model.dart';
 import 'package:quiz_monster/ui/quiz/detail/widgets/detail_app_bar.dart';
 import 'package:quiz_monster/ui/settings/level/level_provider.dart';
 import 'package:quiz_monster/ui/settings/time/time_view_model.dart';

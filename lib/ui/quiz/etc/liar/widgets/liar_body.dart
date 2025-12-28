@@ -73,7 +73,7 @@ class LiarBody extends ConsumerWidget {
                         if (!showAnswer)
                           Center(
                             child: PrimaryButton(
-                              label: isLastPage ? '정답 보기' : '단어 보기',
+                              label: isLastPage ? '토론 끝내고 정답 보기' : '단어 보기',
                               onPressed: (isLastPage && showAnswer)
                                   ? null
                                   : onTapButton,
