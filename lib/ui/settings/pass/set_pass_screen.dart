@@ -6,30 +6,31 @@ import 'package:quiz_monster/core/const/data.dart';
 import 'package:quiz_monster/core/theme/theme_provider.dart';
 import 'package:quiz_monster/ui/quiz/pass/pass_quiz_screen.dart';
 import 'package:quiz_monster/ui/common/layout/setting_layout.dart';
+import 'package:quiz_monster/ui/quiz/pass/view_model/pass_view_model.dart';
 import '../../common/widgets/primary_button.dart';
-import '../time/time_screen.dart';
+import '../time/set_time_screen.dart';
 import '../level/level_provider.dart';
 import 'pass_view_model.dart';
 
-class PassScreen extends ConsumerWidget {
+class SetPassScreen extends ConsumerWidget {
   static String routeName = 'pass';
-  const PassScreen({super.key});
+  const SetPassScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pass = ref.watch(passViewModelProvider);
+    final state = ref.watch(passViewModelProvider);
     final viewModel = ref.read(passViewModelProvider.notifier);
 
     return SettingLayout(
       label: '패스 횟수를 선택해 주세요\n(1~9회 선택 가능)',
       body: _PassKeyboard(
-        pass: pass,
+        passCount: state.passCount,
         onTapNumber: (number) => viewModel.onPassChanged(number),
         noPassPressed: () => viewModel.onTapNoPass(context),
       ),
       footer: PrimaryButton(
         label: 'NEXT',
-        onPressed: pass == 0
+        onPressed: state.passCount == 0
             ? null
             : () => viewModel.onTapNext(context),
       ),
@@ -38,12 +39,12 @@ class PassScreen extends ConsumerWidget {
 }
 
 class _PassKeyboard extends ConsumerWidget {
-  final int pass;
+  final int passCount;
   final void Function(int number) onTapNumber;
   final void Function() noPassPressed;
   const _PassKeyboard({
     super.key,
-    required this.pass,
+    required this.passCount,
     required this.onTapNumber,
     required this.noPassPressed,
   });
@@ -64,7 +65,7 @@ class _PassKeyboard extends ConsumerWidget {
           child: Column(
             children: [
               Text(
-                'PASS : $pass 회',
+                'PASS : $passCount 회',
                 textAlign: TextAlign.center,
                 style: theme.typo.headline5.copyWith(
                   color: theme.color.primary,

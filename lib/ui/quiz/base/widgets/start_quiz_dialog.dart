@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quiz_monster/core/provider/selected_quiz_provider.dart';
 import 'package:quiz_monster/data/models/quiz_model.dart';
-import 'package:quiz_monster/ui/settings/player/player_screen.dart';
-import 'package:quiz_monster/ui/settings/level/level_screen.dart';
-import 'package:quiz_monster/ui/settings/pass/pass_screen.dart';
+import 'package:quiz_monster/ui/settings/player/set_player_screen.dart';
+import 'package:quiz_monster/ui/settings/level/set_level_screen.dart';
+import 'package:quiz_monster/ui/settings/pass/set_pass_screen.dart';
 import 'package:quiz_monster/ui/settings/time/time_count_screen.dart';
 import 'package:quiz_monster/ui/common/widgets/dialog/base_confirm_dialog.dart';
 
@@ -38,7 +38,7 @@ class StartQuizDialog extends ConsumerWidget {
       return;
     }
     if (model.hasPass) {
-      context.pushNamed(PassScreen.routeName);
+      context.pushNamed(SetPassScreen.routeName);
       return;
     } else {
       context.pushNamed(LevelScreen.routeName);

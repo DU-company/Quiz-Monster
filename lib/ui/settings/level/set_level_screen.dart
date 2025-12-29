@@ -6,7 +6,7 @@ import 'package:quiz_monster/core/provider/selected_quiz_provider.dart';
 import 'package:quiz_monster/ui/common/layout/setting_layout.dart';
 import 'package:quiz_monster/ui/settings/level/level_button.dart';
 
-import '../time/time_screen.dart';
+import '../time/set_time_screen.dart';
 import 'level_provider.dart';
 
 class LevelScreen extends ConsumerWidget {

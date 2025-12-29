@@ -3,12 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quiz_monster/core/theme/theme_provider.dart';
+import 'package:quiz_monster/ui/common/layout/quiz_detail_layout.dart';
+import 'package:quiz_monster/ui/common/layout/setting_layout.dart';
 import 'package:quiz_monster/ui/common/screens/home_screen.dart';
 import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
 import 'package:quiz_monster/ui/common/layout/default_layout.dart';
 import 'package:quiz_monster/core/theme/responsive/layout.dart';
 import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 import 'package:quiz_monster/ui/quiz/pass/pass_quiz_screen.dart';
+import 'package:quiz_monster/ui/quiz/pass/view_model/pass_view_model.dart';
 
 class ResultScreen extends ConsumerWidget {
   static String routeName = 'result';
@@ -17,8 +20,7 @@ class ResultScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(currentIndexProvider);
-    final correctWords = ref.watch(correctWordProvider);
-    final passedWords = ref.watch(passedWordProvider);
+    final state = ref.watch(passViewModelProvider);
 
     return DefaultLayout(
       needWillPopScope: true,
@@ -26,59 +28,33 @@ class ResultScreen extends ConsumerWidget {
         top: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: context.layout(
-            /// mobile과 Tablet은 세로로 배치
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const SizedBox(height: kToolbarHeight),
-                        _Top(
-                          passedWords: passedWords,
-                          currentIndex: currentIndex,
-                        ),
-                        Divider(),
-                        _Body(
-                          passedWords: passedWords,
-                          correctWords: correctWords,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                _Footer(onPressed: () => onPressed(context, ref)),
-              ],
-            ),
-
-            /// Desktop은 가로로 1:1 배치
-            desktop: Row(
-              children: [
-                Expanded(
-                  child: _Top(
-                    passedWords: passedWords,
-                    currentIndex: currentIndex,
-                  ),
-                ),
-                Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      _Body(
-                        passedWords: passedWords,
-                        correctWords: correctWords,
+                      const SizedBox(height: kToolbarHeight),
+                      _Top(
+                        passedWords: state.passedWords,
+                        currentIndex: currentIndex,
                       ),
-                      _Footer(
-                        onPressed: () => onPressed(context, ref),
+                      Divider(),
+                      _Body(
+                        passedWords: state.passedWords,
+                        correctWords: state.correctWords,
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              PrimaryButton(
+                label: 'Home',
+                onPressed: () => onPressed(context, ref),
+              ),
+            ],
           ),
         ),
       ),
@@ -86,9 +62,9 @@ class ResultScreen extends ConsumerWidget {
   }
 
   void onPressed(BuildContext context, WidgetRef ref) {
-    ref.read(passedWordProvider.notifier).state = [];
     context.goNamed(HomeScreen.routeName);
-    ref.read(currentIndexProvider.notifier).state = 0;
+    ref.read(passViewModelProvider.notifier).reset();
+    // 세팅 초기화?
   }
 }
 
@@ -112,21 +88,21 @@ class _Top extends ConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(
-          'assets/img/wow.png',
-          height: 100,
+        SvgPicture.asset(
+          'assets/img/wow.svg',
+          height: 72,
           fit: BoxFit.cover,
         ),
         const SizedBox(height: 16),
         SvgPicture.asset(
           'assets/img/eyes1.svg',
-          height: 100,
+          height: 72,
           fit: BoxFit.cover,
         ),
 
         const SizedBox(height: 16),
         Text(
-          'YOUR SCORE IS',
+          'YOUR SCORE IS...',
           textAlign: TextAlign.center,
           style: ts.copyWith(fontWeight: FontWeight.w300),
         ),
@@ -136,6 +112,27 @@ class _Top extends ConsumerWidget {
           textAlign: TextAlign.center,
           style: ts.copyWith(fontSize: 48),
         ),
+      ],
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final List<String> passedWords;
+  final List<String> correctWords;
+  const _Body({
+    super.key,
+    required this.passedWords,
+    required this.correctWords,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _WordBox(words: passedWords, label: 'PASS'),
+        Divider(),
+        _WordBox(words: correctWords, label: 'CORRECT'),
       ],
     );
   }
@@ -192,41 +189,5 @@ class _WordBox extends ConsumerWidget {
         ),
       ),
     );
-  }
-}
-
-class _Body extends StatelessWidget {
-  final List<String> passedWords;
-  final List<String> correctWords;
-  const _Body({
-    super.key,
-    required this.passedWords,
-    required this.correctWords,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            _WordBox(words: passedWords, label: 'PASSED WORD'),
-            Divider(),
-            _WordBox(words: correctWords, label: 'CORRECT WORD'),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _Footer extends StatelessWidget {
-  final VoidCallback onPressed;
-  const _Footer({super.key, required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return PrimaryButton(label: 'Home', onPressed: onPressed);
   }
 }

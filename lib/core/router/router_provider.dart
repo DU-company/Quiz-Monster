@@ -6,17 +6,17 @@ import 'package:quiz_monster/data/models/quiz_detail_model.dart';
 import 'package:quiz_monster/data/models/quiz_model.dart';
 import 'package:quiz_monster/ui/common/screens/home_screen.dart';
 import 'package:quiz_monster/ui/quiz/etc/liar/liar_screen.dart';
-import 'package:quiz_monster/ui/settings/player/player_screen.dart';
+import 'package:quiz_monster/ui/settings/player/set_player_screen.dart';
 import 'package:quiz_monster/ui/quiz/etc/reaction/reaction_rate_screen.dart';
 
 import 'package:quiz_monster/ui/wishlist/wishlist_screen.dart';
 import 'package:quiz_monster/ui/quiz/detail/quiz_detail_screen.dart';
-import 'package:quiz_monster/ui/settings/level/level_screen.dart';
+import 'package:quiz_monster/ui/settings/level/set_level_screen.dart';
 import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
-import 'package:quiz_monster/ui/result/result_screen.dart';
+import 'package:quiz_monster/ui/quiz/pass/pass_result_screen.dart';
 import 'package:quiz_monster/ui/settings/time/time_count_screen.dart';
-import 'package:quiz_monster/ui/settings/time/time_screen.dart';
-import '../../ui/settings/pass/pass_screen.dart';
+import 'package:quiz_monster/ui/settings/time/set_time_screen.dart';
+import '../../ui/settings/pass/set_pass_screen.dart';
 import '../../test/test_screen.dart';
 
 final goRouterProvider = Provider((ref) {
@@ -48,8 +48,8 @@ final goRouterProvider = Provider((ref) {
       /// Settings
       GoRoute(
         path: '/pass',
-        builder: (_, _) => PassScreen(),
-        name: PassScreen.routeName,
+        builder: (_, _) => SetPassScreen(),
+        name: SetPassScreen.routeName,
       ),
       GoRoute(
         path: '/level',

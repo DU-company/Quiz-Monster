@@ -10,11 +10,9 @@ import 'package:quiz_monster/data/entities/quiz_detail_entity.dart';
 import 'package:quiz_monster/ui/common/layout/quiz_detail_layout.dart';
 import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
 import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
-import 'package:quiz_monster/ui/result/result_screen.dart';
+import 'package:quiz_monster/ui/quiz/pass/pass_result_screen.dart';
+import 'package:quiz_monster/ui/quiz/pass/view_model/pass_view_model.dart';
 import 'package:quiz_monster/ui/settings/pass/pass_view_model.dart';
-
-final passedWordProvider = StateProvider<List<String>>((ref) => []);
-final correctWordProvider = StateProvider<List<String>>((ref) => []);
 
 class PassQuizScreen extends ConsumerWidget {
   final List<QuizDetailModel> items;
@@ -34,9 +32,9 @@ class PassQuizScreen extends ConsumerWidget {
     final viewModel = ref.read(passViewModelProvider.notifier);
 
     /// state
-    final passCount = ref.watch(passViewModelProvider);
-    final currentIndex = ref.watch(currentIndexProvider);
+    final state = ref.watch(passViewModelProvider);
     final ad = ref.watch(rewardedAdViewModelProvider);
+    final currentIndex = ref.watch(currentIndexProvider);
 
     /// boolean
     final isGameOver = remainingSeconds == 0 || currentIndex == 30;
@@ -78,13 +76,13 @@ class PassQuizScreen extends ConsumerWidget {
           if (isGameOver) _GameOver(),
           if (!isGameOver)
             _PassFooter(
-              passCount: passCount,
+              passCount: state.passCount,
               isGameOver: isGameOver,
-              onNextPage: () => viewModel.onNextPage(
+              onNextPage: () => viewModel.onTapCorrect(
                 pageController,
                 items[currentIndex].answer,
               ),
-              onPass: () => viewModel.onPass(
+              onPass: () => viewModel.onTapPass(
                 pageController,
                 items[currentIndex].answer,
               ),

@@ -7,7 +7,7 @@ import 'package:quiz_monster/core/theme/theme_provider.dart';
 import 'package:quiz_monster/ui/ad/ad_finished_provider.dart';
 import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
 import 'package:quiz_monster/core/utils/data_utils.dart';
-import 'package:quiz_monster/ui/settings/player/player_view_model.dart';
+import 'package:quiz_monster/ui/settings/player/set_player_view_model.dart';
 import 'package:quiz_monster/ui/quiz/etc/liar/liar_screen.dart';
 import 'package:quiz_monster/ui/common/layout/setting_layout.dart';
 import 'package:quiz_monster/ui/settings/time/time_count_screen.dart';

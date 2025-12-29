@@ -12,7 +12,7 @@ import 'package:quiz_monster/core/provider/selected_quiz_provider.dart';
 import 'package:quiz_monster/core/theme/responsive/layout.dart';
 import 'package:quiz_monster/core/utils/data_utils.dart';
 import 'package:quiz_monster/ui/common/layout/setting_layout.dart';
-import 'package:quiz_monster/ui/settings/time/time_view_model.dart';
+import 'package:quiz_monster/ui/settings/time/set_time_view_model.dart';
 import 'package:quiz_monster/ui/settings/time/time_count_screen.dart';
 import 'package:quiz_monster/ui/settings/time/widgets/time_picker.dart';
 

@@ -29,17 +29,5 @@ class PlayerViewModel extends Notifier<int> {
 
   void onStart(BuildContext context) {
     ref.read(interstitialAdViewModelProvider.notifier).showAd();
-    // final ad = ref.read(interstitialAdViewModelProvider);
-    // final shouldShow = ad.hasValue && ad.value != null;
-    // final adCount = ref.read(adCountProvider);
-    //
-    // if (shouldShow && adCount >= 3) {
-    //   ref.read(adCountProvider.notifier).resetCount();
-    //   ad.value!.show();
-    // } else {
-    //   ref.read(adCountProvider.notifier).increaseCount();
-    // }
-    //
-    // /// 다음 화면으로 넘어가질까?
   }
 }
