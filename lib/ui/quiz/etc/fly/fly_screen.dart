@@ -2,11 +2,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:quiz_monster/core/theme/theme_provider.dart';
 import 'package:quiz_monster/ui/common/widgets/loading_widget.dart';
 import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
 import 'package:quiz_monster/core/theme/responsive/layout.dart';
 import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 import 'package:quiz_monster/ui/common/layout/quiz_detail_layout.dart';
+import 'package:quiz_monster/ui/quiz/etc/fly/fly_view_model.dart';
 import 'package:quiz_monster/ui/settings/level/level_provider.dart';
 
 class FlyScreen extends ConsumerStatefulWidget {
@@ -24,132 +27,90 @@ class FlyScreen extends ConsumerStatefulWidget {
 }
 
 class _FlyScreenState extends ConsumerState<FlyScreen> {
-  final Random _random = Random();
-  late int flyCount;
-  List<Offset>? flyPositions;
-  double? _width;
-  double? _height;
-
   @override
   void initState() {
     super.initState();
-    _generateFlies();
-  }
-
-  void _generateFlies() {
-    final level = ref.read(levelProvider);
-    if (level == null) {
-      flyCount = _random.nextInt(19) + 5; // 5~24마리 사이 랜덤 개수
-    } else if (level == 1) {
-      flyCount = _random.nextInt(5) + 5; // 5~10마리 사이 랜덤 개수
-    } else if (level == 2) {
-      flyCount = _random.nextInt(9) + 7; // 7~16마리 사이 랜덤 개수
-    } else if (level == 3) {
-      flyCount = _random.nextInt(14) + 10; // 10~24마리 사이 랜덤 개수
-    }
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
-        _width = MediaQuery.of(context).size.width / 1.5;
-        _height = MediaQuery.of(context).size.height / 2;
-
-        if (_width != null && _height != null) {
-          setState(() {
-            flyPositions = List.generate(
-              flyCount,
-              (index) => Offset(
-                _random.nextDouble() * _width!, // X 좌표 (화면 크기에 맞게 조정)
-                _random.nextDouble() * _height!, // Y 좌표
-              ),
-            );
-          });
-        } else {
-          print('Error');
-        }
-      },
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(flyViewModelProvider.notifier).initFlies(context);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = ref.read(themeServiceProvider);
     final showAnswer = ref.watch(showAnswerProvider);
+    final state = ref.watch(flyViewModelProvider);
 
-    if (flyPositions == null) {
+    if (state.flyPositions.isEmpty) {
       return LoadingWidget();
-    } else {
-      return Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  // 랜덤하게 배치된 파리들
-                  ...flyPositions!.map(
-                    (pos) => Positioned(
-                      left: pos.dx,
-                      top: pos.dy,
-                      child: Image.asset(
-                        'assets/img/fly.png',
-                        width: context.layout(80, mobile: 64),
-                        height: context.layout(80, mobile: 64),
-                      ),
-                    ),
-                  ),
-                  // 정답 확인 버튼
-                ],
-              ),
-            ),
-            _TimeOver(remainingSeconds: widget.remainingSeconds),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    }
+
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: Stack(
               children: [
-                Expanded(
-                  child: PrimaryButton(
-                    backgroundColor: Colors.orange,
-                    foregroundColor: Colors.black,
-                    label: '새로 고침',
-                    child: Icon(
-                      Icons.refresh,
-                      size: 24,
-                      color: Colors.black,
+                // 랜덤하게 배치된 파리들
+                ...state.flyPositions.map(
+                  (pos) => Positioned(
+                    left: pos.dx,
+                    top: pos.dy,
+                    child: SvgPicture.asset(
+                      'assets/img/fly.svg',
+                      width: context.layout(80, mobile: 64),
+                      height: context.layout(80, mobile: 64),
                     ),
-                    onPressed: () {
-                      _generateFlies();
-                      widget.onReplay();
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    showAnswer ? '$flyCount 마리' : '',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: context.layout(48, mobile: 18),
-                        fontWeight: FontWeight.w700),
-                  ),
-                ),
-                Expanded(
-                  child: PrimaryButton(
-                    label: '정답',
-                    onPressed: widget.showAnswerPressed,
                   ),
                 ),
               ],
             ),
-          ],
-        ),
-      );
-    }
+          ),
+          _TimeOver(remainingSeconds: widget.remainingSeconds),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: PrimaryButton(
+                  backgroundColor: theme.color.onSecondary,
+                  foregroundColor: theme.color.secondary,
+                  label: '새로 고침',
+                  child: Icon(Icons.refresh, size: 24),
+                  onPressed: () {
+                    ref
+                        .read(flyViewModelProvider.notifier)
+                        .initFlies(context);
+                    widget.onReplay();
+                  },
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  showAnswer ? '${state.flyCount} 마리' : '',
+                  textAlign: TextAlign.center,
+                  style: theme.typo.headline6.copyWith(
+                    fontSize: context.layout(48, mobile: 18),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: PrimaryButton(
+                  label: '정답',
+                  onPressed: widget.showAnswerPressed,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
 class _TimeOver extends StatelessWidget {
   final int remainingSeconds;
-  const _TimeOver({
-    super.key,
-    required this.remainingSeconds,
-  });
+  const _TimeOver({super.key, required this.remainingSeconds});
 
   @override
   Widget build(BuildContext context) {
