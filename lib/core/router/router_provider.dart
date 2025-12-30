@@ -75,11 +75,11 @@ final goRouterProvider = Provider((ref) {
       /// Quiz
       GoRoute(
         path: '/quiz-detail/:qid',
+        name: QuizDetailScreen.routeName,
         builder: (_, state) {
           final qid = int.parse(state.pathParameters['qid']!);
           return QuizDetailScreen(qid);
         },
-        name: QuizDetailScreen.routeName,
       ),
       GoRoute(
         path: '/result',
@@ -87,14 +87,6 @@ final goRouterProvider = Provider((ref) {
         name: ResultScreen.routeName,
       ),
 
-      GoRoute(
-        path: '/liar',
-        builder: (_, state) {
-          final items = state.extra as List<QuizDetailModel>;
-          return LiarGameScreen(items);
-        },
-        name: LiarGameScreen.routeName,
-      ),
       GoRoute(
         path: '/reaction',
         builder: (_, _) => ReactionRateScreen(),

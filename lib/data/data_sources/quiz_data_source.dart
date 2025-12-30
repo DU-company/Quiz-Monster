@@ -14,7 +14,10 @@ class QuizDataSource {
   QuizDataSource(this.supabase);
 
   Future<List<Map<String, dynamic>>> fetchQuiz() async {
-    final resp = await supabase.from('quiz').select();
+    final resp = await supabase
+        .from('quiz')
+        .select()
+        .order('id', ascending: true);
     return resp;
   }
 

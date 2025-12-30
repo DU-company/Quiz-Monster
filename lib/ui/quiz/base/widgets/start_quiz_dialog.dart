@@ -29,7 +29,7 @@ class StartQuizDialog extends ConsumerWidget {
     context.pop();
     ref.read(selectedQuizProvider.notifier).state = model;
 
-    if (model.title == '라이어 게임') {
+    if (model.title.contains('라이어 게임')) {
       context.pushNamed(PlayerScreen.routeName);
       return;
     }

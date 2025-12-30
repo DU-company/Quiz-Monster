@@ -18,8 +18,6 @@ import 'package:quiz_monster/core/provider/page_controller_provider.dart';
 import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 
 class LiarGameScreen extends ConsumerWidget {
-  static String routeName = 'liar';
-
   final List<QuizDetailModel> items;
   const LiarGameScreen(this.items);
 

@@ -4,9 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quiz_monster/core/const/data.dart';
+import 'package:quiz_monster/core/theme/color/app_color.dart';
 import 'package:quiz_monster/core/theme/responsive/layout.dart';
 import 'package:quiz_monster/core/theme/theme_provider.dart';
 import 'package:quiz_monster/data/models/quiz_model.dart';
+import 'package:quiz_monster/test/test_screen.dart';
 import 'package:quiz_monster/ui/wishlist/wishlist_screen.dart';
 
 class QuizAppBar extends ConsumerWidget {
@@ -15,6 +17,8 @@ class QuizAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.read(themeServiceProvider);
+
     return SliverToBoxAdapter(
       child: SafeArea(
         child: Padding(
@@ -23,6 +27,7 @@ class QuizAppBar extends ConsumerWidget {
             children: [
               /// Top
               renderTop(
+                color: theme.color,
                 onMenuPressed: () {},
                 // onMenuPressed: () => context.pushNamed(TestScreen.routeName),
                 onLikePressed: () => context.pushNamed(
@@ -59,6 +64,7 @@ class QuizAppBar extends ConsumerWidget {
   }
 
   Widget renderTop({
+    required AppColor color,
     required VoidCallback onMenuPressed,
     required VoidCallback onLikePressed,
   }) {
@@ -67,7 +73,7 @@ class QuizAppBar extends ConsumerWidget {
         Text(
           'QUIZ MONSTER',
           style: TextStyle(
-            color: MAIN_COLOR,
+            color: color.primary,
             fontFamily: 'Roboto',
             fontWeight: FontWeight.w700,
           ),

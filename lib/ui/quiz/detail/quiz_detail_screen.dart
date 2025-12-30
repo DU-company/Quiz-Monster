@@ -37,7 +37,7 @@ class QuizDetailScreen extends ConsumerWidget {
     }
     state as QuizDetailSuccess;
 
-    if (state.quiz.title == '라이어 게임') {
+    if (state.quiz.title.contains('라이어 게임')) {
       // 라이어 게임은 앱바가 필요하지 않고, 다른 게임들과 화면 분리가 필요
       return LiarGameScreen(state.items);
     }

@@ -48,8 +48,6 @@ class QuizRepository {
 
       return QuizDetailSuccess(quiz: quiz, items: items.toList());
     } catch (e) {
-      print(e);
-
       throw QuizItemException();
     }
   }

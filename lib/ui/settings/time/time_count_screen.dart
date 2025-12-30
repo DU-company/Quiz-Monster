@@ -69,8 +69,6 @@ class _TimeCountScreenState extends ConsumerState<TimeCountScreen>
     final selectedModel = ref.read(selectedQuizProvider);
     if (selectedModel!.title == '반응속도 테스트') {
       context.goNamed(ReactionRateScreen.routeName);
-    } else if (selectedModel.title == '러이어 게임') {
-      context.goNamed(LiarGameScreen.routeName);
     } else {
       context.goNamed(
         QuizDetailScreen.routeName,
