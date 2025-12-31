@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz_monster/data/models/pagination_state.dart';
-import 'package:quiz_monster/data/entities/quiz_detail_entity.dart';
-import 'package:quiz_monster/data/models/quiz_detail_model.dart';
+import 'package:quiz_monster/ui/quiz/base/quiz_screen.dart';
 import 'package:quiz_monster/ui/quiz/etc/liar/liar_screen.dart';
 import 'package:quiz_monster/ui/quiz/detail/view_model/quiz_detail_state.dart';
 import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
 import 'package:quiz_monster/ui/common/layout/default_layout.dart';
-import 'package:quiz_monster/ui/common/screens/home_screen.dart';
 import 'package:quiz_monster/ui/common/widgets/error_message_widget.dart';
 import 'package:quiz_monster/ui/common/widgets/loading_widget.dart';
 import 'package:quiz_monster/ui/quiz/detail/view_model/quiz_detail_view_model.dart';
@@ -21,7 +18,11 @@ class QuizDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final detailState = ref.watch(quizDetailViewModelProvider(qid));
-    return DefaultLayout(child: _body(detailState, context));
+    return DefaultLayout(
+      needWillPopScope: true,
+      needPadding: true,
+      child: _body(detailState, context),
+    );
   }
 
   Widget _body(QuizDetailState state, BuildContext context) {
@@ -31,7 +32,7 @@ class QuizDetailScreen extends ConsumerWidget {
     if (state is QuizDetailError) {
       return ErrorMessageWidget(
         message: state.message,
-        onTap: () => context.goNamed(HomeScreen.routeName),
+        onTap: () => context.goNamed(QuizScreen.routeName),
         label: '홈으로',
       );
     }

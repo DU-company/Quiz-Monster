@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:quiz_monster/core/theme/theme_provider.dart';
-
-import 'package:quiz_monster/ui/common/screens/home_screen.dart';
 import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
 
 class ErrorMessageWidget extends ConsumerWidget {

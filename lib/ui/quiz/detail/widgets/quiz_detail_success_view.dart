@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz_monster/data/entities/quiz_detail_entity.dart';
 import 'package:quiz_monster/data/models/quiz_detail_model.dart';
-import 'package:quiz_monster/ui/quiz/etc/liar/liar_screen.dart';
-import 'package:quiz_monster/ui/common/screens/home_screen.dart';
+import 'package:quiz_monster/ui/quiz/base/quiz_screen.dart';
 import 'package:quiz_monster/core/provider/selected_quiz_provider.dart';
 import 'package:quiz_monster/ui/common/layout/default_layout.dart';
 import 'package:quiz_monster/core/provider/page_controller_provider.dart';
@@ -68,64 +66,53 @@ class _QuizScreenState extends ConsumerState<QuizDetailSuccessView>
       playSound();
     }
 
-    return DefaultLayout(
-      needWillPopScope: true,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 8,
-          ),
-          child: Column(
-            children: [
-              DetailAppBar(
-                itemLength: widget.items.length,
-                currentIndex: currentIndex,
-                animationController: animationController,
-                remainingSeconds: remainingSeconds,
-                onTapConfirm: onTapConfirm,
-              ),
-
-              /// Pass
-              if (selectedQuiz!.hasPass && !selectedQuiz.isEtc)
-                PassQuizScreen(
-                  items: widget.items,
-                  pageController: pageController,
-                  remainingSeconds: remainingSeconds,
-                ),
-
-              /// NoPass
-              if (!selectedQuiz.hasPass && !selectedQuiz.isEtc)
-                NoPassQuizScreen(
-                  items: widget.items,
-                  remainingSeconds: remainingSeconds,
-                  pageController: pageController,
-                  onNextPressed: onNextPressed,
-                  onPrevPressed: onPrevPressed,
-                  showAnswerPressed: showAnswerPressed,
-                ),
-
-              /// ETC
-              if (selectedQuiz.title == '나는야 아나운서' ||
-                  selectedQuiz.title == '훈민정음')
-                NoPassQuizScreen(
-                  items: widget.items,
-                  remainingSeconds: remainingSeconds,
-                  pageController: pageController,
-                  onNextPressed: onNextPressed,
-                  onPrevPressed: onPrevPressed,
-                  showAnswerPressed: showAnswerPressed,
-                ),
-              if (selectedQuiz.title == '파리가 몇 마리?')
-                FlyScreen(
-                  showAnswerPressed: showAnswerPressed,
-                  onReplay: onReplay,
-                  remainingSeconds: remainingSeconds,
-                ),
-            ],
-          ),
+    return Column(
+      children: [
+        DetailAppBar(
+          itemLength: widget.items.length,
+          currentIndex: currentIndex,
+          animationController: animationController,
+          remainingSeconds: remainingSeconds,
+          onTapConfirm: onTapConfirm,
         ),
-      ),
+
+        /// Pass
+        if (selectedQuiz!.hasPass && !selectedQuiz.isEtc)
+          PassQuizScreen(
+            items: widget.items,
+            pageController: pageController,
+            remainingSeconds: remainingSeconds,
+          ),
+
+        /// NoPass
+        if (!selectedQuiz.hasPass && !selectedQuiz.isEtc)
+          NoPassQuizScreen(
+            items: widget.items,
+            remainingSeconds: remainingSeconds,
+            pageController: pageController,
+            onNextPressed: onNextPressed,
+            onPrevPressed: onPrevPressed,
+            showAnswerPressed: showAnswerPressed,
+          ),
+
+        /// ETC
+        if (selectedQuiz.title == '나는야 아나운서' ||
+            selectedQuiz.title == '훈민정음')
+          NoPassQuizScreen(
+            items: widget.items,
+            remainingSeconds: remainingSeconds,
+            pageController: pageController,
+            onNextPressed: onNextPressed,
+            onPrevPressed: onPrevPressed,
+            showAnswerPressed: showAnswerPressed,
+          ),
+        if (selectedQuiz.title == '파리가 몇 마리?')
+          FlyScreen(
+            showAnswerPressed: showAnswerPressed,
+            onReplay: onReplay,
+            remainingSeconds: remainingSeconds,
+          ),
+      ],
     );
   }
 
@@ -183,6 +170,6 @@ class _QuizScreenState extends ConsumerState<QuizDetailSuccessView>
     stopSound();
     ref.read(currentIndexProvider.notifier).state = 0;
 
-    context.goNamed(HomeScreen.routeName);
+    context.goNamed(QuizScreen.routeName);
   }
 }

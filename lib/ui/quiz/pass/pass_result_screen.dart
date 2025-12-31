@@ -1,16 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quiz_monster/core/theme/theme_provider.dart';
-import 'package:quiz_monster/ui/common/layout/quiz_detail_layout.dart';
-import 'package:quiz_monster/ui/common/layout/setting_layout.dart';
-import 'package:quiz_monster/ui/common/screens/home_screen.dart';
 import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
 import 'package:quiz_monster/ui/common/layout/default_layout.dart';
 import 'package:quiz_monster/core/theme/responsive/layout.dart';
+import 'package:quiz_monster/ui/quiz/base/quiz_screen.dart';
 import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
-import 'package:quiz_monster/ui/quiz/pass/pass_quiz_screen.dart';
 import 'package:quiz_monster/ui/quiz/pass/view_model/pass_view_model.dart';
 
 class ResultScreen extends ConsumerWidget {
@@ -24,45 +23,38 @@ class ResultScreen extends ConsumerWidget {
 
     return DefaultLayout(
       needWillPopScope: true,
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: kToolbarHeight),
-                      _Top(
-                        passedWords: state.passedWords,
-                        currentIndex: currentIndex,
-                      ),
-                      Divider(),
-                      _Body(
-                        passedWords: state.passedWords,
-                        correctWords: state.correctWords,
-                      ),
-                    ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _Top(
+                    passedWords: state.passedWords,
+                    currentIndex: currentIndex,
                   ),
-                ),
+                  Divider(),
+                  _Body(
+                    passedWords: state.passedWords,
+                    correctWords: state.correctWords,
+                  ),
+                ],
               ),
-              PrimaryButton(
-                label: 'Home',
-                onPressed: () => onPressed(context, ref),
-              ),
-            ],
+            ),
           ),
-        ),
+          PrimaryButton(
+            label: 'Home',
+            onPressed: () => onPressed(context, ref),
+          ),
+        ],
       ),
     );
   }
 
   void onPressed(BuildContext context, WidgetRef ref) {
-    context.goNamed(HomeScreen.routeName);
+    context.goNamed(QuizScreen.routeName);
     ref.read(passViewModelProvider.notifier).reset();
     // 세팅 초기화?
   }
@@ -152,42 +144,34 @@ class _WordBox extends ConsumerWidget {
     final theme = ref.read(themeServiceProvider);
     return Column(
       children: [
-        renderLabel(label),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: theme.typo.headline1.copyWith(
+              fontSize: context.layout(48, mobile: 32),
+              fontFamily: 'Roboto',
+            ),
+          ),
+        ),
         Wrap(
           alignment: WrapAlignment.spaceEvenly,
           children: List.generate(
             words.length,
             (index) => Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8,
-              ),
+              padding: const EdgeInsets.all(8),
               child: Text(
-                words[index],
-                style: theme.typo.subtitle1.copyWith(
-                  fontSize: context.layout(32, mobile: 20),
+                '[${words[index]}]',
+                textAlign: TextAlign.center,
+                style: theme.typo.subtitle2.copyWith(
+                  fontSize: context.layout(24, mobile: 18),
                 ),
               ),
             ),
           ),
         ),
       ],
-    );
-  }
-
-  Widget renderLabel(String label) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Text(
-        label,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 24,
-          fontWeight: FontWeight.w700,
-          fontFamily: 'Roboto',
-        ),
-      ),
     );
   }
 }

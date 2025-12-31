@@ -30,18 +30,19 @@ class QuizSuccessView extends ConsumerWidget {
               )
               .toList()
         : items.where((e) => e.isEtc == true).toList();
-    return DefaultLayout(
-      backgroundColor: Colors.white,
-      child: CustomScrollView(
-        slivers: [
-          QuizAppBar(items),
-          QuizCategoryList(
-            onPressed: (index) {
-              ref.read(_indexProvider.notifier).state = index;
-            },
-            currentIndex: currentIndex,
-          ),
-          SliverList.builder(
+    return CustomScrollView(
+      slivers: [
+        QuizAppBar(items),
+        QuizCategoryList(
+          onPressed: (index) {
+            ref.read(_indexProvider.notifier).state = index;
+          },
+          currentIndex: currentIndex,
+        ),
+        SliverPadding(
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          sliver: SliverList.separated(
+            separatorBuilder: (_, _) => const SizedBox(height: 8),
             itemCount: pList.length,
             itemBuilder: (context, index) {
               final model = pList[index];
@@ -59,8 +60,8 @@ class QuizSuccessView extends ConsumerWidget {
               );
             },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

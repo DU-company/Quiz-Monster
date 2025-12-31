@@ -1,21 +1,13 @@
-import 'dart:math';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:quiz_monster/core/utils/data_utils.dart';
-import 'package:quiz_monster/ui/ad/ad_count_provider.dart';
 import 'package:quiz_monster/ui/ad/ad_finished_provider.dart';
 import 'package:quiz_monster/ui/ad/interstitial_ad_view_model.dart';
 import 'package:quiz_monster/ui/common/layout/quiz_detail_layout.dart';
-import 'package:quiz_monster/ui/common/screens/home_screen.dart';
-import 'package:quiz_monster/ui/common/widgets/dialog/base_confirm_dialog.dart';
 import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
 import 'package:quiz_monster/ui/common/layout/default_layout.dart';
-import 'package:quiz_monster/core/theme/responsive/layout.dart';
-import 'package:quiz_monster/ui/quiz/detail/widgets/quiz_detail_success_view.dart';
+import 'package:quiz_monster/ui/quiz/base/quiz_screen.dart';
 import 'package:quiz_monster/ui/quiz/detail/widgets/exit_dialog.dart';
 import 'package:quiz_monster/ui/quiz/etc/reaction/view_model/reaction_view_model.dart';
 import 'package:quiz_monster/ui/quiz/etc/reaction/widgets/reaction_app_bar.dart';
@@ -48,44 +40,39 @@ class ReactionRateScreen extends ConsumerWidget {
 
     return DefaultLayout(
       needWillPopScope: true,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              /// AppBar
-              ReactionAppBar(
-                onTapBack: () => onTapBack(context),
-                step: reactionState.currentStep,
-              ),
-              // UI 멈춤 방지
-              CircularProgressIndicator(color: Colors.transparent),
-              QuizDetailLayout(
-                /// Body
-                body: isGameOver
-                    ? ReactionAverageBox(
-                        testResults: reactionState.resultList,
-                      )
-                    : ReactionCircle(
-                        onTapCircle: viewModel.onTapCircle,
-                        isGreen: reactionState.isGreen,
-                        label: reactionState.result,
-                      ),
-
-                /// Footer
-                footer: PrimaryButton(
-                  label: isGameOver ? '다시 시작' : '다음',
-                  onPressed: isStepOver
-                      ? isGameOver
-                            ? () => shoReplayDialog(context, ref)
-                            : viewModel.onTapNext
-                      : null,
-                ),
-              ),
-            ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          /// AppBar
+          ReactionAppBar(
+            onTapBack: () => onTapBack(context),
+            step: reactionState.currentStep,
           ),
-        ),
+          // UI 멈춤 방지
+          CircularProgressIndicator(color: Colors.transparent),
+          QuizDetailLayout(
+            /// Body
+            body: isGameOver
+                ? ReactionAverageBox(
+                    testResults: reactionState.resultList,
+                  )
+                : ReactionCircle(
+                    onTapCircle: viewModel.onTapCircle,
+                    isGreen: reactionState.isGreen,
+                    label: reactionState.result,
+                  ),
+
+            /// Footer
+            footer: PrimaryButton(
+              label: isGameOver ? '다시 시작' : '다음',
+              onPressed: isStepOver
+                  ? isGameOver
+                        ? () => shoReplayDialog(context, ref)
+                        : viewModel.onTapNext
+                  : null,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -96,7 +83,7 @@ class ReactionRateScreen extends ConsumerWidget {
       builder: (context) => ExitDialog(
         onTapConfirm: () {
           context.pop();
-          context.goNamed(HomeScreen.routeName);
+          context.goNamed(QuizScreen.routeName);
         },
       ),
     );

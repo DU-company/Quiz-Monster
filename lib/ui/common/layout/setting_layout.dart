@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
@@ -24,39 +26,32 @@ class SettingLayout extends ConsumerWidget {
     final selectedQuiz = ref.watch(selectedQuizProvider);
 
     return DefaultLayout(
-      title: selectedQuiz!.title,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      appBar: AppBar(title: Text(selectedQuiz!.title)),
+      child: context.layout(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Spacer(),
+            _Top(label: label),
+            Spacer(),
+            body,
+            Spacer(),
+            footer,
+          ],
+        ),
 
-          /// Mobile & Tablet
-          child: context.layout(
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Spacer(),
-                _Top(label: label),
-                Spacer(),
-                body,
-                Spacer(),
-                footer,
-              ],
+        /// Desktop
+        desktop: Row(
+          children: [
+            Expanded(child: _Top(label: label)),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [Spacer(), body, Spacer(), footer],
+              ),
             ),
-
-            /// Desktop
-            desktop: Row(
-              children: [
-                Expanded(child: _Top(label: label)),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [Spacer(), body, Spacer(), footer],
-                  ),
-                ),
-              ],
-            ),
-          ),
+          ],
         ),
       ),
     );

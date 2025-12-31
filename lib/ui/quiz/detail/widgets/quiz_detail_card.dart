@@ -16,7 +16,7 @@ class QuizDetailCard extends ConsumerWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: theme.color.secondary,
+        color: theme.color.onPrimary.withValues(alpha: 0.55),
         borderRadius: BorderRadius.circular(16),
       ),
       margin: EdgeInsets.symmetric(vertical: 16),

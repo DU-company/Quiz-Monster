@@ -9,6 +9,7 @@ import 'package:quiz_monster/data/models/quiz_model.dart';
 import 'package:quiz_monster/ui/common/layout/default_layout.dart';
 import 'package:quiz_monster/ui/quiz/base/quiz_view_model.dart';
 import 'package:quiz_monster/ui/quiz/base/widgets/quiz_card.dart';
+import 'package:quiz_monster/ui/quiz/base/widgets/start_quiz_dialog.dart';
 import 'package:quiz_monster/ui/wishlist/wishlist_view_model.dart';
 
 class WishlistScreen extends ConsumerWidget {
@@ -27,7 +28,19 @@ class WishlistScreen extends ConsumerWidget {
         .where((model) => wishlist.contains(model.id))
         .toList();
     return DefaultLayout(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.color.onPrimary,
+      appBar: AppBar(
+        backgroundColor: theme.color.onSecondary,
+        foregroundColor: theme.color.secondary,
+        centerTitle: false,
+        titleSpacing: 0,
+        title: Text(
+          '위시리스트',
+          style: theme.typo.headline5.copyWith(
+            color: theme.color.secondary,
+          ),
+        ),
+      ),
 
       /// Banner Ad
       bottomNavigationBar: SizedBox(
@@ -40,8 +53,7 @@ class WishlistScreen extends ConsumerWidget {
       /// Wishlist
       child: Column(
         children: [
-          _AppBar(),
-          if (wishlist.isEmpty)
+          if (pList.isEmpty)
             Expanded(
               child: Center(
                 child: Text(
@@ -52,15 +64,15 @@ class WishlistScreen extends ConsumerWidget {
                 ),
               ),
             ),
-          if (wishlist.isNotEmpty)
+          if (pList.isNotEmpty)
             Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                itemCount: wishlist.length,
+              child: ListView.separated(
+                separatorBuilder: (_, _) => const SizedBox(height: 8),
+                itemCount: pList.length,
                 itemBuilder: (context, index) {
                   final model = pList[index];
                   return GestureDetector(
-                    onTap: () {},
+                    onTap: () => onTapCard(context, ref, model),
                     child: QuizCard.fromModel(
                       model: model,
                       isLiked: true,
@@ -76,25 +88,15 @@ class WishlistScreen extends ConsumerWidget {
       ),
     );
   }
-}
 
-class _AppBar extends ConsumerWidget {
-  const _AppBar({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final theme = ref.read(themeServiceProvider);
-    return AppBar(
-      backgroundColor: theme.color.onSecondary,
-      foregroundColor: theme.color.secondary,
-      centerTitle: false,
-      titleSpacing: 0,
-      title: Text(
-        '위시리스트',
-        style: theme.typo.headline5.copyWith(
-          color: theme.color.secondary,
-        ),
-      ),
+  void onTapCard(
+    BuildContext context,
+    WidgetRef ref,
+    QuizModel model,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => StartQuizDialog(model: model),
     );
   }
 }

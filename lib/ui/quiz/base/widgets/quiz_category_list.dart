@@ -18,24 +18,23 @@ class QuizCategoryList extends ConsumerWidget {
     final theme = ref.read(themeServiceProvider);
 
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-        child: SizedBox(
-          height: 50,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: CATEGORIES.length,
-            itemBuilder: (context, index) {
-              if (index == CATEGORIES.length) {
-                return renderCategoryButton(index, '기타 게임', theme);
-              }
-              return renderCategoryButton(
-                index,
-                CATEGORIES[index],
-                theme,
-              );
-            },
-          ),
+      child: SizedBox(
+        height: 50,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: CATEGORIES.length,
+          itemBuilder: (context, index) {
+            /// 마지막 카테고리는 <기타 게임>
+            if (index == CATEGORIES.length) {
+              return renderCategoryButton(index, '기타 게임', theme);
+            }
+            /// 일반 카테고리 목록
+            return renderCategoryButton(
+              index,
+              CATEGORIES[index],
+              theme,
+            );
+          },
         ),
       ),
     );

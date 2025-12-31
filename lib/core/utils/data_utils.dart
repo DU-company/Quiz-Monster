@@ -27,25 +27,6 @@ class DataUtils {
     }
   }
 
-  static Future<bool> onWillPop(
-    DateTime? currentBackPressTime,
-    WidgetRef ref,
-  ) {
-    DateTime now = DateTime.now();
-
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime) >
-            const Duration(seconds: 2)) {
-      ref.read(willPopScopeTimeProvider.notifier).state = now;
-      const msg = "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.";
-
-      Fluttertoast.showToast(msg: msg, backgroundColor: Colors.grey);
-      return Future.value(false);
-    }
-
-    return Future.value(true);
-  }
-
   static String getReactionSpeedMessage(int reactionTime) {
     if (reactionTime <= 120) {
       return "(상위 1%)\n초인적인 반응 속도! 혹시 프로게이머? 🎯";

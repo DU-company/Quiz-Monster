@@ -1,12 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quiz_monster/core/theme/theme_provider.dart';
 import 'package:quiz_monster/data/models/quiz_detail_model.dart';
 import 'package:quiz_monster/ui/common/layout/quiz_detail_layout.dart';
-import 'package:quiz_monster/ui/common/screens/home_screen.dart';
-import 'package:quiz_monster/ui/common/widgets/primary_button.dart';
 import 'package:quiz_monster/ui/common/layout/default_layout.dart';
+import 'package:quiz_monster/ui/quiz/base/quiz_screen.dart';
 import 'package:quiz_monster/ui/quiz/detail/widgets/exit_dialog.dart';
 import 'package:quiz_monster/ui/quiz/etc/liar/liar_view_model.dart';
 import 'package:quiz_monster/ui/quiz/etc/liar/widgets/liar_app_bar.dart';
@@ -35,45 +35,37 @@ class LiarGameScreen extends ConsumerWidget {
     final isLastPage = currentIndex >= playerCount;
     final isBeforeLastPage = currentIndex + 1 >= playerCount;
 
-    return DefaultLayout(
-      needWillPopScope: true,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        LiarAppBar(
+          label: isLastPage ? '' : 'PLAYER ${currentIndex + 1}',
+          onBackPressed: () => onBackPressed(context, ref),
+        ),
+        QuizDetailLayout(
+          body: Column(
             children: [
-              LiarAppBar(
-                label: isLastPage ? '' : 'PLAYER ${currentIndex + 1}',
-                onBackPressed: () => onBackPressed(context, ref),
-              ),
-              QuizDetailLayout(
-                body: Column(
-                  children: [
-                    LiarBody(
-                      pageController: pageController,
-                      playerCount: playerCount,
-                      showAnswer: showAnswer,
-                      liarIndex: liarIndex,
-                      items: items,
-                      isLastPage: isLastPage,
-                      onTapButton: isLastPage
-                          ? () => showAnswerDialog(context, ref)
-                          : () => onTapAnswer(ref),
-                    ),
-                  ],
-                ),
-                footer: LiarFooter(
-                  isBeforeLastPage: isBeforeLastPage,
-                  onNext: (isLastPage || !showAnswer)
-                      ? null
-                      : () => onNext(ref, pageController),
-                ),
+              LiarBody(
+                pageController: pageController,
+                playerCount: playerCount,
+                showAnswer: showAnswer,
+                liarIndex: liarIndex,
+                items: items,
+                isLastPage: isLastPage,
+                onTapButton: isLastPage
+                    ? () => showAnswerDialog(context, ref)
+                    : () => onTapAnswer(ref),
               ),
             ],
           ),
+          footer: LiarFooter(
+            isBeforeLastPage: isBeforeLastPage,
+            onNext: (isLastPage || !showAnswer)
+                ? null
+                : () => onNext(ref, pageController),
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -108,7 +100,7 @@ class LiarGameScreen extends ConsumerWidget {
         onTapConfirm: () {
           ref.read(currentIndexProvider.notifier).state = 0;
           ref.read(showAnswerProvider.notifier).state = false;
-          context.goNamed(HomeScreen.routeName);
+          context.goNamed(QuizScreen.routeName);
         },
       ),
     );

@@ -10,7 +10,7 @@ class BaseDialog extends ConsumerWidget {
     return Dialog(
       constraints: BoxConstraints(maxWidth: 500),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
       ),
       backgroundColor: Colors.white,
       child: Padding(

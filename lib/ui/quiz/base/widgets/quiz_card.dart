@@ -54,24 +54,18 @@ class QuizCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.read(themeServiceProvider);
     final randomNumber = ref.watch(randomNumberProvider(id));
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16.0,
-        vertical: 4.0,
+    return Container(
+      height: 180,
+      decoration: BoxDecoration(
+        color: theme.color.primary,
+        borderRadius: BorderRadius.circular(8),
       ),
-      child: Container(
-        height: 180,
-        decoration: BoxDecoration(
-          color: theme.color.primary,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Stack(
-          children: [
-            _ImageBox(randomNumber: randomNumber),
-            _TextBox(title: title, subTitle: subtitle),
-            _LikeButton(isLiked: isLiked, onPressed: onLikePressed),
-          ],
-        ),
+      child: Stack(
+        children: [
+          _ImageBox(randomNumber: randomNumber),
+          _TextBox(title: title, subTitle: subtitle),
+          _LikeButton(isLiked: isLiked, onPressed: onLikePressed),
+        ],
       ),
     );
   }

@@ -79,12 +79,12 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageView(
+      allowImplicitScrolling: true,
       controller: pageController,
       physics: NeverScrollableScrollPhysics(),
       onPageChanged: onPageChanged,
       children: List.generate(items.length, (index) {
         final model = items[index];
-
         return QuizDetailCard(detail: model);
       }),
     );

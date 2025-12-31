@@ -86,7 +86,7 @@ class _TimeCountScreenState extends ConsumerState<TimeCountScreen>
 
     return DefaultLayout(
       needWillPopScope: true,
-      backgroundColor: Colors.black,
+      backgroundColor: theme.color.secondary,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
